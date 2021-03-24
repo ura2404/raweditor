@@ -1,0 +1,39 @@
+AuthType Basic
+AuthName "RawEditor"
+AuthUserFile /mnt/md1/home/ura/__WORK__/raweditor/www/.htpasswd
+require valid-user
+
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteBase /raweditor
+
+    # --- --- --- --- --- --- --- ---
+    # Крайний слеш
+    # если файл, то отбросить слеш
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^(.*)(/)$ $1 [L,R=301]
+
+    # если в url в конце нет слеша, то добавить
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} !(.*)/$
+    RewriteRule ^([^res|^cache].*[^/])$ $1/ [L,R=301]
+
+    # непонятно
+    #RewriteCond %{REQUEST_FILENAME} -d
+    #RewriteRule ^(.*/[^\./]*[^/])$ $1/ [L]
+
+    # --- --- --- --- --- --- --- ---
+    # Resources
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule (robots\.txt|sitemap\.xml)$ $1 [L]
+    RewriteRule ^(res/.*\..*)$ $1 [L]
+
+    # --- --- --- --- --- --- --- ---
+    # Global
+    # Так не работает из-за невозможности запретить ресурсы, кроме вышеуказанных
+    # RewriteCond %{REQUEST_URI} (.*)/$
+
+    RewriteCond %{REQUEST_URI} (.*)$
+    RewriteRule ^(.*)$ index.php?cmp=$1 [QSA,L]
+</IfModule>

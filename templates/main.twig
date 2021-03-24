@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Raw Editor v{{ version }}</title>
+        <link rel="stylesheet" type="text/css" href="res/tailwind/tailwind.min.css" >
+        <link rel="stylesheet" type="text/css" href="res/fontawesome.com/5.15.2/css/all.css"/>
+        <link rel="stylesheet/less" type="text/css" href="res/templates/main.less" >
+        <script type="text/javascript" src="res/lesscss.org/3.7.1/less.min.js"></script>
+    </head>
+    <body>
+        <header class="bg-gray-600 text-white h-10 fixed top-0 left-0 right-0">
+            <div class="container mx-auto flex h-full">
+                <div class="my-auto mr-auto pl-5 font-bold">Проекты</div>
+                <div class="pr-5">
+                    <div class="h-full flex px-4 cursor-pointer hover:bg-gray-500 duration-75">
+                        <i class="my-auto fas fa-plus"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex mt-10 mb-6">
+            <div class="cm-projects container mx-auto px-3">
+
+                <div class="flex justify-start flex-wrap">
+
+                <div class="cm-projects cm-project cm-template m-2">
+                    <div class="cm-name">{{ project.name }}</div>
+                    <div class="cm-controls">
+                    </div>
+                </div>
+
+                {% for project in projects %}
+                    <div class="cm-project m-2">
+                        <div class="cm-name">{{ project.name }}</div>
+                        <div class="cm-controls">
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+
+            </div>
+        </div>
+
+        <footer class="bg-gray-600 text-white text-sm h-6 fixed bottom-0 left-0 right-0"">
+            <div class="container mx-auto px-5 flex h-full">
+                <div class="m-auto">Raw Editor &copy; <span>v{{ version }}</span> by {{ author }}</div>
+            </div>
+        </footer>
+    </body>
+</html>
