@@ -4,7 +4,7 @@
         <title>Raw Editor v{{ version }}</title>
         <link rel="stylesheet" type="text/css" href="res/tailwind/tailwind.min.css" >
         <link rel="stylesheet" type="text/css" href="res/fontawesome.com/5.15.2/css/all.css"/>
-        <link rel="stylesheet/less" type="text/css" href="res/templates/main.less" >
+        <link rel="stylesheet/less" type="text/css" href="res/res/main.less" >
         <script type="text/javascript" src="res/lesscss.org/3.7.1/less.min.js"></script>
     </head>
     <body>
@@ -12,7 +12,7 @@
             <div class="container mx-auto flex h-full">
                 <div class="my-auto mr-auto pl-5 font-bold">Проекты</div>
                 <div class="pr-5">
-                    <div class="h-full flex px-4 cursor-pointer hover:bg-gray-500 duration-75">
+                    <div class="cm-add h-full flex px-4 cursor-pointer hover:bg-gray-500 duration-75">
                         <i class="my-auto fas fa-plus"></i>
                     </div>
                 </div>
@@ -20,12 +20,10 @@
         </header>
 
         <div class="flex mt-10 mb-6">
-            <div class="cm-projects container mx-auto px-3">
+            <div id="cm-projects" class="container mx-auto px-3 flex justify-center flex-wrap">
 
-                <div class="flex justify-start flex-wrap">
-
-                <div class="cm-projects cm-project cm-template m-2">
-                    <div class="cm-name">{{ project.name }}</div>
+                <div id="cm-project-template" class="cm-template cm-project m-2">
+                    <div class="cm-name">Tempalte</div>
                     <div class="cm-controls">
                     </div>
                 </div>
@@ -37,15 +35,41 @@
                         </div>
                     </div>
                 {% endfor %}
-                </div>
 
             </div>
         </div>
 
-        <footer class="bg-gray-600 text-white text-sm h-6 fixed bottom-0 left-0 right-0"">
+        <footer class="bg-gray-600 text-white text-xs h-6 fixed bottom-0 left-0 right-0"">
             <div class="container mx-auto px-5 flex h-full">
                 <div class="m-auto">Raw Editor &copy; <span>v{{ version }}</span> by {{ author }}</div>
             </div>
         </footer>
+
+        <div id="cm-add-project" class="fixed inset-0 bg-gray-800 bg-opacity-0 duration-1000 flex">
+
+            <div class="cm-panel m-auto bg-white flex flex-col p-5 rounded">
+                <div class="cursor-pointer flex justify-end">
+                    <div class="cm-close hover:text-gray-500 duration-75 p-1">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+
+                <span class="text-2xl absolute">Новый проект</span>
+
+                <form class="cm-form flex flex-col" method="post" action="res/res/post.php">
+                    <input name="name" required class="mt-6 mb-2 px-2 py-2 border _border-transparent focus:outline-none focus:ring-2 focus:ring-grey-600 focus:border-transparent" placeholder="Наименование проекта"/>
+                    <input name="path" required class="mt-2 mb-6 px-2 py-2 border _border-transparent focus:outline-none focus:ring-2 focus:ring-grey-600 focus:border-transparent" placeholder="Путь к папке проетка"/>
+                </form>
+
+                <div class="cm-add flex">
+                    <button class="mx-auto py-2 px-6 bg-green-300 text-white font-semibold rounded-sm shadow-md hover:bg-green-500 focus:outline-none duration-75">Добавить</button>
+                </div>
+            </div>
+
+        </div>
     </body>
+
+    <script type="text/javascript" src="res/jquery/jquery-3.6.0.min.js"></script>
+
+    <script type="text/javascript" src="res/res/main.js"></script>
 </html>

@@ -1,0 +1,44 @@
+html {
+    font-size: 18px;
+}
+
+#cm-projects {
+    .cm-project {
+        width: 10rem;
+        height: 10rem;
+        border: 1px solid black;
+    }
+}
+
+#cm-project-template {
+    &.cm-template {
+        display: none;
+    }
+}
+
+
+#cm-add-project {
+    &:not(.cm-show) {
+        display: none;
+    }
+
+    &.cm-show {
+        //display: block;
+        --tw-bg-opacity: 0.5;
+    }
+
+    input {
+        &::placeholder {
+            //font-size: 0.8rem;
+        }
+
+        width: 45rem;
+        max-width: 80vw;
+    }
+
+    .cm-panel {
+        max-width: 95vw;
+        max-height: 95vh;
+    }
+
+}
