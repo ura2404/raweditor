@@ -12,7 +12,7 @@
             <div class="container mx-auto flex h-full">
                 <div class="my-auto mr-auto pl-5 font-bold">Проекты</div>
                 <div class="pr-5">
-                    <div class="cm-add h-full flex px-4 cursor-pointer hover:bg-gray-500 duration-75">
+                    <div class="cm-add h-full flex px-4 cursor-pointer hover:bg-gray-500 duration-75" title="Добавить проект">
                         <i class="my-auto fas fa-plus"></i>
                     </div>
                 </div>
@@ -56,20 +56,29 @@
 
                 <span class="text-2xl absolute">Новый проект</span>
 
-                <form class="cm-form flex flex-col" method="post" action="res/res/post.php">
-                    <input name="name" required class="mt-6 mb-2 px-2 py-2 border _border-transparent focus:outline-none focus:ring-2 focus:ring-grey-600 focus:border-transparent" placeholder="Наименование проекта"/>
-                    <input name="path" required class="mt-2 mb-6 px-2 py-2 border _border-transparent focus:outline-none focus:ring-2 focus:ring-grey-600 focus:border-transparent" placeholder="Путь к папке проетка"/>
+                <form id="cm-project-form" class="flex flex-col" method="post" action="res/res/post.php">
+                    <input name="name" required="required" class="mt-6 mb-2 px-2 py-2 border _border-transparent
+                        focus:outline-none focus:ring-2 focus:ring-grey-600 focus:border-transparent placeholder-grey-400" 
+                        placeholder="Наименование проекта" 
+                        _oninvalid="this.setCustomValidity('Обязательное поле')" _oninput="setCustomValidity('')"
+                    />
+                    <input name="path" type="text" required="required" class="mt-2 mb-6 px-2 py-2 border _border-transparent 
+                        focus:outline-none focus:ring-2 focus:ring-grey-600 _focus:border-transparent placeholder-grey-400" 
+                        placeholder="Путь к папке проетка"
+                        _oninvalid="this.setCustomValidity('Обязательное поле')" _oninput="setCustomValidity('')"
+                    />
+
+                    <div class="flex">
+                        <button class="mx-auto py-2 px-6 bg-green-300 text-white font-semibold rounded-sm shadow-md hover:bg-green-500 focus:outline-none duration-75">Добавить</button>
+                    </div>
                 </form>
 
-                <div class="cm-add flex">
-                    <button class="mx-auto py-2 px-6 bg-green-300 text-white font-semibold rounded-sm shadow-md hover:bg-green-500 focus:outline-none duration-75">Добавить</button>
-                </div>
             </div>
 
         </div>
     </body>
 
-    <script type="text/javascript" src="res/jquery/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="res/jquery.com/jquery-3.6.0.min.js"></script>
 
     <script type="text/javascript" src="res/res/main.js"></script>
 </html>

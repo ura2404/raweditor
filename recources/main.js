@@ -1,11 +1,15 @@
 $(document).ready(function(){
     const $Container = $('#cm-projects');
     const $Panel = $('#cm-add-project');
+    const $Template = $('#cm-project-template');
+    const $Form = $('#cm-project-form').on('submit',function(e){
+        e.preventDefault();
+        _add_project();
+    });
 
     const _ok = function(data){
-        $Template = $('#cm-project-template');
         $Panel.removeClass('cm-show');
-        $Template.clone(true.true).removeClass('cm-template').appendTo($Container);
+        $Template.clone(true.true).find('.cm-name').text(data.data.name).end().removeClass('cm-template').appendTo($Container);
     };
 
     const _error = function(){
@@ -15,12 +19,11 @@ $(document).ready(function(){
     const _add_project = function(){
         $.ajax({
             method : 'post',
-            url : 'res/res/post.php',
-            data : $('.cm-form').serializeArray(),
+            url : 'res/res/addProject.php',
+            data : $Form.serializeArray(),
             dataType : 'json'
         })
         .done(function(data){
-            console.log(data);
             data.status == 1 ? _ok(data) : _error(data);
         })
         .fail(function(data, textStatus, jqXHR){
@@ -38,12 +41,8 @@ $(document).ready(function(){
         $Panel.removeClass('cm-show');
     });
 
-    $('#cm-add-project .cm-add').on('click',function(e){
-        console.log('add');
-        //_add_project();
-        $('.cm-form').submit(function(e){
-            //console.log(e);
-        });
-    });
+    /*$('input').each(function(e){
+        $(this).attr('oninvalid',"setCustomValidity('обязательное поле')");
+    });*/
 
 });

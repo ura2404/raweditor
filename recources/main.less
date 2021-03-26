@@ -28,12 +28,15 @@ html {
     }
 
     input {
-        &::placeholder {
-            //font-size: 0.8rem;
-        }
-
         width: 45rem;
         max-width: 80vw;
+
+        &:required {
+            background-image: linear-gradient(to right, rgba(255,255,240,1), rgba(255,255,240,1));
+        }
+        &:invalid:required {
+            --tw-ring-color : rgba(255,0,0,0.2);
+        }
     }
 
     .cm-panel {
