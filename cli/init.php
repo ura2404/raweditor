@@ -15,11 +15,12 @@ $_config = function() use($Root){
                 'rewrite' => '/raweditor'
             ],
             'raweditor' => [
+                'lang' => 'ru',
                 'projects' => [
-                    'raweditor' => [
+                    /*'raweditor' => [
                         'name' => 'Raw Editor',
                         'path' => $Root
-                    ]
+                    ]*/
                 ]
             ]
         ];

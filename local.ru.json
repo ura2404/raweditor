@@ -1,0 +1,16 @@
+{
+    "local" : {
+        "lang" : "ru",
+        "data" : {
+            "projects" :"проекты",
+            "addProject" : "добавить проект",
+            "newProject" : "новый проект",
+            "name" : "наименование",
+            "path" : "путь",
+            "wrongPath" : "неверный путь",
+            "requiredField" : "обязательное поле",
+            "projectExists" : "такой уже проект существует",
+            "wrongJsonFile" : "неверный json файл"
+        }
+    }
+}

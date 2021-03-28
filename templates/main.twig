@@ -1,6 +1,8 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="local.requiredField" content="{{ local.requiredField }}"/>
+
         <title>Raw Editor v{{ version }}</title>
         <link rel="stylesheet" type="text/css" href="res/tailwind/tailwind.min.css" >
         <link rel="stylesheet" type="text/css" href="res/fontawesome.com/5.15.2/css/all.css"/>
@@ -10,9 +12,9 @@
     <body>
         <header class="bg-gray-600 text-white h-10 fixed top-0 left-0 right-0">
             <div class="container mx-auto flex h-full">
-                <div class="my-auto mr-auto pl-5 font-bold">Проекты</div>
+                <div class="my-auto mr-auto pl-5 font-bold">{{ local.projects|capitalize }}</div>
                 <div class="pr-5">
-                    <div class="cm-add h-full flex px-4 cursor-pointer hover:bg-gray-500 duration-75" title="Добавить проект">
+                    <div class="cm-add h-full flex px-4 cursor-pointer hover:bg-gray-500 duration-75" title="{{ local.addProject }}">
                         <i class="my-auto fas fa-plus"></i>
                     </div>
                 </div>
@@ -22,16 +24,26 @@
         <div class="flex mt-10 mb-6">
             <div id="cm-projects" class="container mx-auto px-3 flex justify-center flex-wrap">
 
-                <div id="cm-project-template" class="cm-template cm-project m-2">
-                    <div class="cm-name">Tempalte</div>
-                    <div class="cm-controls">
+                <div id="cm-project-template" class="cm-template cm-project m-2 cursor-pointer">
+                    <div class="bg-gray-300 text-grey-100 flex">
+                        <div class="cm-close hover:text-gray-500 duration-75 p-1 mr-0 ml-auto">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    <div class="p-2">
+                        <div class="cm-name"></div>
                     </div>
                 </div>
 
                 {% for project in projects %}
-                    <div class="cm-project m-2">
-                        <div class="cm-name">{{ project.name }}</div>
-                        <div class="cm-controls">
+                    <div class="cm-project m-2 cursor-pointer bg-gray-200 rounded">
+                        <div class="bg-gray-300 flex p-1 rounded-t">
+                            <div class="">
+                                <div class="cm-name">{{ project.name }}</div>
+                            </div>
+                            <div class="cm-close text-white hover:text-gray-600 duration-75 p-1 mr-0 ml-auto">
+                                <i class="fas fa-times"></i>
+                            </div>
                         </div>
                     </div>
                 {% endfor %}
@@ -54,18 +66,21 @@
                     </div>
                 </div>
 
-                <span class="text-2xl absolute">Новый проект</span>
+                <span class="text-2xl absolute">{{ local.newProject|capitalize }} </span>
 
-                <form id="cm-project-form" class="flex flex-col" method="post" action="res/res/post.php">
+                <form id="cm-project-form" class="flex flex-col mb-0" method="post" action="res/res/post.php">
+                    <input name="m" type="hidden" value="add"/>
+
                     <input name="name" required="required" class="mt-6 mb-2 px-2 py-2 border _border-transparent
                         focus:outline-none focus:ring-2 focus:ring-grey-600 focus:border-transparent placeholder-grey-400" 
-                        placeholder="Наименование проекта" 
-                        _oninvalid="this.setCustomValidity('Обязательное поле')" _oninput="setCustomValidity('')"
+                        placeholder="name"
+                        {# oninvalid="this.setCustomValidity('{{ local.requiredField }}')" oninput="setCustomValidity('')" #}
                     />
+
                     <input name="path" type="text" required="required" class="mt-2 mb-6 px-2 py-2 border _border-transparent 
                         focus:outline-none focus:ring-2 focus:ring-grey-600 _focus:border-transparent placeholder-grey-400" 
-                        placeholder="Путь к папке проетка"
-                        _oninvalid="this.setCustomValidity('Обязательное поле')" _oninput="setCustomValidity('')"
+                        placeholder="path"
+                        {# oninvalid="this.setCustomValidity('{{ local.requiredField }}')" oninput="setCustomValidity('')" #}
                     />
 
                     <div class="flex">
@@ -75,6 +90,12 @@
 
             </div>
 
+        </div>
+
+        <div id="cm-error" class="fixed inset-0 flex _hidden">
+            <div class="flex w-screen h-screen opacity-0 duration-300">
+                <div class="cm-text m-auto bg-red-300 bg-opacity-80 text-white p-5 w-full text-center"></div>
+            </div>
         </div>
     </body>
 

@@ -1,10 +1,12 @@
 <?php
 class Model {
     public function getData(){
+
         return [
             'version' => '1.0',
             'author' => 'ura@itx.ru',
-            'projects' => $this->getMyProjects()
+            'projects' => $this->getMyProjects(),
+            'local' => \Cmatrix\Local::get()->Data
         ];
     }
 

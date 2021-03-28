@@ -1,0 +1,16 @@
+{
+    "local" : {
+        "lang" : "def",
+        "data" : {
+            "projects" :"projects",
+            "addProject" : "add project",
+            "newProject" : "new project",
+            "name" : "name",
+            "path" : "path",
+            "wrongPath" : "wrong path",
+            "requiredField" : "required field",
+            "projectExists" : "project allready exists",
+            "wrongJsonFile" : "wrong json file"
+        }
+    }
+}
