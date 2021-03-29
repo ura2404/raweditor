@@ -1,7 +1,9 @@
+{% import "project.twig" as _project %}
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="local.requiredField" content="{{ local.requiredField }}"/>
+        {# <meta name="local.requiredField" content="{{ local.requiredField }}"/> #}
+        <meta name="local.qDelProject" content="{{ local.qDelProject }}"/>
 
         <title>Raw Editor v{{ version }}</title>
         <link rel="stylesheet" type="text/css" href="res/tailwind/tailwind.min.css" >
@@ -24,28 +26,10 @@
         <div class="flex mt-10 mb-6">
             <div id="cm-projects" class="container mx-auto px-3 flex justify-center flex-wrap">
 
-                <div id="cm-project-template" class="cm-template cm-project m-2 cursor-pointer">
-                    <div class="bg-gray-300 text-grey-100 flex">
-                        <div class="cm-close hover:text-gray-500 duration-75 p-1 mr-0 ml-auto">
-                            <i class="fas fa-times"></i>
-                        </div>
-                    </div>
-                    <div class="p-2">
-                        <div class="cm-name"></div>
-                    </div>
-                </div>
+                {{ _project.project() }}
 
                 {% for project in projects %}
-                    <div class="cm-project m-2 cursor-pointer bg-gray-200 rounded">
-                        <div class="bg-gray-300 flex p-1 rounded-t">
-                            <div class="">
-                                <div class="cm-name">{{ project.name }}</div>
-                            </div>
-                            <div class="cm-close text-white hover:text-gray-600 duration-75 p-1 mr-0 ml-auto">
-                                <i class="fas fa-times"></i>
-                            </div>
-                        </div>
-                    </div>
+                    {{ _project.project(project) }}
                 {% endfor %}
 
             </div>
@@ -57,7 +41,8 @@
             </div>
         </footer>
 
-        <div id="cm-add-project" class="fixed inset-0 bg-gray-800 bg-opacity-0 duration-1000 flex">
+        <div id="cm-add-project" class="cm-wp fixed inset-0">
+            <div class="flex fixed inset-0 bg-gray-800 bg-opacity-0 duration-1000">
 
             <div class="cm-panel m-auto bg-white flex flex-col p-5 rounded">
                 <div class="cursor-pointer flex justify-end">
@@ -84,22 +69,34 @@
                     />
 
                     <div class="flex">
-                        <button class="mx-auto py-2 px-6 bg-green-300 text-white font-semibold rounded-sm shadow-md hover:bg-green-500 focus:outline-none duration-75">Добавить</button>
+                        <button class="mx-auto py-2 px-6 bg-green-300 text-white font-semibold rounded-sm shadow-md hover:bg-green-500 focus:outline-none duration-75">{{ local.add }}</button>
                     </div>
                 </form>
 
             </div>
+            </div>
 
         </div>
 
-        <div id="cm-error" class="fixed inset-0 flex _hidden">
+        <div id="cm-error" class="cm-wp fixed inset-0 flex _hidden">
             <div class="flex w-screen h-screen opacity-0 duration-300">
                 <div class="cm-text m-auto bg-red-300 bg-opacity-80 text-white p-5 w-full text-center"></div>
+            </div>
+        </div>
+
+        <div id="cm-confirm" class="cm-wp fixed inset-0 flex _hidden">
+            <div class="w-screen h-screen opacity-0 duration-200 flex flex-col">
+                <div class="m-auto bg-blue-400 bg-opacity-80 text-white p-5 w-full text-center">
+                    <div class="cm-text"></div>
+                    <div class="flex mt-5">
+                        <button class="cm-yes ml-auto mr-4 py-2 px-6 bg-green-300 text-white font-semibold rounded-sm shadow-md hover:bg-green-500 focus:outline-none duration-75">{{ local.yes }}</button>
+                        <button class="cm-no mr-auto ml-4 py-2 px-6 bg-red-300 text-white font-semibold rounded-sm shadow-md hover:bg-red-500 focus:outline-none duration-75">{{ local.no }}</button>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
 
     <script type="text/javascript" src="res/jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script type="text/javascript" src="res/res/main.js"></script>
+    <script type="module" src="res/res/main.js"></script>
 </html>

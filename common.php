@@ -1,6 +1,4 @@
 <?php
-define('CM_ROOT',realpath(dirname(__FILE__).'/..'));
-
 require_once 'Twig/autoload.php';
 require_once CM_ROOT.'/code/utils.php';
 

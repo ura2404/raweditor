@@ -1,5 +1,6 @@
 <?php
-require_once 'common.php';
+require_once '../defs.php';
+require_once '../common.php';
 
 \Cmatrix\Router::add('/',[
     'template' => 'main',
@@ -7,8 +8,8 @@ require_once 'common.php';
 ]);
 
 echo \Cmatrix\App::get()->Html;
+/*
 return;
-
 
 require_once 'controller.php';
 require_once 'model.php';
@@ -25,4 +26,5 @@ if($Project){
 $controller = Controller::get(View::get(),Model::get());
 $html = $controller->Html;
 echo $html;
+*/
 ?>

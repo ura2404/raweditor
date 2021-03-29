@@ -10,7 +10,12 @@
             "wrongPath" : "неверный путь",
             "requiredField" : "обязательное поле",
             "projectExists" : "такой уже проект существует",
-            "wrongJsonFile" : "неверный json файл"
+            "projectNotExists" : "такой проект не существует",
+            "wrongJsonFile" : "неверный json файл",
+            "add" : "добавить",
+            "yes" : "да",
+            "no" : "нет",
+            "qDelProject" : "действитель удалить проект"
         }
     }
 }

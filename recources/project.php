@@ -1,14 +1,14 @@
 <?php
 header("Content-type: application/json");
-require_once('../www/common.php');
+require_once('../defs.php');
+require_once('../common.php');
 
 $Mode = isset($_POST['m']) ? $_POST['m'] : null;
 if(!$Mode) die('Fuck off!!!');
 
 $Json = \Cmatrix\Json::get(CM_ROOT.'/config.json');
-$Data = $Json->Data;
 
-$_add = function() use($Json,$Data){
+$_add = function() use($Json){
     $Name = isset($_POST['name']) ? $_POST['name'] : null;
     $Path = isset($_POST['path']) ? $_POST['path'] : null;
     if(!$Name || !$Path) die('Fuck off!!!');
@@ -16,8 +16,10 @@ $_add = function() use($Json,$Data){
     $Path = realpath($Path);
     if(!$Path) throw new \Exception(strFupper(\Cmatrix\Local::get()->Data['wrongPath']));
 
-    array_map(function($project) use($Path){
-        if($project['path'] == $Path) throw new \Exception(strFupper(\Cmatrix\Local::get()->Data['projectExists']));
+    $Data = $Json->Data;
+
+    array_map(function($project) use($Path,$Name){
+        if($project['path'] == $Path || $project['name'] == $Name) throw new \Exception(strFupper(\Cmatrix\Local::get()->Data['projectExists']));
     },$Data['raweditor']['projects']);
 
     $Data['raweditor']['projects'][] = [
@@ -32,8 +34,27 @@ $_add = function() use($Json,$Data){
     ];
 };
 
-$_del = function() use($Json,$Data){
-    return $data;
+$_del = function() use($Json){
+    $Name = isset($_POST['name']) ? $_POST['name'] : null;
+
+    if(!$Name) die('Fuck off!!!');
+
+    $Data = $Json->Data;
+    $Projects = $Data['raweditor']['projects'];
+
+    $NewProjects = array_filter($Projects,function($project) use($Name){
+        return $project['name'] !== $Name;
+    });
+
+    if(count($Projects) != count($NewProjects)) throw new \Exception(strFupper(\Cmatrix\Local::get()->Data['projectNotExists']));
+
+    $Data['raweditor']['projects'] = $NewProjects;
+    $Json->setData($Data);
+    $Json->put(CM_ROOT.'/config.json');
+
+    return [
+        'name' => $Name
+    ];
 };
 
 

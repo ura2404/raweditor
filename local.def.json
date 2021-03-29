@@ -10,7 +10,12 @@
             "wrongPath" : "wrong path",
             "requiredField" : "required field",
             "projectExists" : "project allready exists",
-            "wrongJsonFile" : "wrong json file"
+            "projectNotExists" : "project not exists",
+            "wrongJsonFile" : "wrong json file",
+            "add" : "add",
+            "yes" : "yes",
+            "no" : "no",
+            "qDelProject" : "really delete the project"
         }
     }
 }
