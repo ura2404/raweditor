@@ -5,18 +5,18 @@ class Router {
     static $ROUTERS = [];
 
     // --- --- --- --- ---
-    function __construct($path,$data){
-        if(!array_key_exists($path,self::$ROUTERS)) $this->createRouter($path,$data);
+    function __construct($match,$data){
+        if(!array_key_exists($match,self::$ROUTERS)) $this->createRouter($match,$data);
     }
 
     // --- --- --- --- ---
-    private function createRouter($path,$data){
-        self::$ROUTERS[$path] = $data;
+    private function createRouter($match,$data){
+        self::$ROUTERS[$match] = $data;
     }
 
     // --- --- --- --- ---
-    static function add($path,array $data){
-        return new self($path,$data);
+    static function add($match,array $data){
+        return new self($match,$data);
     }
 }
 ?>

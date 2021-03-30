@@ -13,7 +13,7 @@ $_add = function() use($Json){
     $Path = isset($_POST['path']) ? $_POST['path'] : null;
     if(!$Name || !$Path) die('Fuck off!!!');
 
-    $Path = realpath($Path);
+    $Path = realpath(CM_ROOT.$Path);
     if(!$Path) throw new \Exception(strFupper(\Cmatrix\Local::get()->Data['wrongPath']));
 
     $Data = $Json->Data;
@@ -21,6 +21,8 @@ $_add = function() use($Json){
     array_map(function($project) use($Path,$Name){
         if($project['path'] == $Path || $project['name'] == $Name) throw new \Exception(strFupper(\Cmatrix\Local::get()->Data['projectExists']));
     },$Data['raweditor']['projects']);
+
+    if(!is_writable($Path)) throw new \Exception(strFupper(\Cmatrix\Local::get()->Data['wrongPath']));
 
     $Data['raweditor']['projects'][] = [
         'name' => $Name,
@@ -46,7 +48,7 @@ $_del = function() use($Json){
         return $project['name'] !== $Name;
     });
 
-    if(count($Projects) != count($NewProjects)) throw new \Exception(strFupper(\Cmatrix\Local::get()->Data['projectNotExists']));
+    if(count($Projects) == count($NewProjects)) throw new \Exception(strFupper(\Cmatrix\Local::get()->Data['projectNotExists']));
 
     $Data['raweditor']['projects'] = $NewProjects;
     $Json->setData($Data);
@@ -89,6 +91,7 @@ try{
 
     echo json_encode([
         'status' => 1,
+        'message' => '',
         'data' => $Ret
     ]);
 }

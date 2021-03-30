@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        {# <meta name="local.requiredField" content="{{ local.requiredField }}"/> #}
+        <meta name="local.requiredField" content="{{ local.requiredField }}"/>
         <meta name="local.qDelProject" content="{{ local.qDelProject }}"/>
 
         <title>Raw Editor v{{ version }}</title>
@@ -41,10 +41,10 @@
             </div>
         </footer>
 
-        <div id="cm-add-project" class="cm-wp fixed inset-0">
-            <div class="flex fixed inset-0 bg-gray-800 bg-opacity-0 duration-1000">
+        <div id="cm-new-project" class="cm-wp fixed inset-0">
+            <div class="flex w-screen h-screen bg-gray-800 bg-opacity-0">
 
-            <div class="cm-panel m-auto bg-white flex flex-col p-5 rounded">
+            <div class="cm-panel m-auto bg-white flex flex-col p-5 rounded opacity-0 duration-200">
                 <div class="cursor-pointer flex justify-end">
                     <div class="cm-close hover:text-gray-500 duration-75 p-1">
                         <i class="fas fa-times"></i>
@@ -53,7 +53,7 @@
 
                 <span class="text-2xl absolute">{{ local.newProject|capitalize }} </span>
 
-                <form id="cm-project-form" class="flex flex-col mb-0" method="post" action="res/res/post.php">
+                <form class="flex flex-col mb-0" method="post" action="res/res/post.php">
                     <input name="m" type="hidden" value="add"/>
 
                     <input name="name" required="required" class="mt-6 mb-2 px-2 py-2 border _border-transparent
@@ -78,14 +78,8 @@
 
         </div>
 
-        <div id="cm-error" class="cm-wp fixed inset-0 flex _hidden">
-            <div class="flex w-screen h-screen opacity-0 duration-300">
-                <div class="cm-text m-auto bg-red-300 bg-opacity-80 text-white p-5 w-full text-center"></div>
-            </div>
-        </div>
-
-        <div id="cm-confirm" class="cm-wp fixed inset-0 flex _hidden">
-            <div class="w-screen h-screen opacity-0 duration-200 flex flex-col">
+        <div id="cm-confirm" class="cm-wp fixed inset-0 _flex _hidden">
+            <div class="w-screen h-screen opacity-0 duration-100 flex flex-col">
                 <div class="m-auto bg-blue-400 bg-opacity-80 text-white p-5 w-full text-center">
                     <div class="cm-text"></div>
                     <div class="flex mt-5">
@@ -95,6 +89,13 @@
                 </div>
             </div>
         </div>
+
+        <div id="cm-error" class="cm-wp fixed inset-0 _flex _hidden">
+            <div class="flex w-screen h-screen opacity-0 duration-200">
+                <div class="cm-text m-auto bg-red-300 bg-opacity-80 text-white p-5 w-full text-center"></div>
+            </div>
+        </div>
+
     </body>
 
     <script type="text/javascript" src="res/jquery.com/jquery-3.6.0.min.js"></script>

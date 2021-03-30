@@ -7,6 +7,12 @@ require_once '../common.php';
     'model' => 'main'
 ]);
 
+\Cmatrix\Router::add('/^project/',[
+    'template' => 'project',
+    'model' => 'project'
+]);
+
+
 echo \Cmatrix\App::get()->Html;
 /*
 return;

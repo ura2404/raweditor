@@ -9,6 +9,14 @@ class App {
     function __construct($pageName=null){
         $this->PageName = $pageName ? $pageName : $this->probePage();
 
+$a = '/';
+$aaa = preg_match('/',$a);
+
+dump($aaa);
+
+
+
+dump($this->PageName);
         $this->Twig = new \Twig_Environment(new \Twig_Loader_Filesystem(CM_ROOT.'/templates/'), [
             'cache' => '/var/tmp',
             'debug' => true,
@@ -32,6 +40,8 @@ class App {
 
     // --- --- --- --- ---
     private function getMyHtml(){
+
+
         $Router = isset(\Cmatrix\Router::$ROUTERS[$this->PageName]) ? \Cmatrix\Router::$ROUTERS[$this->PageName] : null;
         if(!$Router || !isset($Router['template'])) return;
 

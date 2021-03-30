@@ -15,7 +15,9 @@ html {
 }
 
 
-#cm-add-project {
+#cm-new-project {
+/*
+
     &:not(.cm-show) {
         display: none;
     }
@@ -24,7 +26,7 @@ html {
         //display: block;
         --tw-bg-opacity: 0.5;
     }
-
+*/
     input {
         width: 45rem;
         max-width: 80vw;
@@ -44,6 +46,8 @@ html {
 
 }
 
+#cm-new-project,
+#cm-success,
 #cm-error,
 #cm-confirm {
     top : -1000;
@@ -59,9 +63,25 @@ html {
         right : 0;
         z-index : 1000;
     }
+}
 
+#cm-success,
+#cm-error,
+#cm-confirm {
     &.cm-opacity {
         & > div {
+            opacity : 1;
+        }
+    }
+}
+
+#cm-new-project {
+    &.cm-opacity {
+        & > div {
+            --tw-bg-opacity: 0.5;
+        }
+
+        & .cm-panel {
             opacity : 1;
         }
     }
