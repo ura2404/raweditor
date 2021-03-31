@@ -8,10 +8,11 @@ spl_autoload_register(function($className){
     $Arr = explode("\\",$className);
     if($Arr[0] !== 'Cmatrix') return;
 
-    $Path = CM_ROOT .'/code/'. $Arr[1] .'.class.php';
-    if(file_exists($Path)){
-        require_once($Path);
-    }
+    if($Arr[1] === 'Models') $Path = CM_ROOT .'/models/'. $Arr[2] .'.model.php';
+    else $Path = CM_ROOT .'/code/'. $Arr[1] .'.class.php';
+
+    if(file_exists($Path)) require_once($Path);
     else throw new \Exception('Class "'. $className .'" file not found.');
+
 },true,true);
 ?>

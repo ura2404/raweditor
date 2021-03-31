@@ -11,7 +11,9 @@ class Router {
 
     // --- --- --- --- ---
     private function createRouter($match,$data){
-        self::$ROUTERS[$match] = $data;
+        self::$ROUTERS[$match] = array_merge([
+            'match' => $match
+        ],$data);
     }
 
     // --- --- --- --- ---

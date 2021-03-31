@@ -1,0 +1,59 @@
+html {
+    font-size: 18px;
+}
+
+button {
+    &:focus {
+        outline : none;
+    }
+
+    &:hover:not([disabled]) {
+        background-color : slategrey;
+    }
+
+    &[disabled] {
+        color : grey;
+        cursor : auto;
+    }
+}
+
+
+
+#cm-success,
+#cm-error,
+#cm-confirm {
+    top : -1000;
+    bottom : -1000;
+    left : -1000;
+    right : -1000;
+    z-index : -1000;
+
+    &.cm-show {
+        top : 0;
+        bottom : 0;
+        left : 0;
+        right : 0;
+        z-index : 1000;
+    }
+}
+
+#cm-success,
+#cm-error,
+#cm-confirm {
+    &.cm-opacity {
+        & > div {
+            opacity : 1;
+        }
+    }
+}
+
+#cm-actions {
+    .cm-disable1 {
+        color : #9c9c9c;
+        cursor: auto;
+
+        &:hover {
+            background-color: red;
+        }
+    }
+}

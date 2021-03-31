@@ -15,7 +15,14 @@
             "add" : "add",
             "yes" : "yes",
             "no" : "no",
-            "qDelProject" : "really delete the project"
+            "qDelProject" : "really delete the project",
+            "project" : {
+                "savePage" : "save page",
+                "tree" : "project tree"
+            },
+            "exception" : {
+                "modelNotExists" : "model file \"%var%\" is not exists"
+            }
         }
     }
 }

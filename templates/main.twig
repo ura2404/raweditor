@@ -1,4 +1,72 @@
-{% import "project.twig" as _project %}
+{% extends "common.twig" %}
+{% import "macro_project.twig" as _project %}
+
+{% block style %}
+    <link rel="stylesheet/less" type="text/css" href="res/res/main.less"/>
+{% endblock %}
+
+{% block js %}
+    <script type="module" src="res/res/main.js"></script>
+{% endblock %}
+
+{% block name %}
+    {{ local.projects|capitalize }}
+{% endblock %}
+
+{% block actions %}
+    <button class="cm-add h-full flex px-4 cursor-pointer duration-75" title="{{ local.addProject }}">
+        <i class="my-auto fas fa-plus"></i>
+    </button>
+{% endblock %}
+
+{% block main %}
+    <div id="cm-projects" class="container mx-auto px-3 flex justify-center flex-wrap">
+        {{ _project.project() }}
+        {% for project in projects %}
+            {{ _project.project(project) }}
+        {% endfor %}
+    </div>
+
+    <div id="cm-new-project" class="cm-wp fixed inset-0">
+        <div class="flex w-screen h-screen bg-gray-800 bg-opacity-0">
+
+            <div class="cm-panel m-auto bg-white flex flex-col p-5 rounded opacity-0 duration-200">
+                <div class="cursor-pointer flex justify-end">
+                    <div class="cm-close hover:text-gray-500 duration-75 p-1">
+                        <i class="fas fa-times"></i>
+                    </div>
+                </div>
+
+                <span class="text-2xl absolute">{{ local.newProject|capitalize }} </span>
+
+                <form class="flex flex-col mb-0" method="post" action="res/res/post.php">
+                    <input name="m" type="hidden" value="add"/>
+
+                    <input name="name" required="required" class="mt-6 mb-2 px-2 py-2 border _border-transparent
+                        focus:outline-none focus:ring-2 focus:ring-grey-600 focus:border-transparent placeholder-grey-400" 
+                        placeholder="name"
+                        _oninvalid="this.setCustomValidity('{{ local.requiredField }}')" _oninput="setCustomValidity('')"
+                    />
+
+                    <input name="path" type="text" required="required" class="mt-2 mb-6 px-2 py-2 border _border-transparent 
+                        focus:outline-none focus:ring-2 focus:ring-grey-600 _focus:border-transparent placeholder-grey-400" 
+                        placeholder="path"
+                        _oninvalid="this.setCustomValidity('{{ local.requiredField }}')" _oninput="setCustomValidity('')"
+                    />
+
+                    <div class="flex">
+                        <button class="mx-auto py-2 px-6 bg-green-300 text-white font-semibold rounded-sm shadow-md hover:bg-green-500 focus:outline-none duration-75">{{ local.add }}</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+{#
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -6,7 +74,7 @@
         <meta name="local.qDelProject" content="{{ local.qDelProject }}"/>
 
         <title>Raw Editor v{{ version }}</title>
-        <link rel="stylesheet" type="text/css" href="res/tailwind/tailwind.min.css" >
+        <link rel="stylesheet" type="text/css" href="res/tailwindcss.com/tailwind.min.css" >
         <link rel="stylesheet" type="text/css" href="res/fontawesome.com/5.15.2/css/all.css"/>
         <link rel="stylesheet/less" type="text/css" href="res/res/main.less" >
         <script type="text/javascript" src="res/lesscss.org/3.7.1/less.min.js"></script>
@@ -44,36 +112,36 @@
         <div id="cm-new-project" class="cm-wp fixed inset-0">
             <div class="flex w-screen h-screen bg-gray-800 bg-opacity-0">
 
-            <div class="cm-panel m-auto bg-white flex flex-col p-5 rounded opacity-0 duration-200">
-                <div class="cursor-pointer flex justify-end">
-                    <div class="cm-close hover:text-gray-500 duration-75 p-1">
-                        <i class="fas fa-times"></i>
+                <div class="cm-panel m-auto bg-white flex flex-col p-5 rounded opacity-0 duration-200">
+                    <div class="cursor-pointer flex justify-end">
+                        <div class="cm-close hover:text-gray-500 duration-75 p-1">
+                            <i class="fas fa-times"></i>
+                        </div>
                     </div>
+
+                    <span class="text-2xl absolute">{{ local.newProject|capitalize }} </span>
+
+                    <form class="flex flex-col mb-0" method="post" action="res/res/post.php">
+                        <input name="m" type="hidden" value="add"/>
+
+                        <input name="name" required="required" class="mt-6 mb-2 px-2 py-2 border _border-transparent
+                            focus:outline-none focus:ring-2 focus:ring-grey-600 focus:border-transparent placeholder-grey-400" 
+                            placeholder="name"
+                            _oninvalid="this.setCustomValidity('{{ local.requiredField }}')" _oninput="setCustomValidity('')"
+                        />
+
+                        <input name="path" type="text" required="required" class="mt-2 mb-6 px-2 py-2 border _border-transparent 
+                            focus:outline-none focus:ring-2 focus:ring-grey-600 _focus:border-transparent placeholder-grey-400" 
+                            placeholder="path"
+                            _oninvalid="this.setCustomValidity('{{ local.requiredField }}')" _oninput="setCustomValidity('')"
+                        />
+
+                        <div class="flex">
+                            <button class="mx-auto py-2 px-6 bg-green-300 text-white font-semibold rounded-sm shadow-md hover:bg-green-500 focus:outline-none duration-75">{{ local.add }}</button>
+                        </div>
+                    </form>
+
                 </div>
-
-                <span class="text-2xl absolute">{{ local.newProject|capitalize }} </span>
-
-                <form class="flex flex-col mb-0" method="post" action="res/res/post.php">
-                    <input name="m" type="hidden" value="add"/>
-
-                    <input name="name" required="required" class="mt-6 mb-2 px-2 py-2 border _border-transparent
-                        focus:outline-none focus:ring-2 focus:ring-grey-600 focus:border-transparent placeholder-grey-400" 
-                        placeholder="name"
-                        {# oninvalid="this.setCustomValidity('{{ local.requiredField }}')" oninput="setCustomValidity('')" #}
-                    />
-
-                    <input name="path" type="text" required="required" class="mt-2 mb-6 px-2 py-2 border _border-transparent 
-                        focus:outline-none focus:ring-2 focus:ring-grey-600 _focus:border-transparent placeholder-grey-400" 
-                        placeholder="path"
-                        {# oninvalid="this.setCustomValidity('{{ local.requiredField }}')" oninput="setCustomValidity('')" #}
-                    />
-
-                    <div class="flex">
-                        <button class="mx-auto py-2 px-6 bg-green-300 text-white font-semibold rounded-sm shadow-md hover:bg-green-500 focus:outline-none duration-75">{{ local.add }}</button>
-                    </div>
-                </form>
-
-            </div>
             </div>
 
         </div>
@@ -101,3 +169,4 @@
     <script type="text/javascript" src="res/jquery.com/jquery-3.6.0.min.js"></script>
     <script type="module" src="res/res/main.js"></script>
 </html>
+#}

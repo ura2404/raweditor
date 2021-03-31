@@ -1,0 +1,62 @@
+{% import "macro_project.twig" as _project %}
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta name="local.requiredField" content="{{ local.requiredField }}"/>
+        <meta name="local.qDelProject" content="{{ local.qDelProject }}"/>
+
+        <title>Raw Editor v{{ version }}</title>
+        <link rel="stylesheet" type="text/css" href="res/tailwindcss.com/tailwind.min.css"/>
+        <link rel="stylesheet" type="text/css" href="res/fontawesome.com/5.15.2/css/all.css"/>
+        <link rel="stylesheet/less" type="text/css" href="res/res/common.less"/>
+        {% block style %}{% endblock style %}
+        <script type="text/javascript" src="res/lesscss.org/3.7.1/less.min.js"></script>
+    </head>
+    <body>
+        <header class="bg-gray-500 text-white h-10 fixed top-0 left-0 right-0">
+            <div class="container mx-auto flex h-full">
+                <div class="w-11">
+    eee
+                </div>
+                <div class="my-auto mr-auto pl-1 _font-bold truncate">{% block name %}{% endblock %}</div>
+                <div id="cm-actions" class="flex">
+                    {% block actions %}
+                    {% endblock %}
+                </div>
+            </div>
+        </header>
+
+        <div class="pt-10 _pb-6 h-full w-full">
+            {% block main %}{% endblock %}
+        </div>
+
+        {# <footer class="bg-gray-500 text-white text-xs h-6 fixed bottom-0 left-0 right-0"">
+            <div class="container mx-auto px-3 flex h-full">
+                <div class="m-auto">Raw Editor &copy; <span>v{{ version }}</span> by {{ author }}</div>
+            </div>
+        </footer> #}
+
+        <div id="cm-confirm" class="cm-wp fixed inset-0 _flex _hidden">
+            <div class="w-screen h-screen opacity-0 duration-100 flex flex-col">
+                <div class="m-auto bg-blue-400 bg-opacity-80 text-white p-5 w-full text-center">
+                    <div class="cm-text"></div>
+                    <div class="flex mt-5">
+                        <button class="cm-yes ml-auto mr-4 py-2 px-6 bg-green-300 text-white _font-semibold rounded-sm shadow-md hover:bg-green-500 focus:outline-none duration-75">{{ local.yes }}</button>
+                        <button class="cm-no mr-auto ml-4 py-2 px-6 bg-red-300 text-white _font-semibold rounded-sm shadow-md hover:bg-red-500 focus:outline-none duration-75">{{ local.no }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="cm-error" class="cm-wp fixed inset-0 _flex _hidden">
+            <div class="flex w-screen h-screen opacity-0 duration-200">
+                <div class="cm-text m-auto bg-red-300 bg-opacity-80 text-white p-5 w-full text-center"></div>
+            </div>
+        </div>
+
+    </body>
+
+    <script type="text/javascript" src="res/jquery.com/jquery-3.6.0.min.js"></script>
+    {#<script type="text/javascript" src="res/res/common.js"></script>#}
+    {% block js %}{% endblock js %}
+</html>

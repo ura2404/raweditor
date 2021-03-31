@@ -1,12 +1,14 @@
 <?php
-class Model {
+namespace Cmatrix\Models;
+
+class Common {
     public function getData(){
 
         return [
-            'version' => '1.0',
+            'version' => '2.0',
             'author' => 'ura@itx.ru',
             'home' => $this->getMyHome(),
-            'projects' => $this->getMyProjects(),
+            //'projects' => $this->getMyProjects(),
             'local' => \Cmatrix\Local::get()->Data
         ];
     }
@@ -17,7 +19,7 @@ class Model {
     }
 
     // --- --- --- --- ---
-    private function getMyProjects(){
+/*    private function getMyProjects(){
         $Config = json_decode(file_get_contents(CM_ROOT.'/config.json'),true);
         return array_map(function($project){
             return [
@@ -25,5 +27,6 @@ class Model {
             ];
         },$Config['raweditor']['projects']);
     }
+*/
 }
 ?>

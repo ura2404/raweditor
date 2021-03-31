@@ -1,10 +1,17 @@
-import Project from './js/NewProject.class.js';
+import Project from './js/Project.class.js';
 import Message from './js/Message.class.js';
 
 const message = new Message();
 const project = new Project(message);
 
 $(document).ready(function(){
+
+    $('#cm-actions .cm-expand').on('click',function(){
+        project.expand();
+    });
+
+return;
+
     // --- --- --- --- ---
     (function(){
         const Message = $("meta[name='local.requiredField']").attr('content');

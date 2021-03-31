@@ -19,6 +19,10 @@ class Model {
     // --- --- --- --- ---
     private function init($name){
         $FilePath = CM_ROOT.'/models/'.$name.'.php';
+        if(!file_exists($FilePath)) throw new \Exception(str_replace('%var%',$name,Local::get()->Data['exception']['modelNotExists']));
+
+require_once($FilePath);
+return;
 
         $_content = function($name) use($FilePath){
             $Text = trim(file_get_contents($FilePath));

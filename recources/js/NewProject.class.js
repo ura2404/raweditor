@@ -12,10 +12,6 @@ export default class Project {
         });
     }
 
-    expand(){
-        $('body').addClass('cm-expand');
-    }
-
     new(){
         this.showPanel();
     }

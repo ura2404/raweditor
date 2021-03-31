@@ -27,7 +27,9 @@ require valid-user
     # Resources
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule (robots\.txt|sitemap\.xml)$ $1 [L]
-    RewriteRule ^(res/.*\..*)$ $1 [L]
+
+    RewriteRule ^(.*)(res/res/.*\..*)$ $2 [L]
+    RewriteRule ^(.*)(res/.*\..*)$ $2 [L]
 
     # --- --- --- --- --- --- --- ---
     # Global
