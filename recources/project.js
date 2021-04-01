@@ -1,15 +1,30 @@
 import Project from './js/Project.class.js';
 import Message from './js/Message.class.js';
+import Tree from './js/Tree.class.js';
+import Ide from './js/Ide.class.js';
 
 const message = new Message();
 const project = new Project(message);
+const tree = new Tree($('.cm-tree'));
+const ide = new Ide($('#cm-project'));
+
 
 $(document).ready(function(){
+    ide.init();
+
+/*
 
     $('#cm-actions .cm-expand').on('click',function(){
         project.expand();
     });
 
+    $('li .cm-action').on('dblclick',function(){
+        tree.expand($(this).parent());
+    });
+
+    $('#direct-panel .cm-tree').on('click',function(){
+    });
+*/
 return;
 
     // --- --- --- --- ---

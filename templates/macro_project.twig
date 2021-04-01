@@ -12,4 +12,28 @@
             <i class="m-auto text-gray-300 fas fa-4x fa-spin fa-spinner"></i>
         </div>
     </a>
-{% endmacro project %}
+{% endmacro %}
+
+{% macro tree(nodes,isNotTop) %}
+    {% import _self as _project %}
+
+    <ul class="{% if not isNotTop %}cm-tree{% endif %}">
+    {% for node in nodes %}
+        <li class="cm-noselect"{% if node.status is defined %} data-status="{{ node.status }}{% endif %}">
+
+            {% if node.status is defined %}
+                <i class="cm-action cm-closed fas fa-folder"></i>
+                <i class="cm-action cm-opend fas fa-folder-open"></i>
+            {% else %}
+                <i class="far fa-file"></i>
+            {% endif %}
+
+            <span class="_text-xs px-1">{{ node.name }}</span>
+
+            {% if node.children|length %}
+                {{ _project.tree(node.children,1) }}
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+{% endmacro %}

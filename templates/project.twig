@@ -20,13 +20,41 @@
 {% endblock %}
 
 {% block main %}
-    <div class="cm-project bg-white container mx-auto flex h-full">
-        <div class="w-11 flex flex-col bg-gray-600 text-white">
-            <i class="fas fa-sitemap p-3 hover:bg-gray-400 duration-75" title="{{ local.project.tree }}"></i>
+    {% import _self as _s %}
+
+    <div id="cm-project" class="bg-white container mx-auto flex h-full">
+        <div id="cm-direct" class="w-11 flex flex-col bg-gray-600 text-white">
+            <i class="cm-tree fas fa-sitemap p-3 hover:bg-gray-400 duration-75" title="{{ local.project.tree }}"></i>
             <i class="fas fa-user-friends p-3 hover:bg-gray-400 duration-75"></i>
         </div>
-        <div>qwqw2</div>
+        <div id="cm-tree" class="bg-gray-700 text-white py-2 px-3">
+            {{ _s.tree(tree) }}
+        </div>
         <div>qwqw3/</div>
         <div>qwqw4</div>
     </div>
 {% endblock %}
+
+{% macro tree(nodes,isNotTop) %}
+    {% import _self as _s %}
+
+    <ul class="{% if not isNotTop %}cm-root{% endif %}">
+    {% for node in nodes %}
+        <li class="cm-noselect"{% if node.status is defined %} data-status="{{ node.status }}{% endif %}">
+
+            {% if node.status is defined %}
+                <i class="cm-action cm-closed fas fa-folder"></i>
+                <i class="cm-action cm-opend fas fa-folder-open"></i>
+            {% else %}
+                <i class="far fa-file"></i>
+            {% endif %}
+
+            <span class="_text-xs px-1">{{ node.name }}</span>
+
+            {% if node.children|length %}
+                {{ _s.tree(node.children,1) }}
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+{% endmacro %}
