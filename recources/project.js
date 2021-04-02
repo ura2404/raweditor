@@ -6,7 +6,7 @@ import Ide from './js/Ide.class.js';
 const message = new Message();
 const project = new Project(message);
 const tree = new Tree($('.cm-tree'));
-const ide = new Ide($('#cm-project'));
+const ide = new Ide($('.cm-project'));
 
 
 $(document).ready(function(){

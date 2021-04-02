@@ -37,6 +37,11 @@ class Json {
     }
 
     // --- --- --- --- ---
+    static function create(array $Data){
+        return new self($Data);
+    }
+
+    // --- --- --- --- ---
     static function get($filePath){
         if(!file_exists($filePath)) throw new \Exception('Wrong json file');
         $Arr = json_decode(file_get_contents($filePath),true);

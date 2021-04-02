@@ -9,14 +9,16 @@
             "path" : "путь",
             "wrongPath" : "неверный путь",
             "requiredField" : "обязательное поле",
-            "projectExists" : "такой уже проект существует",
-            "projectNotExists" : "такой проект не существует",
             "wrongJsonFile" : "неверный json файл",
             "add" : "добавить",
             "yes" : "да",
             "no" : "нет",
             "qDelProject" : "действитель удалить проект",
+            "folderNotExists" : "папка не существует",
             "project" : {
+                "exists" : "такой уже проект существует",
+                "notExists" : "такой проект не существует",
+                "folderNotExists" : "папка проекта не существует",
                 "savePage" : "сохранить страницу"
                 "tree" : "дерево"
             },

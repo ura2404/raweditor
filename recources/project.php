@@ -13,6 +13,13 @@ $_add = function() use($Json){
     $Path = isset($_POST['path']) ? $_POST['path'] : null;
     if(!$Name || !$Path) die('Fuck off!!!');
 
+    \Cmatrix\Project::create($Name,$Path)->commit();
+
+    return [
+        'name' => $Name
+    ];
+
+
     $Path = realpath(CM_ROOT.$Path);
     if(!$Path) throw new \Exception(strFupper(\Cmatrix\Local::get()->Data['wrongPath']));
 
@@ -24,7 +31,7 @@ $_add = function() use($Json){
 
     if(!is_writable($Path)) throw new \Exception(strFupper(\Cmatrix\Local::get()->Data['wrongPath']));
 
-    $Data['raweditor']['projects'][] = [
+    $Data['raweditor']['projects'][$Name] = [
         'name' => $Name,
         'path' => $Path
     ];
@@ -66,28 +73,6 @@ try{
         case 'add' : $Ret = $_add();break;
         case 'del' : $Ret = $_del();break;
     }
-
-
-    /*
-    $Path = realpath($Path);
-    if(!$Path) throw new \Exception(strFupper(\Cmatrix\Local::get()->Data['wrongPath']));
-
-    $FilePath = CM_ROOT .'/config.json';
-    $Json = \Cmatrix\Json::get($FilePath);
-    $Data = $Json->Data;
-
-    array_map(function($project) use($Path){
-        if($project['path'] == $Path) throw new \Exception(strFupper(\Cmatrix\Local::get()->Data['projectExists']));
-    },$Data['raweditor']['projects']);
-
-    $Data['raweditor']['projects'][] = [
-        'name' => $Name,
-        'path' => $Path
-    ];
-
-    $Json->setData($Data);
-    $Json->put($FilePath);
-    */
 
     echo json_encode([
         'status' => 1,

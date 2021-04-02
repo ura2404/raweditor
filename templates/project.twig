@@ -22,16 +22,15 @@
 {% block main %}
     {% import _self as _s %}
 
-    <div id="cm-project" class="bg-white container mx-auto flex h-full">
-        <div id="cm-direct" class="w-11 flex flex-col bg-gray-600 text-white">
-            <i class="cm-tree fas fa-sitemap p-3 hover:bg-gray-400 duration-75" title="{{ local.project.tree }}"></i>
+    <div class="cm-project bg-white container mx-auto flex h-full" data-name="{{ name }}">
+        <div class="cm-project-direct w-11 flex flex-col bg-gray-600 text-white">
+            <i class="cm-action-tree fas fa-sitemap p-3 hover:bg-gray-400 duration-75" title="{{ local.project.tree }}"></i>
             <i class="fas fa-user-friends p-3 hover:bg-gray-400 duration-75"></i>
         </div>
-        <div id="cm-tree" class="bg-gray-700 text-white py-2 px-3">
+        <div class="cm-project-tree bg-gray-700 text-white py-2 _px-3 duration-75">
             {{ _s.tree(tree) }}
         </div>
-        <div>qwqw3/</div>
-        <div>qwqw4</div>
+        <div class="bg-green-500">332e3e3/</div>
     </div>
 {% endblock %}
 
@@ -41,16 +40,18 @@
     <ul class="{% if not isNotTop %}cm-root{% endif %}">
     {% for node in nodes %}
         <li class="cm-noselect"{% if node.status is defined %} data-status="{{ node.status }}{% endif %}">
-
+            <div class="cm-line px-3">
+                {% for i in range(0,node.level) if i>0 %}<span class="inline-block w-4"></span>
+                {% endfor %}
             {% if node.status is defined %}
-                <i class="cm-action cm-closed fas fa-folder"></i>
-                <i class="cm-action cm-opend fas fa-folder-open"></i>
+                <i class="cm-action cm-action-open fas fa-folder"></i>
+                <i class="cm-action cm-action-close fas fa-folder-open"></i>
             {% else %}
                 <i class="far fa-file"></i>
             {% endif %}
 
             <span class="_text-xs px-1">{{ node.name }}</span>
-
+            </div>
             {% if node.children|length %}
                 {{ _s.tree(node.children,1) }}
             {% endif %}
