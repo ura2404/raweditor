@@ -1,10 +1,18 @@
-import Project from './js/NewProject.class.js';
+import Projects from './js/Projects.class.js';
+//import Project from './js/NewProject.class.js';
 import Message from './js/Message.class.js';
+import Local from './js/Local.class.js';
+
 
 const message = new Message();
-const project = new Project(message);
+const local = new Local();
+const projects = new Projects(message,local);
 
 $(document).ready(function(){
+    projects.init();
+
+
+/*
     // --- --- --- --- ---
     (function(){
         const Message = $("meta[name='local.requiredField']").attr('content');
@@ -29,5 +37,5 @@ $(document).ready(function(){
             project.delete(Name);
         });
     });
-
+*/
 });

@@ -12,6 +12,7 @@ class Main extends Common {
     // --- --- --- --- ---
     private function getMyProjects(){
         $Config = json_decode(file_get_contents(CM_ROOT.'/config.json'),true);
+
         return array_map(function($project){
             return [
                 'name' => $project['name']

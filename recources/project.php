@@ -13,56 +13,27 @@ $_add = function() use($Json){
     $Path = isset($_POST['path']) ? $_POST['path'] : null;
     if(!$Name || !$Path) die('Fuck off!!!');
 
-    \Cmatrix\Project::create($Name,$Path)->commit();
+    \Cmatrix\Project::create($Name,$Path)->add();
 
     return [
-        'name' => $Name
-    ];
-
-
-    $Path = realpath(CM_ROOT.$Path);
-    if(!$Path) throw new \Exception(strFupper(\Cmatrix\Local::get()->Data['wrongPath']));
-
-    $Data = $Json->Data;
-
-    array_map(function($project) use($Path,$Name){
-        if($project['path'] == $Path || $project['name'] == $Name) throw new \Exception(strFupper(\Cmatrix\Local::get()->Data['projectExists']));
-    },$Data['raweditor']['projects']);
-
-    if(!is_writable($Path)) throw new \Exception(strFupper(\Cmatrix\Local::get()->Data['wrongPath']));
-
-    $Data['raweditor']['projects'][$Name] = [
-        'name' => $Name,
-        'path' => $Path
-    ];
-
-    $Json->setData($Data);
-    $Json->put(CM_ROOT.'/config.json');
-    return [
-        'name' => $Name
+        'message' => 'OK',
+        'data' =>[
+            'name' => $Name
+        ]
     ];
 };
 
 $_del = function() use($Json){
     $Name = isset($_POST['name']) ? $_POST['name'] : null;
-
     if(!$Name) die('Fuck off!!!');
 
-    $Data = $Json->Data;
-    $Projects = $Data['raweditor']['projects'];
-
-    $NewProjects = array_filter($Projects,function($project) use($Name){
-        return $project['name'] !== $Name;
-    });
-
-    if(count($Projects) == count($NewProjects)) throw new \Exception(strFupper(\Cmatrix\Local::get()->Data['projectNotExists']));
-
-    $Data['raweditor']['projects'] = $NewProjects;
-    $Json->setData($Data);
-    $Json->put(CM_ROOT.'/config.json');
+    \Cmatrix\Project::get($Name)->delete();
 
     return [
-        'name' => $Name
+        'message' => 'OK',
+        'data' =>[
+            'name' => $Name
+        ]
     ];
 };
 
@@ -74,11 +45,9 @@ try{
         case 'del' : $Ret = $_del();break;
     }
 
-    echo json_encode([
-        'status' => 1,
-        'message' => '',
-        'data' => $Ret
-    ]);
+    echo json_encode(array_merge([
+        'status' => 1
+    ],$Ret));
 }
 catch(\Exception $e){
     echo json_encode([

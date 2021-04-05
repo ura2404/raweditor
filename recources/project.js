@@ -1,13 +1,13 @@
-import Project from './js/Project.class.js';
-import Message from './js/Message.class.js';
-import Tree from './js/Tree.class.js';
+//import Project from './js/Project.class.js';
+//import Tree from './js/Tree.class.js';
+
 import Ide from './js/Ide.class.js';
+import Message from './js/Message.class.js';
 
 const message = new Message();
-const project = new Project(message);
-const tree = new Tree($('.cm-tree'));
+//const project = new Project(message);
+//const tree = new Tree($('.cm-tree'));
 const ide = new Ide($('.cm-project'));
-
 
 $(document).ready(function(){
     ide.init();

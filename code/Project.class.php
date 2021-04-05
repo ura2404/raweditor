@@ -37,19 +37,27 @@ class Project {
     }
 
     // --- --- --- --- ---
-    public function commit(){
-        $Url = 'raweditor/projects/'.$this->Name;
-
+    public function add(){
         $Config = cm\Json::get(CM_ROOT.'/config.json')->Data;
         $Hash = cm\Hash::create($Config);
 
         array_map(function($project){
-            dump($project);
-        },$Hash->getValue('raweditor/projects/'.$this->Data['name']));
-die();
-        if($Hash->isExists($Url)) throw new \Exception(cm\Local::get()->getValue('project/exists'));
+            if(
+                ($project['name'] == $this->Data['name']) 
+                || ($project['path'] == $this->Data['path'])
+            ) throw new \Exception(cm\Local::get()->getValue('project/exists'));
+        },$Hash->getValue('raweditor/projects/'));
 
         $Hash->setValue('raweditor/projects/'.$this->Name, $this->Data);
+        cm\Json::create($Hash->Data)->put(CM_ROOT.'/config.json');
+    }
+
+    // --- --- --- --- ---
+    public function delete(){
+        $Config = cm\Json::get(CM_ROOT.'/config.json')->Data;
+        $Hash = cm\Hash::create($Config);
+
+        if(!$Hash->deleteValue('raweditor/projects/'.$this->Data['name'])) throw new \Exception(cm\Local::get()->getValue('project/notExists'));
         cm\Json::create($Hash->Data)->put(CM_ROOT.'/config.json');
     }
 
@@ -65,5 +73,6 @@ die();
     static function get($name){
         return new self($name);
     }
+
 }
 ?>

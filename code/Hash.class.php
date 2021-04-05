@@ -26,7 +26,8 @@ class Hash {
             }
             else return array_key_exists($arr[0],$ini) ? $ini[$arr[0]] : false;
         };
-        return $_rec(explode('/',$url),$this->Data);
+
+        return $_rec(explode('/',trim($url,'/')),$this->Data);
     }
 
     // --- --- --- --- ---
@@ -43,6 +44,30 @@ class Hash {
 
         $this->Data = $_rec(explode('/',trim($url,'/')),$this->Data);
         return $this;
+    }
+
+    // --- --- --- --- ---
+    public function deleteValue($url){
+        $Success = false;
+
+        $_rec = function($arr,$ini) use(&$_rec,&$Success){
+            if(count($arr) > 1){
+                $Ind = array_shift($arr);
+                isset($ini[$Ind]) ? $ini[$Ind] = $_rec($arr,$ini[$Ind]) : null;
+                //return isset($ini[$Ind]) ? $_rec($arr,$ini[$Ind]) : false;
+                //$ini[$Ind] = $_rec($arr,is_array($ini[$Ind]) ? $ini[$Ind] : []);
+            }
+            else{
+                if(array_key_exists($arr[0],$ini)){
+                    $Success = true;
+                    unset($ini[$arr[0]]);
+                }
+            }
+            return $ini;
+        };
+
+        $this->Data = $_rec(explode('/',trim($url,'/')),$this->Data);
+        return $Success;
     }
 
     // --- --- --- --- ---
