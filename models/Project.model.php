@@ -22,7 +22,8 @@ class Project extends Common {
 
     // --- --- --- --- ---
     private function getMyTree($name){
-        $Path = \Cmatrix\Json::get(CM_ROOT.'/config.json')->Data['raweditor']['projects'][$name]['path'];
+        $Hash = \Cmatrix\Hash::get(CM_ROOT.'/config.json');
+        $Path = $Hash->getValue('raweditor/projects/'.$name.'/path');
         return \Cmatrix\Dir::get($Path)->Tree;
 
         return [

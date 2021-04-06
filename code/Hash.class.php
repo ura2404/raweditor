@@ -79,5 +79,10 @@ class Hash {
     static function create($data){
         return new self($data);
     }
+
+    // --- --- --- --- ---
+    static function get($path){
+        return new self(Json::get($path)->Data);
+    }
 }
 ?>

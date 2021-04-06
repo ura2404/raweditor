@@ -44,13 +44,13 @@
 
                     <input name="name" required="required" class="mt-6 mb-2 px-2 py-2 border _border-transparent
                         focus:outline-none focus:ring-2 focus:ring-grey-600 focus:border-transparent placeholder-grey-400" 
-                        placeholder="name"
+                        placeholder="{{ local.name }}"
                         _oninvalid="this.setCustomValidity('{{ local.requiredField }}')" _oninput="setCustomValidity('')"
                     />
 
                     <input name="path" type="text" required="required" class="mt-2 mb-6 px-2 py-2 border _border-transparent 
                         focus:outline-none focus:ring-2 focus:ring-grey-600 _focus:border-transparent placeholder-grey-400" 
-                        placeholder="path"
+                        placeholder="{{ local.path }}"
                         _oninvalid="this.setCustomValidity('{{ local.requiredField }}')" _oninput="setCustomValidity('')"
                     />
 

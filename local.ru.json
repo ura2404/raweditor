@@ -2,7 +2,7 @@
     "local" : {
         "lang" : "ru",
         "data" : {
-            "projects" :"проекты",
+            "projects" : "проекты",
             "addProject" : "добавить проект",
             "newProject" : "новый проект",
             "name" : "наименование",
@@ -24,8 +24,7 @@
             },
             "exception" : {
                 "modelNotExists" : "файл модели \"%var%\" не существует"
-            }                                                                                                        │            }
-
+            }
         }
     }
 }

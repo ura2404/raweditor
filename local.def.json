@@ -13,8 +13,8 @@
             "add" : "add",
             "yes" : "yes",
             "no" : "no",
-            "folderNotExists" : "folder is not exists",
             "qDelProject" : "really delete the project",
+            "folderNotExists" : "folder is not exists",
             "project" : {
                 "exists" : "project allready exists",
                 "notExists" : "project not exists",

@@ -42,9 +42,9 @@ class Json {
     }
 
     // --- --- --- --- ---
-    static function get($filePath){
-        if(!file_exists($filePath)) throw new \Exception('Wrong json file');
-        $Arr = json_decode(file_get_contents($filePath),true);
+    static function get($path){
+        if(!file_exists($path)) throw new \Exception('Wrong json file');
+        $Arr = json_decode(file_get_contents($path),true);
         return new self($Arr);
     }
 
