@@ -84,7 +84,7 @@ class App {
             else die(self::$PAGE.' is not exists');
         }
         //catch(\Exception $e)
-        catch(\Throwable $e){
+        catch(\Throwable2 $e){
             dump($e->getMessage());
             dump($e->getTrace());
         }
