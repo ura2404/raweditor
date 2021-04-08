@@ -32,7 +32,7 @@
 
             <div class="cm-panel m-auto bg-white flex flex-col p-5 rounded opacity-0 duration-200">
                 <div class="cursor-pointer flex justify-end">
-                    <div class="cm-close hover:text-gray-500 duration-75 p-1">
+                    <div class="cm-action-close hover:text-gray-500 duration-75 p-1">
                         <i class="fas fa-times"></i>
                     </div>
                 </div>
@@ -45,17 +45,17 @@
                     <input name="name" required="required" class="mt-6 mb-2 px-2 py-2 border _border-transparent
                         focus:outline-none focus:ring-2 focus:ring-grey-600 focus:border-transparent placeholder-grey-400" 
                         placeholder="{{ local.name }}"
-                        _oninvalid="this.setCustomValidity('{{ local.requiredField }}')" _oninput="setCustomValidity('')"
+                        oninvalid="this.setCustomValidity('{{ local.requiredField }}')" oninput="setCustomValidity('')"
                     />
 
                     <input name="path" type="text" required="required" class="mt-2 mb-6 px-2 py-2 border _border-transparent 
                         focus:outline-none focus:ring-2 focus:ring-grey-600 _focus:border-transparent placeholder-grey-400" 
                         placeholder="{{ local.path }}"
-                        _oninvalid="this.setCustomValidity('{{ local.requiredField }}')" _oninput="setCustomValidity('')"
+                        oninvalid="this.setCustomValidity('{{ local.requiredField }}')" oninput="setCustomValidity('')"
                     />
 
                     <div class="flex">
-                        <button class="mx-auto py-2 px-6 bg-green-300 text-white font-semibold rounded-sm shadow-md hover:bg-green-500 focus:outline-none duration-75">{{ local.add }}</button>
+                        <button class="mx-auto py-2 px-6 bg-green-300 text-white font-semibold rounded-sm shadow-md hover:bg-green-500 focus:outline-none duration-75">{{ local.add|capitalize }}</button>
                     </div>
                 </form>
 
