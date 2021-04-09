@@ -6,6 +6,8 @@ class Project extends Common {
 
         $Name = $this->getMyName();
 
+//dump($this->getMyTree($Name));die();
+
         return arrayMergeReplace(parent::getData(),[
             'name' => $Name,
             'tree' => $this->getMyTree($Name),
@@ -22,12 +24,10 @@ class Project extends Common {
 
     // --- --- --- --- ---
     private function getMyTree($name){
-        $Hash = \Cmatrix\Hash::get(CM_ROOT.'/config.json');
-        $Path = $Hash->getValue('raweditor/projects/'.$name.'/path');
-        //return \Cmatrix\Dir::get($Path)->List;
+        $Path = \Cmatrix\Project::get($name)->Path;
 
-        return \Cmatrix\Dir::get($Path)->getTree(function($item){
-            if($item['level'] < 1) return true;
+        $Tree = \Cmatrix\Dir::get($Path)->getTree(function($item){
+            if($item['level'] < 2) return true;
             return false;
 
             //dump($name,$dir);
@@ -35,6 +35,9 @@ class Project extends Common {
             //return $name == 'www';
             //return $name != '.git';
         });
+
+        \Cmatrix\Cache::create('tree',$Tree);
+        return $Tree;
 
         return [
             [

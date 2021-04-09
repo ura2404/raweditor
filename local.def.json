@@ -13,9 +13,9 @@
             "add" : "add",
             "yes" : "yes",
             "no" : "no",
-            "qDelProject" : "really delete the project",
             "folderNotExists" : "folder is not exists",
             "project" : {
+                "qDel" : "really delete the project",
                 "exists" : "project allready exists",
                 "notExists" : "project not exists",
                 "folderNotExists" : "project folder is not exists",

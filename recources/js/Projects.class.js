@@ -18,12 +18,16 @@ export default class Project {
         const Instance = this;
         const Message = Instance.Local.message('requiredField');
 
-        $('input').each(function(e){
-            $(this).attr('oninvalid',"this.setCustomValidity('" + Message + "')");
-        });
-
         $('header .cm-add').on('click',function(e){
             Instance.new();
+        });
+
+        this.$Panel.find('.cm-action-close').on('click',function(e){
+            Instance.cancel();
+        });
+
+        this.$Projects.find('.cm-project .cm-action-del').on('click',function(e){
+            Instance.delete($(this).closest('.cm-project'));
         });
     }
 
@@ -39,15 +43,19 @@ export default class Project {
         this.hidePanel();
     }
 
-    delete(name){
-        this.del(name);
+    delete($node){
+        const Instance = this;
+
+        this.Message.confirm(this.Local.message('qDelProject')+' '+ $node.attr('data-name') + '?',function(){
+            Instance.del($node);
+        });
     }
 
     // --- --- --- --- ---
     add(){
         const Instance = this;
 
-        const _sucess = function(data){
+        const _success = function(data){
             const $New = Instance.$Template.clone(true,true)
                 .attr('id','cm-project-'+data.data.name.replace(/ /g,'_'))
                 .attr('href',Instance.$Template.attr('href')+data.data.name)
@@ -61,14 +69,15 @@ export default class Project {
             Instance.Message.error(data.error);
         };
 
-        this.ajax(this.$Form.serializeArray(), _sucess, _error);
+        this.ajax(this.$Form.serializeArray(), _success, _error);
     }
 
-    del(name){
+    del($node){
         const Instance = this;
+        const Name = $node.attr('data-name');
 
         const _sucess = function(data){
-            $('#cm-project-'+name.replace(/ /g,'_')).remove();
+            $node.remove();
         };
 
         const _error = function(data){
@@ -77,7 +86,7 @@ export default class Project {
 
         this.ajax({
             m : 'del',
-            name : name
+            name : Name
         }, _sucess, _error);
     }
 
@@ -98,7 +107,7 @@ export default class Project {
 
     showPanel(){
         const Instance = this;
-        Instance.$Panel.addClass('cm-show cm-opacity');
+        Instance.$Panel.addClass('cm-show cm-opacity').find("input:not([type='hidden'])").val('');
         $(document).on('keyup',function(e){
             if(e.keyCode == 27) Instance.cancel();
         });

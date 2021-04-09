@@ -40,6 +40,13 @@ $_del = function() use($Json){
 $_node = function(){
     $Name = isset($_POST['name']) ? $_POST['name'] : null;
     $Path = \Cmatrix\Project::get($Name)->Path;
+
+    return [
+        'message' => 'OK',
+        'data' =>[
+            'name' => $Name
+        ]
+    ];
 };
 
 

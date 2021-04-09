@@ -21,6 +21,12 @@ footer {
     display : none;
 }
 
+i {
+    &[active='active'] {
+        background-color : slategrey;
+    }
+}
+
 .cm-project {
     .cm-project-direct {
         i {
@@ -28,59 +34,51 @@ footer {
         }
     }
 
-    .cm-project-tree ul {
-//        &:not(.cm-root) li {
-//            padding-left: 1rem;
-//        }
+    .cm-splitter {
+        &:not([visible='visible']) {
+            display : none;
+        }
 
-        li {
+        cursor : col-resize;
+    }
 
-            .cm-line {
+    .cm-project-tree {
+
+        &:not([visible='visible']) {
+            display : none;
+        }
+
+        ul {
+
+            li .cm-line {
                 cursor : pointer;
-
                 &:hover {
                     background-color : lightslategray;
                 }
-            }
-
-            &[data-status='0'] {
-                > .cm-line > .cm-action-close {
-                    display : none;
-                }
-
-                > ul {
-                    display : none;
+                &[active='active'] {
+                    background-color : slategrey;
                 }
             }
 
-            &[data-status='1'] {
-                > .cm-line > .cm-action-open {
-                    display : none;
-                }
-            }
-
-            i {
+            li i {
                 width : 1.2rem;
-
+                text-align : center;
                 &.cm-action {
                     font-size : 120%;
                     cursor : pointer;
                 }
             }
 
+            li[data-status='0'] {
+                > .cm-line > .cm-action-close { display : none; }
+                > ul { display : none; }
+            }
+
+            li[data-status='1'] {
+                > .cm-line > .cm-action-open { display : none; }
+            }
+
         }
     }
 
-    &[active='active'] {
-        .cm-project-direct .cm-action-tree {
-            //background-color : rgba(75,85,99,0.5);
-            background-color : slategrey;
-        }
-    }
-
-    &:not([active='active']) {
-        .cm-project-tree {
-            display : none;
-        }
-    }
 }

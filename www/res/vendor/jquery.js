@@ -5,7 +5,12 @@ jQuery.fn.outerHtml = function(s) {
 
 /** Есть ли атрибут */
 jQuery.fn.hasAttr = function(name) {
-   return this.attr(name) !== undefined;
+    return this.attr(name) !== undefined;
+};
+
+/** toggleAttr */
+jQuery.fn.toggleAttr = function(name) {
+    $(this).hasAttr(name) ? $(this).removeAttr(name) : $(this).attr(name,name);
 };
 
 /** Курсор в конец input */

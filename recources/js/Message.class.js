@@ -1,7 +1,7 @@
 export default class Message {
     constructor(){
         const Instance = this;
-        this.Timeout = 1300;
+        this.Timeout = 2000;
         this.$SuccessPanel = $('#cm-success');
         this.$ErrorPanel = $('#cm-error');
         this.$ConfirmPanel = $('#cm-confirm')
