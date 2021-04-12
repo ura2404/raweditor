@@ -25,8 +25,23 @@ class Project extends Common {
     // --- --- --- --- ---
     private function getMyTree($name){
         $Path = \Cmatrix\Project::get($name)->Path;
+        $Dir = \Cmatrix\Dir::get($Path);
+        $Tree = $Dir->getTree(function(&$item){
+            $item['hid'] = hid($item['parent'].$item['name']);
+            return $item['level'] < 2 ? true : false;
+        });
+        \Cmatrix\Cache::session()->putJson('tree',$Tree);
 
-        $Tree = \Cmatrix\Dir::get($Path)->getTree(function($item){
+        return $Tree;
+
+        $Hash = \Cmatrix\Hash::create($Tree);
+
+//dump($Dir->Tree);
+dump($Hash);
+die();
+
+        $Tree = $Dir->getTree(function(&$item){
+            $item['hid'] = hid($item['parent'].$item['name']);
             if($item['level'] < 2) return true;
             return false;
 
@@ -36,53 +51,15 @@ class Project extends Common {
             //return $name != '.git';
         });
 
-        \Cmatrix\Cache::create('tree',$Tree);
-        return $Tree;
+        //\Cmatrix\Cache::get('tree');
+        \Cmatrix\Cache::create('tree',$Tree)->flush()->getValue();
 
-        return [
-            [
-                'name' => '000.txt',
-                'path' => '000.txt',
-                'type' => 'folder',
-                'level' => 0,
-                'status' => 0,
-                'children' => [
-                    [
-                        'name' => 'aaa.txt',
-                        'path' => '/var/tmp/bbb.txt',
-                        'type' => 'file',
-                        'level' => 1,
-                    ],
-                    [
-                        'name' => 'bbb.txt',
-                        'path' => '/var/tmp/bbb.txt',
-                        'type' => 'file',
-                        'level' => 1,
-                    ],
-                    [
-                        'name' => 'Qaz',
-                        'path' => '/var/tmp/baaa',
-                        'type' => 'folder',
-                        'level' => 1,
-                        'status' => 1,
-                        'children' => [
-                            [
-                                'name' => 'dfdfdf.txt',
-                                'path' => '/var/tmp/dfdfdf.txt',
-                                'type' => 'file',
-                                'level' => 2,
-                            ]
-                        ]
-                    ]
-                ]
-            ],
-            [
-                'name' => '111.txt',
-                'path' => '111.txt',
-                'type' => 'file',
-                'level' => 0,
-            ]
-        ];
+
+
+        //dump(\Cmatrix\Cache::get('tree')->Data);
+
+        //\Cmatrix\Cache::create('tree')->put($Tree);
+        return $Tree;
     }
 }
 ?>

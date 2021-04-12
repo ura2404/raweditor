@@ -20,35 +20,8 @@ class Dir{
     }
 
     // --- --- --- --- ---
-/*    private function getItems($path,\Closure $_callback=null){
-        $Dir = scandir($path);
-
-        $Dir = array_filter($Dir,function($val) use($path,$_callback){
-            return $val !== '.' && $val !== '..' && ($_callback ? $_callback($path,$val) === true : true);
-        });
-
-        usort($Dir,function($a,$b) use($path){
-            return is_dir($path.'/'.$a) ?  -1 : 1;
-        });
-
-        $Dir = array_map(function($val) use($path,&$_rec){
-            return [
-                'parent' => $path,
-                'name' => $val,
-                'type' => is_dir($path.'/'.$val) ? 'folder' : 'file'
-            ];
-        },$Dir);
-
-        return $Dir;
-    }
-
-    // --- --- --- --- ---
-    private function getMyList(\Closure $_callback=null){
-        return $this->getItems($this->Path, $_callback);
-    }
-*/
-    // --- --- --- --- ---
     private function getMyTree(\Closure $_callback=null){
+        $_callback = !$_callback ? function(){ return true; } : $_callback;
         $_rec = function($path,$level=0) use($_callback,&$_rec){
             $Dir = array_filter(scandir($path,SCANDIR_SORT_ASCENDING),function($val){
                 return $val !== '.' && $val !== '..';
@@ -73,7 +46,11 @@ class Dir{
                     'type' => is_dir($Path) ? 'folder' : 'file',
                 ];
 
-                if($Data['type'] !== 'folder') $Data['size'] = filesize($Path);
+                if($Data['type'] !== 'folder'){
+                    $Data['size'] = filesize($Path);
+                    $_callback($Data);
+                }
+
                 if($Data['type'] === 'folder'){
                     if($_callback($Data)){
                         $Data['children'] = $_rec($Path,($level+1));

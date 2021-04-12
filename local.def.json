@@ -24,6 +24,9 @@
             },
             "exception" : {
                 "modelNotExists" : "model file \"%var%\" is not exists"
+            },
+            "cache" : {
+                "notExists" : "cache not exists"
             }
         }
     }

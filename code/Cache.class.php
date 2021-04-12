@@ -6,10 +6,9 @@ class Cache {
     private $Data;
 
     // --- --- --- --- ---
-    function __construct($name,array $data=null){
+    function __construct($name){
         $this->Name = $name;
-        $this->Data = $data;
-        $this->createCache($data);
+        $this->init();
     }
 
     // --- --- --- --- ---
@@ -20,8 +19,9 @@ class Cache {
         }
     }
 
+
     // --- --- --- --- ---
-    private function createCache($data=null){
+    private function init(){
         if(!file_exists($this->Path)){
             $Old = umask(0);
             mkdir($this->Path,0770,true);
@@ -29,39 +29,35 @@ class Cache {
             chgrp($this->Path,'www-data');
             umask($Old);
         }
-
-        if($data){
-        }
     }
 
     // --- --- --- --- ---
-    private function getData(){
-        return $this->Data;
-    }
-
-    // --- --- --- --- ---
-    public function setData(array $data){
-        $this->Data = $data;
+    public function put($key,$value){
         return $this;
     }
 
     // --- --- --- --- ---
-    public function put($filePath){
-        file_put_contents($filePath,json_encode($this->Data,
-            JSON_PRETTY_PRINT             // форматирование пробелами
-            | JSON_UNESCAPED_SLASHES      // не экранировать /
-            | JSON_UNESCAPED_UNICODE      // не кодировать текст
-         ));
+    public function putJson($key,array $data){
+        Json::create($data)->put($this->Path.'/'.$key);
     }
 
     // --- --- --- --- ---
-    static function create($name,array $data){
-        return new self($name,$data);
+    static function create($name,$data){
+        return (new self($name))->setData($data);
     }
 
     // --- --- --- --- ---
     static function get($name){
-        return new self($name);
+        $Cache = new self($name);
+
+        //if(!file_exists($Cache->Path)) throw new \Exception(Local::get()->getValue('cache/notExists'));
+        return $Cache;
+    }
+
+    // --- --- --- --- ---
+    static function session(){
+        $Tag = $_SERVER['REMOTE_ADDR'] . (isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : null);
+        return new self(md5($Tag));
     }
 
 }
