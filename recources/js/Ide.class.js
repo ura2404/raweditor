@@ -64,7 +64,7 @@ export default class Ide {
         else{
             this.ajax({
                 m : 'node',
-                id : $node.data('hid')
+                hid : $node.data('hid')
             },_success,_error);
         }
     }

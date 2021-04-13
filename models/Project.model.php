@@ -30,7 +30,7 @@ class Project extends Common {
             $item['hid'] = hid($item['parent'].$item['name']);
             return $item['level'] < 2 ? true : false;
         });
-        \Cmatrix\Cache::session()->putJson('tree',$Tree);
+        \Cmatrix\Cache::session()->putJson('tree-'.$name,$Tree);
 
         return $Tree;
 

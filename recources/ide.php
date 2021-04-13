@@ -39,12 +39,25 @@ $_del = function() use($Json){
 
 $_node = function(){
     $Name = isset($_POST['name']) ? $_POST['name'] : null;
-    $Path = \Cmatrix\Project::get($Name)->Path;
+    $Hid = isset($_POST['hid']) ? $_POST['hid'] : null;
+    if(!$Name || !$Hid) die('Fuck off!!!');
+
+    //$Path = \Cmatrix\Project::get($Name)->Path;
+
+    $Tree = \Cmatrix\Cache::session()->getJson('tree-'.$Name);
+    $Hash = \Cmatrix\Hash::create($Tree->Data);
+
+    $Node = $Hash->getRuleValue(['hid'=>$Hid]);
+    if(!$Node) die('Fuck off!!!');
+
+    $Path = \Cmatrix\Project::get($Name)->Path . $Node['parent'] .'/'. $Node['name'];
+    $Dir = \Cmatrix\Dir::get($Path);
 
     return [
         'message' => 'OK',
-        'data' =>[
-            'name' => $Name
+        'data' => [
+            'name' => $Name,
+            'list' => $Dir->List
         ]
     ];
 };
@@ -64,7 +77,7 @@ try{
 catch(\Exception $e){
     echo json_encode([
         'status' => -1,
-        'error' => $e->getMessage()
+        'message' => $e->getMessage()
     ]);
 }
 ?>

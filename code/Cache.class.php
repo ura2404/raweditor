@@ -42,6 +42,11 @@ class Cache {
     }
 
     // --- --- --- --- ---
+    public function getJson($key){
+        return Json::get($this->Path.'/'.$key);
+    }
+
+    // --- --- --- --- ---
     static function create($name,$data){
         return (new self($name))->setData($data);
     }

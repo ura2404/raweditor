@@ -19,6 +19,7 @@
                 "exists" : "project allready exists",
                 "notExists" : "project not exists",
                 "folderNotExists" : "project folder is not exists",
+                "folderNotAccessable" : "project folder is not accessable",
                 "savePage" : "save page",
                 "tree" : "project tree"
             },

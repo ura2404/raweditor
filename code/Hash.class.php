@@ -47,6 +47,23 @@ class Hash {
     }
 
     // --- --- --- --- ---
+    public function getRuleValue(array $rule){
+        $Key = array_keys($rule)[0];
+        $_rec = function(array $data) use($Key,$rule,&$_rec){
+            foreach($data as $key=>$value){
+                if(count(array_intersect_key($value,$rule)) && $value[$Key] === $rule[$Key]){
+                    return $value;
+                }elseif(isset($value['children'])){
+                    if($ret = $_rec($value['children'])) return $ret;
+                }
+
+            }
+            return false;
+        };
+        return $_rec($this->Data);
+    }
+
+    // --- --- --- --- ---
     public function deleteValue($url){
         $Success = false;
 

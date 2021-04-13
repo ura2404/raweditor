@@ -20,8 +20,20 @@ class Dir{
     }
 
     // --- --- --- --- ---
+    private function getMyList(){
+        $_callback = function($item){
+//dump($item['level'] == 0);
+return $item['level'] < 1;
+
+            return $item['level'] == 0 ? true : false;
+        };
+        return $this->getMyTree($_callback);
+    }
+
+    // --- --- --- --- ---
     private function getMyTree(\Closure $_callback=null){
         $_callback = !$_callback ? function(){ return true; } : $_callback;
+
         $_rec = function($path,$level=0) use($_callback,&$_rec){
             $Dir = array_filter(scandir($path,SCANDIR_SORT_ASCENDING),function($val){
                 return $val !== '.' && $val !== '..';
@@ -29,7 +41,6 @@ class Dir{
 
             //asort($Dir);
             //sort($Dir,SORT_STRING);
-
             usort($Dir,function($a,$b) use($path){
                 return is_dir($path.'/'.$a) ?  -1 : 1;
             });
@@ -57,10 +68,6 @@ class Dir{
                     }
                 }
 
-                /*if($_callback($Data)){
-                    if($Data['type'] === 'folder') $Data['children'] = $_callback($Data) !== false ? $_rec($Path,($level+1)) : [];
-                }*/
-
                 return $Data;
             },$Dir);
 
@@ -78,7 +85,8 @@ class Dir{
 
     // --- --- --- --- ---
     static function get($path){
-        if(!is_dir($path) || !is_writable($path)) throw new \Exception(cm\Local::get()->Data['folderNotExists']);
+        if(!is_dir($path)) throw new \Exception(cm\Local::get()->Data['folderNotExists']);
+        if(!is_writable($path)) throw new \Exception(cm\Local::get()->Data['folderNotAccessable']);
         return new self($path);
     }
 }
