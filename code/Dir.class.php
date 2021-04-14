@@ -20,14 +20,32 @@ class Dir{
     }
 
     // --- --- --- --- ---
-    private function getMyList(){
-        $_callback = function($item){
-//dump($item['level'] == 0);
-return $item['level'] < 1;
+    private function getMyList(\Closure $_callback=null){
+        $_callback = !$_callback ? function(){ return true; } : $_callback;
 
-            return $item['level'] == 0 ? true : false;
-        };
-        return $this->getMyTree($_callback);
+        $Dir = array_filter(scandir($this->Path,SCANDIR_SORT_ASCENDING),function($val){
+            return $val !== '.' && $val !== '..';
+        });
+
+        usort($Dir,function($a,$b){
+            return is_dir($this->Path.'/'.$a) ?  -1 : 1;
+        });
+        usort($Dir,function($a,$b){
+            return is_dir($this->Path.'/'.$a) ?  -1 : 1;
+        });
+
+        $Dir = array_map(function($val) use($_callback){
+            $Path = $this->Path.'/'.$val;
+            $Data = [
+                'name' => $val,
+                'type' => is_dir($Path) ? 'folder' : 'file',
+            ];
+
+            $_callback($Data);
+            return $Data;
+        },$Dir);
+
+        return $Dir;
     }
 
     // --- --- --- --- ---
@@ -81,6 +99,11 @@ return $item['level'] < 1;
     // --- --- --- --- ---
     public function getTree(\Closure $_callback=null){
         return $this->getMyTree($_callback);
+    }
+
+    // --- --- --- --- ---
+    public function getList(\Closure $_callback=null){
+        return $this->getMyList($_callback);
     }
 
     // --- --- --- --- ---

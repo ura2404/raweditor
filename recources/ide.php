@@ -6,8 +6,8 @@ require_once('../common.php');
 $Mode = isset($_POST['m']) ? $_POST['m'] : null;
 if(!$Mode) die('Fuck off!!!');
 
-$Json = \Cmatrix\Json::get(CM_ROOT.'/config.json');
-
+//$Json = \Cmatrix\Json::get(CM_ROOT.'/config.json');
+/*
 $_add = function() use($Json){
     $Name = isset($_POST['name']) ? $_POST['name'] : null;
     $Path = isset($_POST['path']) ? $_POST['path'] : null;
@@ -36,6 +36,7 @@ $_del = function() use($Json){
         ]
     ];
 };
+*/
 
 $_node = function(){
     $Name = isset($_POST['name']) ? $_POST['name'] : null;
@@ -46,18 +47,21 @@ $_node = function(){
 
     $Tree = \Cmatrix\Cache::session()->getJson('tree-'.$Name);
     $Hash = \Cmatrix\Hash::create($Tree->Data);
-
     $Node = $Hash->getRuleValue(['hid'=>$Hid]);
     if(!$Node) die('Fuck off!!!');
 
     $Path = \Cmatrix\Project::get($Name)->Path . $Node['parent'] .'/'. $Node['name'];
     $Dir = \Cmatrix\Dir::get($Path);
+    $List = $Dir->getList(function(&$item) use($Node){
+        $item['parent'] = $Node['parent'] .'/'. $Node['name'];
+        $item['level'] = $Node['level'] + 1;
+    });
 
     return [
         'message' => 'OK',
         'data' => [
             'name' => $Name,
-            'list' => $Dir->List
+            'list' => $List
         ]
     ];
 };
@@ -65,8 +69,8 @@ $_node = function(){
 
 try{
     switch($Mode){
-        case 'add'  : $Ret = $_add();break;
-        case 'del'  : $Ret = $_del();break;
+//        case 'add'  : $Ret = $_add();break;
+//        case 'del'  : $Ret = $_del();break;
         case 'node' : $Ret = $_node();break;
     }
 

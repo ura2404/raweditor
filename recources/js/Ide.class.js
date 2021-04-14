@@ -49,6 +49,7 @@ export default class Ide {
         };
 
         const $_addNodes = function(data){
+console.log(data);
         }
 
         const _success = function(data){
