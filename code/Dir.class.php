@@ -67,26 +67,29 @@ class Dir{
             });
 
             $Dir = array_map(function($val) use($path,$level,$_callback,&$_rec){
-                $Path = $path.'/'.$val;
+                $Path = $path .'/'. $val;
                 $Data = [
                     'parent' => strAfter($path,$this->Path),
                     'name' => $val,
                     'level' => $level,
-                    'type' => is_dir($Path) ? 'folder' : 'file',
+                    'type' => is_dir($Path) ? 'folder' : (is_link($Path) ? 'link' : 'file'),
                 ];
 
-                if($Data['type'] !== 'folder'){
-                    $Data['size'] = filesize($Path);
-                    $_callback($Data);
+                if($Data['type'] === 'file') $Data['size'] = filesize($Path);
+                if($Data['type'] === 'folder'){
+                    $Children = array_filter($_rec($Path,($level+1)),function($value){ return !!$value; });
+                    if(count($Children)) $Data['children'] = $Children;
                 }
 
-                if($Data['type'] === 'folder'){
-                    if($_callback($Data)){
-                        $Data['children'] = $_rec($Path,($level+1));
-                    }
-                }
+                if(!$_callback($Data)) return;
+                return $Data;
+/*
+                $ret = $_callback($Data);
+
+                if($Data['type'] === 'folder' && $ret) $Data['children'] = $_rec($Path,($level+1));
 
                 return $Data;
+*/
             },$Dir);
 
             return $Dir;

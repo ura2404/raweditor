@@ -1,0 +1,143 @@
+[
+    {
+        "parent": "",
+        "name": ".git",
+        "level": 0,
+        "type": "folder",
+        "hid": "9c1fb30f00284e3a407bf031792b9082"
+    },
+    {
+        "parent": "",
+        "name": "code",
+        "level": 0,
+        "type": "folder",
+        "hid": "933c2f549343e099e3a6911b282cb71c"
+    },
+    {
+        "parent": "",
+        "name": "www",
+        "level": 0,
+        "type": "folder",
+        "hid": "0955107899635ab20383c1bee5a3baf4"
+    },
+    {
+        "parent": "",
+        "name": "debian",
+        "level": 0,
+        "type": "folder",
+        "hid": "96e211f4bdd7810d36a367c47e3df68e"
+    },
+    {
+        "parent": "",
+        "name": "cli",
+        "level": 0,
+        "type": "folder",
+        "hid": "4fd2725e492e69224fa1e9952b51cf04"
+    },
+    {
+        "parent": "",
+        "name": "cache",
+        "level": 0,
+        "type": "folder",
+        "hid": "3c3f060a0374fc8bc39395164f415a70"
+    },
+    {
+        "parent": "",
+        "name": "controllers",
+        "level": 0,
+        "type": "folder",
+        "hid": "9c8e4e9727e93b008bd76782f7080a70"
+    },
+    {
+        "parent": "",
+        "name": "models",
+        "level": 0,
+        "type": "folder",
+        "hid": "66fad107a6a89e5432cee379d9e70ede"
+    },
+    {
+        "parent": "",
+        "name": "recources",
+        "level": 0,
+        "type": "folder",
+        "hid": "21a365532461f5a82174456167eb2d74"
+    },
+    {
+        "parent": "",
+        "name": "routers",
+        "level": 0,
+        "type": "folder",
+        "hid": "67f38dadf097d62ff516125e83668efc"
+    },
+    {
+        "parent": "",
+        "name": "templates",
+        "level": 0,
+        "type": "folder",
+        "hid": "29097826543d5958dd1e7e4de6e5ea35"
+    },
+    {
+        "parent": "",
+        "name": "common.php",
+        "level": 0,
+        "type": "file",
+        "size": 524,
+        "hid": "ea7709692ca28750935d616c5300821b"
+    },
+    {
+        "parent": "",
+        "name": "config.json",
+        "level": 0,
+        "type": "file",
+        "size": 539,
+        "hid": "cdee800caba062003fcf9031dc39ca89"
+    },
+    {
+        "parent": "",
+        "name": ".gitignore",
+        "level": 0,
+        "type": "file",
+        "size": 12,
+        "hid": "d399adccdc86427c16b58895b4c5ddcb"
+    },
+    {
+        "parent": "",
+        "name": "defs.php",
+        "level": 0,
+        "type": "file",
+        "size": 160,
+        "hid": "c12b2263e84563ac0e04157d7f1c378a"
+    },
+    {
+        "parent": "",
+        "name": "local.def.json",
+        "level": 0,
+        "type": "file",
+        "size": 1157,
+        "hid": "e7574ffa7aca13ddf3dbffeae2371a26"
+    },
+    {
+        "parent": "",
+        "name": "local.ru.json",
+        "level": 0,
+        "type": "file",
+        "size": 1499,
+        "hid": "6a00e0f1b28eac6d87ea3ce311cf4034"
+    },
+    {
+        "parent": "",
+        "name": "README.md",
+        "level": 0,
+        "type": "file",
+        "size": 11,
+        "hid": "e499b330b0aaf4370edc1e5a277faf36"
+    },
+    {
+        "parent": "",
+        "name": "LICENSE",
+        "level": 0,
+        "type": "file",
+        "size": 35149,
+        "hid": "5c87780d59f6e71406e65047ad2fd6ab"
+    }
+]

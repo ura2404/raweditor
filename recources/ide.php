@@ -53,7 +53,8 @@ $_node = function(){
     $Path = \Cmatrix\Project::get($Name)->Path . $Node['parent'] .'/'. $Node['name'];
     $Dir = \Cmatrix\Dir::get($Path);
     $List = $Dir->getList(function(&$item) use($Node){
-        $item['parent'] = $Node['parent'] .'/'. $Node['name'];
+        $item['hid'] = hid($Node['parent'].'/'.$Node['name'].'/'.$item['name']);
+        $item['parent'] = $Node['parent'].'/'.$Node['name'];
         $item['level'] = $Node['level'] + 1;
     });
 

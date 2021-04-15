@@ -14,6 +14,7 @@
             "yes" : "yes",
             "no" : "no",
             "folderNotExists" : "folder is not exists",
+            "folderNotAccessable" : "folder is not accessable",
             "project" : {
                 "qDel" : "really delete the project",
                 "exists" : "project allready exists",
