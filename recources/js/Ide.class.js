@@ -7,6 +7,7 @@ export default class Ide {
         this.$Direct = this.$Ide.find('.cm-project-direct');
         this.$Tree = this.$Ide.find('.cm-project-tree');
         this.$Splitter = this.$Ide.find('.cm-splitter');
+        this.$Template = $('#cm-node-template');
         this.Message = message;
     }
 
@@ -42,27 +43,46 @@ export default class Ide {
     treeNodeExpand($node){
         const Instance = this;
 
-        const $_expand = function(){
+        const _expand = function(){
             $node.attr('data-status',function(index, value){
                 return value =='0' ? '1' : '0';
             });
         };
 
-        const $_addNodes = function(data){
-console.log(data);
+        const _addNode = function(data){
+            let List = data.data.list;
+            var $Container = $node.append('<ul></ul>').children('ul');
+            for(let i=0; i<Object.keys(List).length; i++){
+                Instance.$Template.clone(true,true)
+                    .removeAttr('id')
+                    .map(function(index, element){
+console.log(index, element);
+                    })
+                    .appendTo($Container);
+            }
         }
 
+        const _cursor = function(fl){
+            const cl = 'waiting';
+            fl ? $('body').removeClass(cl) : $('body').addClass(cl);
+        };
+
         const _success = function(data){
-            $_expand();
-            $_addNodes(data);
+            _addNode(data);
+            _expand();
+            _cursor(0);
+            $('body').removeClass('waiting');
         };
 
         const _error = function(data){
             Instance.Message.error(data.message);
+            _cursor(0);
         };
 
-        if($node.find('ul').length) $_expand();
+
+        if($node.find('ul').length || $node.attr('data-status') == '1') _expand();
         else{
+            _cursor(1);
             this.ajax({
                 m : 'node',
                 hid : $node.data('hid')

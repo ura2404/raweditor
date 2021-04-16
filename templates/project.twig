@@ -23,53 +23,98 @@
 {% block main %}
     {% import _self as _s %}
 
+
     <div class="cm-project bg-white container mx-auto flex h-full" data-name="{{ name }}">
+
+        <li id="cm-node-template" class="cm-noselect"
+            data-hid="%%hid%%"
+            data-status="%%status%%"
+        >
+            <div class="cm-line px-3 truncate" title="{{ node.name }}">
+                <span class="inline-block w-4"></span>
+                <i class="cm-action cm-action-open fas fa-folder"></i>
+                <i class="cm-action cm-action-close fas fa-folder-open"></i>
+                <i class="far fa-file"></i>
+                <span class="_text-xs px-1">%%name%%</span>
+            </div>
+        </li>
+
         <div class="cm-project-direct w-11 flex flex-col bg-gray-600 text-white">
             <i class="cm-action-tree fas fa-sitemap p-3 hover:bg-gray-400 duration-75" title="{{ local.project.tree }}"></i>
             <i class="fas fa-user-friends p-3 hover:bg-gray-400 duration-75"></i>
         </div>
+
         <div class="cm-project-tree bg-gray-700 text-white py-2 _px-3 duration-75 overflow-y-auto w-52">
             {{ _s.tree(tree) }}
         </div>
+
         <div class="cm-splitter w-1"></div>
         <div class="flex-auto bg-green-500">332e3e3/</div>
     </div>
 {% endblock %}
 
+{% macro node(node) %}
+    {% import _self as _s %}
+
+    <li data-hid="{{ node.hid }}"
+        {% if node.type=='folder' %}
+            data-status="{% if node.children is defined and node.children|length %}1{% else %}0{% endif %}"
+        {% endif %}
+    >
+        <div class="cm-line px-3 truncate" title="{{ node.name }}">
+            {% for i in range(0,node.level) if i>0 %}<span class="inline-block w-4"></span>{% endfor %}
+            {% if node.type == 'folder' %}
+                <i class="cm-action cm-action-open fas fa-folder"></i>
+                <i class="cm-action cm-action-close fas fa-folder-open"></i>
+            {% else %}
+                <i class="far fa-file"></i>
+            {% endif %}
+            <span class="_text-xs px-1">{{ node.name }}</span>
+        </div>
+
+        {% if node.children is defined %}
+            {{ _s.tree(node.children,1) }}
+        {% endif %}
+    </li>
+{% endmacro %}
+
 {% macro tree(nodes,isNotTop) %}
     {% import _self as _s %}
 
-    <ul class="{% if not isNotTop %}cm-root{% endif %}">
-    {% for node in nodes %}
-        <li class="cm-noselect"
-            data-hid="{{ node.hid }}"
-            data-name="{{ node.name }}"
-            data-parent="{{ node.parent }}"
-            {% if node.type=='folder' %}
-                data-status="{% if node.children is defined and node.children|length %}1{% else %}0{% endif %}"
-            {% endif %}
-        >
-            <div class="cm-line px-3 truncate" title="{{ node.name }}">
-                {% for i in range(0,node.level) if i>0 %}<span class="inline-block w-4"></span>
-                {% endfor %}
+    <ul{% if not isNotTop %} class="cm-root cm-noselect"{% endif %}>
+        {% for node in nodes %}
+            {{ _s.node(node) }}
+        {% endfor %}
 
-                {# {% if node.children is defined %} #}
-                {% if node.type == 'folder' %}
-                    <i class="cm-action cm-action-open fas fa-folder"></i>
-                    <i class="cm-action cm-action-close fas fa-folder-open"></i>
-                {% else %}
-                    <i class="far fa-file"></i>
+
+        {% for node in nodes2 %}
+            <li data-hid="{{ node.hid }}"
+                {#data-name="{{ node.name }}"
+                data-parent="{{ node.parent }}"#}
+                {% if node.type=='folder' %}
+                    data-status="{% if node.children is defined and node.children|length %}1{% else %}0{% endif %}"
                 {% endif %}
+            >
+                <div class="cm-line px-3 truncate" title="{{ node.name }}">
+                    {% for i in range(0,node.level) if i>0 %}<span class="inline-block w-4"></span>{% endfor %}
 
-                <span class="_text-xs px-1">{{ node.name }}</span>
-            </div>
+                    {# {% if node.children is defined %} #}
+                    {% if node.type == 'folder' %}
+                        <i class="cm-action cm-action-open fas fa-folder"></i>
+                        <i class="cm-action cm-action-close fas fa-folder-open"></i>
+                    {% else %}
+                        <i class="far fa-file"></i>
+                    {% endif %}
 
-            {% if node.children is defined %}
-            {# {% if node.type == 'folder' %} #}
-            {# {% if node.children|length %} #}
-                {{ _s.tree(node.children,1) }}
-            {% endif %}
-        </li>
-    {% endfor %}
+                    <span class="_text-xs px-1">{{ node.name }}</span>
+                </div>
+
+                {% if node.children is defined %}
+                {# {% if node.type == 'folder' %} #}
+                {# {% if node.children|length %} #}
+                    {{ _s.tree(node.children,1) }}
+                {% endif %}
+            </li>
+        {% endfor %}
     </ul>
 {% endmacro %}

@@ -17,6 +17,10 @@ body.cm-expand {
     }
 }
 
+body.waiting * {
+    cursor: progress !important;
+}
+
 footer {
     display : none;
 }
@@ -25,6 +29,10 @@ i {
     &[active='active'] {
         background-color : slategrey;
     }
+}
+
+#cm-node-template {
+    display : none;
 }
 
 .cm-project {

@@ -76,20 +76,16 @@ class Dir{
                 ];
 
                 if($Data['type'] === 'file') $Data['size'] = filesize($Path);
-                if($Data['type'] === 'folder'){
+                /*if($Data['type'] === 'folder'){
                     $Children = array_filter($_rec($Path,($level+1)),function($value){ return !!$value; });
                     if(count($Children)) $Data['children'] = $Children;
                 }
 
                 if(!$_callback($Data)) return;
-                return $Data;
-/*
-                $ret = $_callback($Data);
-
-                if($Data['type'] === 'folder' && $ret) $Data['children'] = $_rec($Path,($level+1));
+                */
+                if($Data['type'] === 'folder' && $_callback($Data)) $Data['children'] = $_rec($Path,($level+1));
 
                 return $Data;
-*/
             },$Dir);
 
             return $Dir;

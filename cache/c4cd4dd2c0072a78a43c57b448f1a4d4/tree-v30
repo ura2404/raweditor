@@ -4,35 +4,280 @@
         "name": ".git",
         "level": 0,
         "type": "folder",
-        "hid": "9c1fb30f00284e3a407bf031792b9082"
+        "hid": "9c1fb30f00284e3a407bf031792b9082",
+        "children": [
+            {
+                "parent": "/.git",
+                "name": "branches",
+                "level": 1,
+                "type": "folder",
+                "hid": "7b13620e0b25eda48b0cc68b74a9d722"
+            },
+            {
+                "parent": "/.git",
+                "name": "hooks",
+                "level": 1,
+                "type": "folder",
+                "hid": "2b56b0443df9344a0a8bbe0d87695f4e"
+            },
+            {
+                "parent": "/.git",
+                "name": "info",
+                "level": 1,
+                "type": "folder",
+                "hid": "8ef2a654f9c65db38faac83779a2d306"
+            },
+            {
+                "parent": "/.git",
+                "name": "logs",
+                "level": 1,
+                "type": "folder",
+                "hid": "8cf764ce3e90bb31ebbf45451cb3c663"
+            },
+            {
+                "parent": "/.git",
+                "name": "objects",
+                "level": 1,
+                "type": "folder",
+                "hid": "770a9478be874593fc906304f75d427c"
+            },
+            {
+                "parent": "/.git",
+                "name": "refs",
+                "level": 1,
+                "type": "folder",
+                "hid": "a8b8c360e8b6bf8f9a9354aa6e0aea06"
+            },
+            {
+                "parent": "/.git",
+                "name": "COMMIT_EDITMSG",
+                "level": 1,
+                "type": "file",
+                "size": 2
+            },
+            {
+                "parent": "/.git",
+                "name": "FETCH_HEAD",
+                "level": 1,
+                "type": "file",
+                "size": 98
+            },
+            {
+                "parent": "/.git",
+                "name": "HEAD",
+                "level": 1,
+                "type": "file",
+                "size": 23
+            },
+            {
+                "parent": "/.git",
+                "name": "ORIG_HEAD",
+                "level": 1,
+                "type": "file",
+                "size": 41
+            },
+            {
+                "parent": "/.git",
+                "name": "config",
+                "level": 1,
+                "type": "file",
+                "size": 265
+            },
+            {
+                "parent": "/.git",
+                "name": "description",
+                "level": 1,
+                "type": "file",
+                "size": 73
+            },
+            {
+                "parent": "/.git",
+                "name": "index",
+                "level": 1,
+                "type": "file",
+                "size": 7742539
+            },
+            {
+                "parent": "/.git",
+                "name": "packed-refs",
+                "level": 1,
+                "type": "file",
+                "size": 105
+            }
+        ]
     },
     {
         "parent": "",
         "name": "cli",
         "level": 0,
         "type": "folder",
-        "hid": "4fd2725e492e69224fa1e9952b51cf04"
+        "hid": "4fd2725e492e69224fa1e9952b51cf04",
+        "children": [
+            {
+                "parent": "/cli",
+                "name": "owner.bash",
+                "level": 1,
+                "type": "file",
+                "size": 717
+            }
+        ]
     },
     {
         "parent": "",
         "name": "gen",
         "level": 0,
         "type": "folder",
-        "hid": "7c6e4ba7ca36708a53abf71781b17a5a"
+        "hid": "7c6e4ba7ca36708a53abf71781b17a5a",
+        "children": [
+            {
+                "parent": "/gen",
+                "name": "restore",
+                "level": 1,
+                "type": "file",
+                "size": 122
+            },
+            {
+                "parent": "/gen",
+                "name": "2021-01-14_14-56-38_ru.rostvertol.mzv3.pgsql",
+                "level": 1,
+                "type": "file",
+                "size": 274027245
+            },
+            {
+                "parent": "/gen",
+                "name": "2021-01-14_15-16-45_ru.rostvertol.mzv3.folder.tar.bz2",
+                "level": 1,
+                "type": "file",
+                "size": 88876750
+            }
+        ]
     },
     {
         "parent": "",
         "name": "www",
         "level": 0,
         "type": "folder",
-        "hid": "0955107899635ab20383c1bee5a3baf4"
+        "hid": "0955107899635ab20383c1bee5a3baf4",
+        "children": [
+            {
+                "parent": "/www",
+                "name": ".cache",
+                "level": 1,
+                "type": "folder",
+                "hid": "c6aaf46b65150c2fc3b1611b8752e2e7"
+            },
+            {
+                "parent": "/www",
+                "name": ".config",
+                "level": 1,
+                "type": "folder",
+                "hid": "c266b8891e460c8e2b9d63ef94fabd97"
+            },
+            {
+                "parent": "/www",
+                "name": ".console",
+                "level": 1,
+                "type": "folder",
+                "hid": "7324e2e4d5934ab0767ddaa41d7be54b"
+            },
+            {
+                "parent": "/www",
+                "name": ".maintenance",
+                "level": 1,
+                "type": "folder",
+                "hid": "710e637beb2483c55aefff14e6521871"
+            },
+            {
+                "parent": "/www",
+                "name": ".pro",
+                "level": 1,
+                "type": "folder",
+                "hid": "c93ae90ebd7e78014d9328cd4e355da9"
+            },
+            {
+                "parent": "/www",
+                "name": ".vendor",
+                "level": 1,
+                "type": "folder",
+                "hid": "3c9450a24237e7aa30b49c0dac31657c"
+            },
+            {
+                "parent": "/www",
+                "name": "OLD",
+                "level": 1,
+                "type": "folder",
+                "hid": "8947e142f2c9ce5dce4ac8ee9878af92"
+            },
+            {
+                "parent": "/www",
+                "name": "cli",
+                "level": 1,
+                "type": "folder",
+                "hid": "c3e6aea074dc0516155b6dd6cc7fd218"
+            },
+            {
+                "parent": "/www",
+                "name": "jig",
+                "level": 1,
+                "type": "folder",
+                "hid": "061c82c8648c18f7d817267016dff06f"
+            },
+            {
+                "parent": "/www",
+                "name": "raw",
+                "level": 1,
+                "type": "folder",
+                "hid": "5f9beb34ab5c4e5699825ad72dd14e47"
+            },
+            {
+                "parent": "/www",
+                "name": ".common.php",
+                "level": 1,
+                "type": "file",
+                "size": 148
+            },
+            {
+                "parent": "/www",
+                "name": ".htaccess",
+                "level": 1,
+                "type": "file",
+                "size": 3802
+            },
+            {
+                "parent": "/www",
+                "name": "autoloader.php",
+                "level": 1,
+                "type": "file",
+                "size": 1108
+            },
+            {
+                "parent": "/www",
+                "name": "index.php",
+                "level": 1,
+                "type": "file",
+                "size": 60
+            },
+            {
+                "parent": "/www",
+                "name": "ini.json",
+                "level": 1,
+                "type": "file",
+                "size": 602
+            },
+            {
+                "parent": "/www",
+                "name": "make.php",
+                "level": 1,
+                "type": "file",
+                "size": 2453
+            }
+        ]
     },
     {
         "parent": "",
         "name": ".gitignore",
         "level": 0,
         "type": "file",
-        "size": 13,
-        "hid": "d399adccdc86427c16b58895b4c5ddcb"
+        "size": 13
     }
 ]
