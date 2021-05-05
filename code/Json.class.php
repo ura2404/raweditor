@@ -31,7 +31,7 @@ class Json {
     public function put($filePath){
         file_put_contents($filePath,json_encode($this->Data,
             JSON_PRETTY_PRINT             // форматирование пробелами
-            | JSON_UNESCAPED_SLASHES      // не экранировать /
+            | JSON_UNESCAPED_SLASHES      // не экранировать '/'
             | JSON_UNESCAPED_UNICODE      // не кодировать текст
          ));
     }

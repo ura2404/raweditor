@@ -21,8 +21,7 @@ class Local {
     // --- --- --- --- ---
     private function getMyData(){
         $File = CM_ROOT .'/local.'. $this->Lang .'.json';
-//dump($File);
-//dump(Json::get($File),1111111);
+        if(!file_exists($File)) $File = CM_ROOT .'/local.def.json';
 
         return Json::get($File)->Data['local']['data'];
     }

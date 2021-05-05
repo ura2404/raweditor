@@ -8,4 +8,3 @@ export default class Local {
         return Message ? Message : Tag;
     }
 }
-

@@ -1,5 +1,5 @@
 {% extends "common.twig" %}
-{% import "macro_project.twig" as _project %}
+{% import _self as _s %}
 
 {% block style %}
     <link rel="stylesheet/less" type="text/css" href="res/res/main.less"/>
@@ -10,163 +10,85 @@
 {% endblock %}
 
 {% block name %}
-    {{ local.projects|capitalize }}
+    {{ local.project.projects|capitalize }}
 {% endblock %}
 
 {% block actions %}
-    <button class="cm-add h-full flex px-4 cursor-pointer duration-75" title="{{ local.addProject }}">
+    <button class="cm-add h-full flex px-4 cursor-pointer duration-75" title="{{ local.project.add }}">
         <i class="my-auto fas fa-plus"></i>
     </button>
 {% endblock %}
 
 {% block main %}
     <div id="cm-projects" class="container mx-auto px-3 flex justify-center flex-wrap">
-        {{ _project.project() }}
+        {{ _s.project() }}
         {% for project in projects %}
-            {{ _project.project(project) }}
+            {{ _s.project(project) }}
         {% endfor %}
     </div>
 
     <div id="cm-new-project" class="cm-wp fixed inset-0">
         <div class="flex w-screen h-screen bg-gray-800 bg-opacity-0">
-
+            
             <div class="cm-panel m-auto bg-white flex flex-col p-5 rounded opacity-0 duration-200">
                 <div class="cursor-pointer flex justify-end">
                     <div class="cm-action-close hover:text-gray-500 duration-75 p-1">
                         <i class="fas fa-times"></i>
                     </div>
                 </div>
-
-                <span class="text-2xl absolute">{{ local.newProject|capitalize }} </span>
-
+                
+                <span class="text-2xl absolute">{{ local.project.new|capitalize }} </span>
+                
                 <form class="flex flex-col mb-0" method="post" action="res/res/post.php">
                     <input name="m" type="hidden" value="add"/>
-
+                    
                     <input name="name" required="required" class="mt-6 mb-2 px-2 py-2 border _border-transparent
                         focus:outline-none focus:ring-2 focus:ring-grey-600 focus:border-transparent placeholder-grey-400" 
                         placeholder="{{ local.name }}"
                         oninvalid="this.setCustomValidity('{{ local.requiredField }}')" oninput="setCustomValidity('')"
                     />
-
+                    
                     <input name="path" type="text" required="required" class="mt-2 mb-6 px-2 py-2 border _border-transparent 
                         focus:outline-none focus:ring-2 focus:ring-grey-600 _focus:border-transparent placeholder-grey-400" 
                         placeholder="{{ local.path }}"
                         oninvalid="this.setCustomValidity('{{ local.requiredField }}')" oninput="setCustomValidity('')"
                     />
-
+                    
                     <div class="flex">
                         <button class="mx-auto py-2 px-6 bg-green-300 text-white font-semibold rounded-sm shadow-md hover:bg-green-500 focus:outline-none duration-75">{{ local.add|capitalize }}</button>
                     </div>
                 </form>
-
+                
             </div>
         </div>
     </div>
 {% endblock %}
 
-
-
-{#
-<html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="local.requiredField" content="{{ local.requiredField }}"/>
-        <meta name="local.qDelProject" content="{{ local.qDelProject }}"/>
-
-        <title>Raw Editor v{{ version }}</title>
-        <link rel="stylesheet" type="text/css" href="res/tailwindcss.com/tailwind.min.css" >
-        <link rel="stylesheet" type="text/css" href="res/fontawesome.com/5.15.2/css/all.css"/>
-        <link rel="stylesheet/less" type="text/css" href="res/res/main.less" >
-        <script type="text/javascript" src="res/lesscss.org/3.7.1/less.min.js"></script>
-    </head>
-    <body>
-        <header class="bg-gray-600 text-white h-10 fixed top-0 left-0 right-0">
-            <div class="container mx-auto flex h-full">
-                <div class="my-auto mr-auto pl-5 font-bold">{{ local.projects|capitalize }}</div>
-                <div class="pr-5">
-                    <div class="cm-add h-full flex px-4 cursor-pointer hover:bg-gray-500 duration-75" title="{{ local.addProject }}">
-                        <i class="my-auto fas fa-plus"></i>
-                    </div>
-                </div>
+{% macro project(data) %}
+    <a{% if data.name is not defined %} id="cm-project-template"{% endif %}
+        href="{{ constant('CM_WHOME') }}project/{{ data.name }}"
+        class="cm-project m-2 cursor-pointer bg-gray-200 rounded flex flex-col"
+        onclick="event.preventDefault()"
+        ondblclick="document.location=this.href"
+        data-name="{{ data.name }}"
+    >
+        <div class="bg-gray-300 flex p-1 rounded-t">
+            <div class="cm-name truncate" title="{{ data.name }}">
+                {{ data.name }}
             </div>
-        </header>
-
-        <div class="flex mt-10 mb-6">
-            <div id="cm-projects" class="container mx-auto px-3 flex justify-center flex-wrap">
-
-                {{ _project.project() }}
-
-                {% for project in projects %}
-                    {{ _project.project(project) }}
-                {% endfor %}
-
+            <div class="cm-action-del text-white hover:text-gray-600 duration-75 py-1 px-2 mr-0 ml-auto">
+                <i class="fas fa-times"></i>
             </div>
         </div>
-
-        <footer class="bg-gray-600 text-white text-xs h-6 fixed bottom-0 left-0 right-0"">
-            <div class="container mx-auto px-5 flex h-full">
-                <div class="m-auto">Raw Editor &copy; <span>v{{ version }}</span> by {{ author }}</div>
-            </div>
-        </footer>
-
-        <div id="cm-new-project" class="cm-wp fixed inset-0">
-            <div class="flex w-screen h-screen bg-gray-800 bg-opacity-0">
-
-                <div class="cm-panel m-auto bg-white flex flex-col p-5 rounded opacity-0 duration-200">
-                    <div class="cursor-pointer flex justify-end">
-                        <div class="cm-close hover:text-gray-500 duration-75 p-1">
-                            <i class="fas fa-times"></i>
-                        </div>
-                    </div>
-
-                    <span class="text-2xl absolute">{{ local.newProject|capitalize }} </span>
-
-                    <form class="flex flex-col mb-0" method="post" action="res/res/post.php">
-                        <input name="m" type="hidden" value="add"/>
-
-                        <input name="name" required="required" class="mt-6 mb-2 px-2 py-2 border _border-transparent
-                            focus:outline-none focus:ring-2 focus:ring-grey-600 focus:border-transparent placeholder-grey-400" 
-                            placeholder="name"
-                            _oninvalid="this.setCustomValidity('{{ local.requiredField }}')" _oninput="setCustomValidity('')"
-                        />
-
-                        <input name="path" type="text" required="required" class="mt-2 mb-6 px-2 py-2 border _border-transparent 
-                            focus:outline-none focus:ring-2 focus:ring-grey-600 _focus:border-transparent placeholder-grey-400" 
-                            placeholder="path"
-                            _oninvalid="this.setCustomValidity('{{ local.requiredField }}')" _oninput="setCustomValidity('')"
-                        />
-
-                        <div class="flex">
-                            <button class="mx-auto py-2 px-6 bg-green-300 text-white font-semibold rounded-sm shadow-md hover:bg-green-500 focus:outline-none duration-75">{{ local.add }}</button>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-
+        <div class="cm-spinner flex-grow flex">
+            <i class="m-auto text-gray-300 fas fa-4x fa-spin fa-spinner"></i>
         </div>
-
-        <div id="cm-confirm" class="cm-wp fixed inset-0 _flex _hidden">
-            <div class="w-screen h-screen opacity-0 duration-100 flex flex-col">
-                <div class="m-auto bg-blue-400 bg-opacity-80 text-white p-5 w-full text-center">
-                    <div class="cm-text"></div>
-                    <div class="flex mt-5">
-                        <button class="cm-yes ml-auto mr-4 py-2 px-6 bg-green-300 text-white font-semibold rounded-sm shadow-md hover:bg-green-500 focus:outline-none duration-75">{{ local.yes }}</button>
-                        <button class="cm-no mr-auto ml-4 py-2 px-6 bg-red-300 text-white font-semibold rounded-sm shadow-md hover:bg-red-500 focus:outline-none duration-75">{{ local.no }}</button>
-                    </div>
-                </div>
+        <div class="cm-info px-1 py-3">
+            <div class="cm-template">
+                <i class="cm-icon fab text-xl"></i>
+                <span class="cm-value text-base"></span>%
             </div>
+            {#<div><i class="fab fa-less text-2xl"></i></div>#}
         </div>
-
-        <div id="cm-error" class="cm-wp fixed inset-0 _flex _hidden">
-            <div class="flex w-screen h-screen opacity-0 duration-200">
-                <div class="cm-text m-auto bg-red-300 bg-opacity-80 text-white p-5 w-full text-center"></div>
-            </div>
-        </div>
-
-    </body>
-
-    <script type="text/javascript" src="res/jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="module" src="res/res/main.js"></script>
-</html>
-#}
+    </a>
+{% endmacro %}

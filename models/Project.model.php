@@ -3,9 +3,9 @@ namespace Cmatrix\Models;
 
 class Project extends Common {
     public function getData(){
-
+        
         $Name = $this->getMyName();
-
+        
 //dump($this->getMyTree($Name));die();
 
         return arrayMergeReplace(parent::getData(),[
@@ -17,9 +17,9 @@ class Project extends Common {
     // --- --- --- --- ---
     private function getMyName(){
         return strAfter(\Cmatrix\App::$PAGE,'project/');
-        return htmlspecialchars(strAfter(\Cmatrix\App::$PAGE,'project/'));
-        $Arr = explode('/',\Cmatrix\App::$PARAMS);
-        return $Arr[0];
+        //return htmlspecialchars(strAfter(\Cmatrix\App::$PAGE,'project/'));
+        //$Arr = explode('/',\Cmatrix\App::$PARAMS);
+        //return $Arr[0];
     }
 
     // --- --- --- --- ---
@@ -31,7 +31,7 @@ class Project extends Common {
             return $item['level'] < 1 ? true : false;
         });
         \Cmatrix\Cache::session()->putJson('tree-'.$name,$Tree);
-
+        
 //dump($Tree);die();
 
         return $Tree;

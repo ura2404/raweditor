@@ -3,7 +3,7 @@ export default class Message {
         const Instance = this;
         this.Timeout = 2000;
         this.$SuccessPanel = $('#cm-success');
-        this.$ErrorPanel = $('#cm-error');
+        this.$ErrorPanel   = $('#cm-error');
         this.$ConfirmPanel = $('#cm-confirm')
             .find('.cm-no').on('click',function(){
                 Instance.hide(Instance.$ConfirmPanel);

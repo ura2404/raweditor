@@ -4,8 +4,8 @@
 
 #cm-projects {
     .cm-project {
-        width: 12rem;
-        height: 10rem;
+        width: 15rem;
+        height: 15rem;
         //border: 1px solid black;
     }
 }
@@ -84,5 +84,23 @@
         & .cm-panel {
             opacity : 1;
         }
+    }
+}
+
+.cm-project {
+    &.cm-complete {
+        .cm-spinner {
+            display : none;
+        }
+    }
+    
+    &:not(.cm-complete) {
+        .cm-info {
+            display : none;
+        }
+    }
+    
+    .cm-info .cm-template {
+        display: none;
     }
 }

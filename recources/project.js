@@ -1,8 +1,7 @@
 import Ide from './js/Ide.class.js';
 import Message from './js/Message.class.js';
 
-const message = new Message();
-const ide = new Ide($('.cm-project'),message);
+const ide = new Ide($('#cm-ide'),new Message());
 
 $(document).ready(function(){
     ide.init();

@@ -23,31 +23,30 @@
 {% block main %}
     {% import _self as _s %}
 
-
-    <div class="cm-project bg-white container mx-auto flex h-full" data-name="{{ name }}">
-
+    <div id="cm-ide" class="cm-project bg-white container mx-auto flex h-full" data-name="{{ name }}">
+        
         <li id="cm-node-template" class="cm-noselect"
             data-hid="%%hid%%"
             data-status="%%status%%"
         >
             <div class="cm-line px-3 truncate" title="{{ node.name }}">
                 <span class="inline-block w-4"></span>
-                <i class="cm-action cm-action-open fas fa-folder"></i>
-                <i class="cm-action cm-action-close fas fa-folder-open"></i>
+                <i class="cm-action-open fas fa-folder"></i>
+                <i class="cm-action-close fas fa-folder-open"></i>
                 <i class="far fa-file"></i>
                 <span class="_text-xs px-1">%%name%%</span>
             </div>
         </li>
-
-        <div class="cm-project-direct w-11 flex flex-col bg-gray-600 text-white">
+        
+        <div class="cm-ide-direct w-11 flex flex-col bg-gray-600 text-white">
             <i class="cm-action-tree fas fa-sitemap p-3 hover:bg-gray-400 duration-75" title="{{ local.project.tree }}"></i>
             <i class="fas fa-user-friends p-3 hover:bg-gray-400 duration-75"></i>
         </div>
-
-        <div class="cm-project-tree bg-gray-700 text-white py-2 _px-3 duration-75 overflow-y-auto w-52">
+        
+        <div class="cm-ide-tree bg-gray-700 text-white py-2 _px-3 duration-75 overflow-y-auto w-52">
             {{ _s.tree(tree) }}
         </div>
-
+        
         <div class="cm-splitter w-1"></div>
         <div class="flex-auto bg-green-500">332e3e3/</div>
     </div>

@@ -37,7 +37,16 @@ $_del = function() use($Json){
     ];
 };
 
-$_node = function(){
+$_scan = function(){
+    return [
+        'stat' => [
+            'js' => 10,
+            'php' => 50,
+            'less' => 30,
+            'css3' => 5,
+            'other' => 5
+        ]
+    ];
     $Name = isset($_POST['name']) ? $_POST['name'] : null;
     $Path = \Cmatrix\Project::get($Name)->Path;
 };
@@ -47,7 +56,8 @@ try{
     switch($Mode){
         case 'add'  : $Ret = $_add();break;
         case 'del'  : $Ret = $_del();break;
-        case 'node' : $Ret = $_node();break;
+        case 'scan' : $Ret = $_scan();break;
+        default : die('Fuck off!!!');
     }
 
     echo json_encode(array_merge([

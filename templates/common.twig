@@ -1,4 +1,4 @@
-{% import "macro_project.twig" as _project %}
+{#{% import "macro_project.twig" as _project %}#}
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -18,40 +18,39 @@
                 <a id="cm-logo" href="{{ home }}" class="text-2xl w-11 flex-shrink-0 flex">
                     <i class="m-auto fas fa-at"></i>
                 </a>
-
-{#                <div id="cm-logo" class="text-2xl w-11 flex-shrink-0 flex">
+                
+                {#<div id="cm-logo" class="text-2xl w-11 flex-shrink-0 flex">
                     <i class="m-auto fas fa-at"></i>
                 </div>#}
                 <div class="my-auto mr-auto pl-1 _font-bold truncate">{% block name %}{% endblock %}</div>
                 <div id="cm-actions" class="flex">
-                    {% block actions %}
-                    {% endblock %}
+                    {% block actions %}{% endblock %}
                 </div>
             </div>
         </header>
-
+        
         <div class="pt-10 _pb-6 h-full w-full">
             {% block main %}{% endblock %}
         </div>
-
+        
         {# <footer class="bg-gray-500 text-white text-xs h-6 fixed bottom-0 left-0 right-0"">
             <div class="container mx-auto px-3 flex h-full">
                 <div class="m-auto">Raw Editor &copy; <span>v{{ version }}</span> by {{ author }}</div>
             </div>
         </footer> #}
-
+        
         <div id="cm-confirm" class="cm-wp fixed inset-0 _flex _hidden">
             <div class="w-screen h-screen opacity-0 duration-100 flex flex-col">
                 <div class="m-auto bg-blue-400 bg-opacity-80 text-white p-5 w-full text-center">
-                    <div class="cm-text"></div>
+                    <div class="cm-text text-lg"></div>
                     <div class="flex mt-5">
-                        <button class="cm-yes ml-auto mr-4 py-2 px-6 bg-green-300 text-white _font-semibold rounded-sm shadow-md hover:bg-green-500 focus:outline-none duration-75">{{ local.yes }}</button>
-                        <button class="cm-no mr-auto ml-4 py-2 px-6 bg-red-300 text-white _font-semibold rounded-sm shadow-md hover:bg-red-500 focus:outline-none duration-75">{{ local.no }}</button>
+                        <button class="cm-yes ml-auto mr-4 py-2 px-6 bg-green-300 text-white _font-semibold rounded-sm shadow-md hover:bg-green-500 focus:outline-none duration-75">{{ local.yes|capitalize }}</button>
+                        <button class="cm-no mr-auto ml-4 py-2 px-6 bg-red-300 text-white _font-semibold rounded-sm shadow-md hover:bg-red-500 focus:outline-none duration-75">{{ local.no|capitalize }}</button>
                     </div>
                 </div>
             </div>
         </div>
-
+        
         <div id="cm-error" class="cm-wp fixed inset-0 _flex _hidden">
             <div class="flex w-screen h-screen opacity-0 duration-200">
                 <div class="cm-text m-auto bg-red-300 bg-opacity-80 text-white p-5 w-full text-center"></div>

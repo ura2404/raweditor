@@ -35,8 +35,8 @@ i {
     display : none;
 }
 
-.cm-project {
-    .cm-project-direct {
+#cm-ide {
+    .cm-ide-direct {
         i {
             cursor : pointer;
         }
@@ -46,18 +46,17 @@ i {
         &:not([visible='visible']) {
             display : none;
         }
-
+        
         cursor : col-resize;
     }
 
-    .cm-project-tree {
-
+    .cm-ide-tree {
         &:not([visible='visible']) {
             display : none;
         }
-
+        
         ul {
-
+            
             li .cm-line {
                 cursor : pointer;
                 &:hover {
@@ -67,25 +66,27 @@ i {
                     background-color : slategrey;
                 }
             }
-
+            
             li i {
                 width : 1.2rem;
                 text-align : center;
-                &.cm-action {
+                
+                &.cm-action-open,
+                &.cm-action-close {
                     font-size : 120%;
                     cursor : pointer;
                 }
             }
-
+            
             li[data-status='0'] {
                 > .cm-line > .cm-action-close { display : none; }
                 > ul { display : none; }
             }
-
+            
             li[data-status='1'] {
                 > .cm-line > .cm-action-open { display : none; }
             }
-
+            
         }
     }
 

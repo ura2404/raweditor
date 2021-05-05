@@ -38,7 +38,7 @@ class Hash {
                 $ini[$Ind] = $_rec($arr,is_array($ini[$Ind]) ? $ini[$Ind] : []);
             }
             else $ini[$arr[0]] = $value;
-
+            
             return $ini;
         };
 

@@ -37,9 +37,8 @@ class App {
         else{
             $Page = trim($_SERVER['REQUEST_URI'],'/');
         }
-
-        $Page = $Page == '' ? '/' : $Page;
-        return $Page;
+        
+        return $Page == '' ? '/' : $Page;
     }
 
     // --- --- --- --- ---
@@ -81,7 +80,7 @@ class App {
 
             if($Router) return $_render($Router);
             else if(isset(\Cmatrix\Router::$ROUTERS['404'])) $_render(\Cmatrix\Router::$ROUTERS['404']);
-            else die(self::$PAGE.' is not exists');
+            else die('Router for page '.self::$PAGE.' is not exists');
         }
         //catch(\Exception $e)
         catch(\Throwable2 $e){

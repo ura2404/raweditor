@@ -2,9 +2,6 @@
     "local" : {
         "lang" : "def",
         "data" : {
-            "projects" :"projects",
-            "addProject" : "add project",
-            "newProject" : "new project",
             "name" : "name",
             "path" : "path",
             "wrongPath" : "wrong path",
@@ -15,7 +12,11 @@
             "no" : "no",
             "folderNotExists" : "folder is not exists",
             "folderNotAccessable" : "folder is not accessable",
+            
             "project" : {
+                "projects" :"projects",
+                "add" : "add project",
+                "new" : "new project",
                 "qDel" : "really delete the project",
                 "exists" : "project allready exists",
                 "notExists" : "project not exists",
@@ -24,9 +25,11 @@
                 "savePage" : "save page",
                 "tree" : "project tree"
             },
+            
             "exception" : {
                 "modelNotExists" : "model file \"%var%\" is not exists"
             },
+            
             "cache" : {
                 "notExists" : "cache not exists"
             }

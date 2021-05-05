@@ -5,7 +5,10 @@ use \Cmatrix as cm;
 class Project {
     private $Data = [];
 
-
+    /**
+     * @param string $name - имя проекта
+     * @param string $path - путь к проекту
+     */
     // --- --- --- --- ---
     function __construct($name,$path=null){
         if($path) $this->createInstance($name,$path);
@@ -62,6 +65,10 @@ class Project {
     }
 
     // --- --- --- --- ---
+    /**
+     * @param string $name - имя проекта
+     * @param string $path - путь к проекту
+     */
     static function create($name, $path){
         $Path = realpath(CM_ROOT.$path);
         if(!$Path) throw new \Exception(cm\Local::get()->getValue('project/folderNotExists'));

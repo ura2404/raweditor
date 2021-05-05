@@ -24,6 +24,20 @@ require valid-user
     #RewriteRule ^(.*/[^\./]*[^/])$ $1/ [L]
 
     # --- --- --- --- --- --- --- ---
+    # RAW
+    RewriteCond %{REQUEST_URI} (raw)$
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^(raw)/$ - [L]
+
+    RewriteCond %{REQUEST_URI} (raw)/$
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^(raw)/$ - [L]
+
+    RewriteCond %{REQUEST_URI} raw/.*$
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule .* - [L]
+
+    # --- --- --- --- --- --- --- ---
     # Resources
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule (robots\.txt|sitemap\.xml)$ $1 [L]
