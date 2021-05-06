@@ -137,19 +137,31 @@ export default class Projects {
     scan($node){
         const Name = $node.attr('data-name');
         const $Info = $node.find('.cm-info');
-        const $Template = $node.find('.cm-template');
+        const $Chart = $Info.find('.cm-chart');
+        const $Table = $Info.find('.cm-table');
+        const $Template = $Info.find('.cm-template');
         
          const _sucess = function(data){
-            console.log(data);
+            const Width = $Chart.width();
+            console.log(Width,$Chart.css('width'),$Chart);
             
             for(let type in data.stat){
+                let Value = data.stat[type];
+                $Template.clone(true,true).removeClass('cm-template')
+                    .find('.cm-color').addClass('cm-'+type).end()
+                    .find('.cm-type').text(type).end()
+                    .find('.cm-value').text(Value).end()
+                    .appendTo($Table);
+            }
+            
+            /*for(let type in data.stat){
                 let value = data.stat[type];
                 $Template.clone(true,true).removeClass('cm-template')
                     .find('.cm-value').text(value).end()
                     .find('.cm-icon').addClass('fa-'+type).end()
                     .attr('title',type)
                     .appendTo($Info);
-            }
+            }*/
              
              $node.addClass('cm-complete');
         };

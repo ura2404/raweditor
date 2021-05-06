@@ -59,9 +59,63 @@ class Project {
     public function delete(){
         $Config = cm\Json::get(CM_ROOT.'/config.json')->Data;
         $Hash = cm\Hash::create($Config);
-
+        
         if(!$Hash->deleteValue('raweditor/projects/'.$this->Data['name'])) throw new \Exception(cm\Local::get()->getValue('project/notExists'));
         cm\Json::create($Hash->Data)->put(CM_ROOT.'/config.json');
+    }
+
+    // --- --- --- --- ---
+    public function scan(){
+        $Valids = ['php','js','html','css','less','scss','xml','xsl','py','c','pl','twig','md','sql'];
+        $Trans = [
+            'c++' => 'c',
+            'h' => 'c',
+            'xhtml' => 'html',
+        ];
+        $Res = [];
+        
+        Dir::get($this->Path)->getTree(function($item) use($Valids,&$Res) {
+            if(
+                $item['type'] === 'file'
+                && strpos($item['name'],'.') !== 0
+                && strpos($item['parent'],'/.git') === false
+                && strpos($item['parent'],'/cache') === false
+            ){
+                $Info = new \SplFileInfo($item['name']);
+                $Ext = strtolower($Info->getExtension());
+                if(in_array($Ext,$Valids)) isset($Res[$Ext]) ? $Res[$Ext]++ : $Res[$Ext] = 1;
+            }
+            return true;
+        });
+        
+        $Total = array_sum($Res);
+        $Res = array_map(function($val) use($Total){
+            $Val = round($val/$Total*100,0/*,PHP_ROUND_HALF_UP*/);
+            return $Val < 1 ? '<1' : $Val;
+        },$Res);
+        //$Res = array_filter($Res,function($val){ return $val > 0.1; });
+        arsort($Res);
+        
+        return $Res;
+        
+        return Dir::get($this->Path)->getTypes(function($item){
+            return (
+                //strpos($item['name'],'.git') === 0 
+                strpos($item['name'],'.') === 0
+                || strpos($item['parent'],'/.git') !== false
+                || strpos($item['parent'],'/cache') !== false
+            ) ? false : true;
+            //dump($item);
+            return true;
+        });
+
+        return [
+            'js' => 13,
+            'php' => 50,
+            'less' => 30,
+            'css3' => 5,
+            'other' => 5
+        ];
     }
 
     // --- --- --- --- ---

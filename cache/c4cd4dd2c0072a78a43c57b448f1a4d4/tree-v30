@@ -53,56 +53,64 @@
                 "name": "COMMIT_EDITMSG",
                 "level": 1,
                 "type": "file",
-                "size": 2
+                "size": 2,
+                "hid": "87980a113be0e2dd14d2893078ae7260"
             },
             {
                 "parent": "/.git",
                 "name": "FETCH_HEAD",
                 "level": 1,
                 "type": "file",
-                "size": 98
+                "size": 98,
+                "hid": "1eca72d27fe892ae1ccd41f0ece6e78b"
             },
             {
                 "parent": "/.git",
                 "name": "HEAD",
                 "level": 1,
                 "type": "file",
-                "size": 23
+                "size": 23,
+                "hid": "f3300ddd47599fec2ffc672e151e6847"
             },
             {
                 "parent": "/.git",
                 "name": "ORIG_HEAD",
                 "level": 1,
                 "type": "file",
-                "size": 41
+                "size": 41,
+                "hid": "80bb9848f84c83f7456f3836b5cb4c5e"
             },
             {
                 "parent": "/.git",
                 "name": "config",
                 "level": 1,
                 "type": "file",
-                "size": 265
+                "size": 265,
+                "hid": "7ea6805e419f0ec109300b8acc7baf05"
             },
             {
                 "parent": "/.git",
                 "name": "description",
                 "level": 1,
                 "type": "file",
-                "size": 73
+                "size": 73,
+                "hid": "84469a39a202e3145f5c578c97ea1269"
             },
             {
                 "parent": "/.git",
                 "name": "index",
                 "level": 1,
                 "type": "file",
-                "size": 7742539
+                "size": 7742539,
+                "hid": "690305202542331ce31168b0a1954fee"
             },
             {
                 "parent": "/.git",
                 "name": "packed-refs",
                 "level": 1,
                 "type": "file",
-                "size": 105
+                "size": 105,
+                "hid": "ee2f202db08dda4d89ae6a7e490c1a54"
             }
         ]
     },
@@ -118,7 +126,8 @@
                 "name": "owner.bash",
                 "level": 1,
                 "type": "file",
-                "size": 717
+                "size": 717,
+                "hid": "dbaef0dedbc0d9861388fe75db5c1c64"
             }
         ]
     },
@@ -134,21 +143,24 @@
                 "name": "restore",
                 "level": 1,
                 "type": "file",
-                "size": 122
+                "size": 122,
+                "hid": "f8fbfbf6c3e54776cb85ec60b5ba5302"
             },
             {
                 "parent": "/gen",
                 "name": "2021-01-14_14-56-38_ru.rostvertol.mzv3.pgsql",
                 "level": 1,
                 "type": "file",
-                "size": 274027245
+                "size": 274027245,
+                "hid": "a887dd640bdbeec94320ce97fc2d5ee4"
             },
             {
                 "parent": "/gen",
                 "name": "2021-01-14_15-16-45_ru.rostvertol.mzv3.folder.tar.bz2",
                 "level": 1,
                 "type": "file",
-                "size": 88876750
+                "size": 88876750,
+                "hid": "bb835949201a09530ac0dbb064ce78c1"
             }
         ]
     },
@@ -234,42 +246,48 @@
                 "name": ".common.php",
                 "level": 1,
                 "type": "file",
-                "size": 148
+                "size": 148,
+                "hid": "14d52ddd855bf0c8d7744304e04ae731"
             },
             {
                 "parent": "/www",
                 "name": ".htaccess",
                 "level": 1,
                 "type": "file",
-                "size": 3802
+                "size": 3802,
+                "hid": "cd8f04696a59e2bd500989f2327c0c98"
             },
             {
                 "parent": "/www",
                 "name": "autoloader.php",
                 "level": 1,
                 "type": "file",
-                "size": 1108
+                "size": 1108,
+                "hid": "59d958d25b8188b1a40386f6c92a537d"
             },
             {
                 "parent": "/www",
                 "name": "index.php",
                 "level": 1,
                 "type": "file",
-                "size": 60
+                "size": 60,
+                "hid": "0eeba809d3683fb781f0b217f82faeff"
             },
             {
                 "parent": "/www",
                 "name": "ini.json",
                 "level": 1,
                 "type": "file",
-                "size": 602
+                "size": 602,
+                "hid": "9fe4be96521986b3ceb4aa4ce8e5b8ee"
             },
             {
                 "parent": "/www",
                 "name": "make.php",
                 "level": 1,
                 "type": "file",
-                "size": 2453
+                "size": 2453,
+                "hid": "991431ec0efdc2c1e411dc1999aecbab"
             }
         ]
     },
@@ -278,6 +296,7 @@
         "name": ".gitignore",
         "level": 0,
         "type": "file",
-        "size": 13
+        "size": 13,
+        "hid": "d399adccdc86427c16b58895b4c5ddcb"
     }
 ]

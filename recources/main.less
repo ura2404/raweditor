@@ -100,7 +100,35 @@
         }
     }
     
-    .cm-info .cm-template {
-        display: none;
+    .cm-info {
+        .cm-template {
+            display: none;
+        }
+        
+        /*.cm-color:empty {
+            display : none;
+        }*/
+        
+        .cm-color {
+            color : #ccc;
+            
+            &.cm-php  { color : #4F5D95; }
+            &.cm-js   { color : #f1e05a; }
+            &.cm-html { color : #e34c26; }
+            &.cm-css  { color : #563d7c; }
+            &.cm-less { color : #1d365d; }
+            &.cm-scss { color : #c6538c; }
+            
+            &.cm-xml  { color : #ccc; }
+            &.cm-xsl  { color : #ccc; }
+            &.cm-py   { color : #ccc; }
+            &.cm-c    { color : #ccc; }
+            &.cm-pl   { color : #ccc; }
+            
+            &.cm-twig { color : #c1d026; }
+            &.cm-md   { color : #083fa1; }
+            
+            &.cm-sql  { color : #ccc; }
+        }
     }
 }

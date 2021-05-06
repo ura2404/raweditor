@@ -150,7 +150,7 @@
                 "name": "Dir.class.php",
                 "level": 1,
                 "type": "file",
-                "size": 4158,
+                "size": 5698,
                 "hid": "dd84ece4e5ea3cac6077fcbf4d07d7d1"
             },
             {
@@ -190,7 +190,7 @@
                 "name": "Project.class.php",
                 "level": 1,
                 "type": "file",
-                "size": 4449,
+                "size": 3769,
                 "hid": "bd5bcd5f38559b02d5d2a4fda1ce5c5e"
             },
             {
@@ -498,7 +498,7 @@
                 "name": "main.less",
                 "level": 1,
                 "type": "file",
-                "size": 2351,
+                "size": 1549,
                 "hid": "9c57fdc0fd64d96402b28409c3258240"
             },
             {
@@ -563,7 +563,7 @@
                 "name": "main.twig",
                 "level": 1,
                 "type": "file",
-                "size": 4278,
+                "size": 4042,
                 "hid": "3ae1e57cce8eb3946a556b3d92c3f258"
             }
         ]

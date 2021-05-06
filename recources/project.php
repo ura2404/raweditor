@@ -9,9 +9,8 @@ if(!$Mode) die('Fuck off!!!');
 $Json = \Cmatrix\Json::get(CM_ROOT.'/config.json');
 
 $_add = function() use($Json){
-    $Name = isset($_POST['name']) ? $_POST['name'] : null;
-    $Path = isset($_POST['path']) ? $_POST['path'] : null;
-    if(!$Name || !$Path) die('Fuck off!!!');
+    if(!($Name = \Cmatrix\Request::value('name'))) die('Fuck off!!!');
+    if(!($Path = \Cmatrix\Request::value('path'))) die('Fuck off!!!');
 
     \Cmatrix\Project::create($Name,$Path)->add();
 
@@ -24,8 +23,7 @@ $_add = function() use($Json){
 };
 
 $_del = function() use($Json){
-    $Name = isset($_POST['name']) ? $_POST['name'] : null;
-    if(!$Name) die('Fuck off!!!');
+    if(!($Name = \Cmatrix\Request::value('name'))) die('Fuck off!!!');
 
     \Cmatrix\Project::get($Name)->delete();
 
@@ -38,6 +36,12 @@ $_del = function() use($Json){
 };
 
 $_scan = function(){
+    if(!($Name = \Cmatrix\Request::value('name'))) die('Fuck off!!!');
+    
+    return [
+        'stat' => \Cmatrix\Project::get($Name)->scan()
+    ];
+
     return [
         'stat' => [
             'js' => 10,
@@ -47,8 +51,6 @@ $_scan = function(){
             'other' => 5
         ]
     ];
-    $Name = isset($_POST['name']) ? $_POST['name'] : null;
-    $Path = \Cmatrix\Project::get($Name)->Path;
 };
 
 

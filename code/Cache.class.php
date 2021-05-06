@@ -19,7 +19,6 @@ class Cache {
         }
     }
 
-
     // --- --- --- --- ---
     private function init(){
         if(!file_exists($this->Path)){
