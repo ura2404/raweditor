@@ -136,14 +136,19 @@ export default class Projects {
     
     scan($node){
         const Name = $node.attr('data-name');
+        console.log(Name);
+        
         const $Info = $node.find('.cm-info');
         const $Chart = $Info.find('.cm-chart');
         const $Table = $Info.find('.cm-table');
         const $Template = $Info.find('.cm-template');
         
          const _sucess = function(data){
-            const Width = $Chart.width();
-            console.log(Width,$Chart.css('width'),$Chart);
+            setTimeout(function(){
+                const Width = $Info.find('.cm-chart').width();
+                console.log(Width,$Chart.css('width'),$Chart);
+                
+            },100);
             
             for(let type in data.stat){
                 let Value = data.stat[type];
