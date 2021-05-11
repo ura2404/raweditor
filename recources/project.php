@@ -41,16 +41,6 @@ $_scan = function(){
     return [
         'stat' => \Cmatrix\Project::get($Name)->scan()
     ];
-
-    return [
-        'stat' => [
-            'js' => 10,
-            'php' => 50,
-            'less' => 30,
-            'css3' => 5,
-            'other' => 5
-        ]
-    ];
 };
 
 

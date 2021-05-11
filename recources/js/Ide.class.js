@@ -16,23 +16,22 @@ export default class Ide {
         const Instance = this;
         
         this.$Direct.find('i.cm-action-tree').on('click',function(){
-            $(this).toggleAttr('active');          // атрибут кнопки
-            Instance.$Tree.toggleAttr('visible');  // атрибут дерева
-            Instance.$Splitter.toggleAttr('visible');
+            $(this).toggleAttr('active');             // атрибут кнопки
+            Instance.$Tree.toggleAttr('visible');     // атрибут дерева
+            Instance.$Splitter.toggleAttr('visible'); // атрибут сплитера
         });
         
         this.$Tree
-            .find('ul li i.cm-action').on('click',function(e){
+            .find('ul li i.cm-action').on('click',function(e){          // click на иконке папки
                 e.preventDefault();
                 Instance.treeNodeExpand($(this).closest('li'));
             })
             .end()
-            .find('.cm-line').on('click',function(){
+            .find('.cm-line').on('click',function(){                    // click на строке дерева
                 Instance.$Tree.find('.cm-line').removeAttr('active');
-                $(this).toggleAttr('active');          // атрибут кнопки
-            });
-            
-        this.$Tree
+                $(this).toggleAttr('active');                           // атрибут кнопки
+            })
+            .end()
             .resizable({
                 handleSelector: ".cm-splitter",
                 resizeHeight: false
@@ -43,6 +42,7 @@ export default class Ide {
     treeNodeExpand($node){
         const Instance = this;
         
+        // установка атрибуда data-status для li (узел папки)
         const _expand = function(){
             $node.attr('data-status',function(index, value){
                 return value =='0' ? '1' : '0';
@@ -60,7 +60,7 @@ console.log(index, element);
                     })
                     .appendTo($Container);
             }
-        }
+        };
         
         const _cursor = function(fl){
             const cl = 'waiting';
@@ -79,6 +79,8 @@ console.log(index, element);
             _cursor(0);
         };
         
+        // если есть не пустрой ul (дочерние узлы) или data-status = 1 (папка открыта), то считается, что дочерние узлы прогружены и нужно только скрыть/раскрыть
+        // иначе нужно подгрузить дочерние узлы
         if($node.find('ul').length || $node.attr('data-status') == '1') _expand();
         else{
             _cursor(1);

@@ -2,6 +2,24 @@
 //    font-size: 18px;
 //}
 
+@color-php  : #4F5D95;
+@color-js   : #f1e05a;
+@color-html : #e34c26;
+@color-css  : #563d7c;
+@color-less : #1d365d;
+@color-scss : #c6538c;
+
+@color-xml  : #ccc;
+@color-xsl  : #ccc;
+@color-py   : #ccc;
+@color-c    : #ccc;
+@color-pl   : #ccc;
+
+@color-twig : #c1d026;
+@color-md   : #083fa1;
+
+@color-sql  : #ccc;
+
 #cm-projects {
     .cm-project {
         width: 15rem;
@@ -105,30 +123,50 @@
             display: none;
         }
         
-        /*.cm-color:empty {
-            display : none;
-        }*/
-        
         .cm-color {
             color : #ccc;
-            
-            &.cm-php  { color : #4F5D95; }
-            &.cm-js   { color : #f1e05a; }
-            &.cm-html { color : #e34c26; }
-            &.cm-css  { color : #563d7c; }
-            &.cm-less { color : #1d365d; }
-            &.cm-scss { color : #c6538c; }
-            
-            &.cm-xml  { color : #ccc; }
-            &.cm-xsl  { color : #ccc; }
-            &.cm-py   { color : #ccc; }
-            &.cm-c    { color : #ccc; }
-            &.cm-pl   { color : #ccc; }
-            
-            &.cm-twig { color : #c1d026; }
-            &.cm-md   { color : #083fa1; }
-            
-            &.cm-sql  { color : #ccc; }
         }
+        
+        .cm-php    { color : @color-php; }
+        .cm-b-php  { background-color : @color-php; }
+        
+        .cm-js     { color : @color-js; }
+        .cm-b-js   { background-color : @color-js; }
+        
+        .cm-html   { color : @color-html; }
+        .cm-b-html { background-color : @color-html; }
+        
+        .cm-css    { color : @color-css }
+        .cm-b-css  { background-color : @color-css; }
+        
+        .cm-less   { color : @color-less; }
+        .cm-b-less { background-color : @color-less; }
+        
+        .cm-scss   { color : @color-scss; }
+        .cm-b-scss { background-color : @color-scss; }
+        
+        .cm-xml    { color : @color-xml; }
+        .cm-b-xml  { background-color : @color-xml; }
+        
+        .cm-xsl    { color : @color-xsl; }
+        .cm-b-xsl  { background-color : @color-xsl; }
+        
+        .cm-py     { color : @color-py; }
+        .cm-b-py   { background-color : @color-py; }
+        
+        .cm-c      { color : @color-c; }
+        .cm-b-c    { background-color : @color-c; }
+        
+        .cm-pl     { color : @color-pl; }
+        .cm-b-pl   { background-color : @color-pl; }
+        
+        .cm-twig   { color : @color-twig; }
+        .cm-b-twig { background-color : @color-twig; }
+        
+        .cm-md     { color : @color-md; }
+        .cm-b-md   { background-color : @color-md; }
+        
+        .cm-sql    { color : @color-sql; }
+        .cm-b-sql  { background-color : @color-sql; }
     }
 }

@@ -91,7 +91,8 @@ class Project {
         $Total = array_sum($Res);
         $Res = array_map(function($val) use($Total){
             $Val = round($val/$Total*100,0/*,PHP_ROUND_HALF_UP*/);
-            return $Val < 1 ? '<1' : $Val;
+            return $Val;
+            //return $Val < 1 ? '<1' : $Val;
         },$Res);
         //$Res = array_filter($Res,function($val){ return $val > 0.1; });
         arsort($Res);
@@ -108,14 +109,6 @@ class Project {
             //dump($item);
             return true;
         });
-
-        return [
-            'js' => 13,
-            'php' => 50,
-            'less' => 30,
-            'css3' => 5,
-            'other' => 5
-        ];
     }
 
     // --- --- --- --- ---

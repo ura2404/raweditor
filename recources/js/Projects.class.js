@@ -143,32 +143,32 @@ export default class Projects {
         const $Table = $Info.find('.cm-table');
         const $Template = $Info.find('.cm-template');
         
-         const _sucess = function(data){
+        const _sucess = function(data){
             setTimeout(function(){
                 const Width = $Info.find('.cm-chart').width();
                 console.log(Width,$Chart.css('width'),$Chart);
                 
-            },100);
-            
-            for(let type in data.stat){
-                let Value = data.stat[type];
-                $Template.clone(true,true).removeClass('cm-template')
-                    .find('.cm-color').addClass('cm-'+type).end()
-                    .find('.cm-type').text(type).end()
-                    .find('.cm-value').text(Value).end()
-                    .appendTo($Table);
-            }
-            
-            /*for(let type in data.stat){
-                let value = data.stat[type];
-                $Template.clone(true,true).removeClass('cm-template')
-                    .find('.cm-value').text(value).end()
-                    .find('.cm-icon').addClass('fa-'+type).end()
-                    .attr('title',type)
-                    .appendTo($Info);
-            }*/
-             
-             $node.addClass('cm-complete');
+                for(let type in data.stat){
+                    let Value = data.stat[type];
+                    $Template.clone(true,true).removeClass('cm-template')
+                        .find('.cm-color').addClass('cm-'+type).end()
+                        .find('.cm-type').text(type).end()
+                        .find('.cm-value').text(Value<1?'<1':Value).end()
+                        .appendTo($Table);
+                    jQuery('<div/>').css('width',(Value<1?1:Value)/100*Width).addClass('cm-b-'+type).attr('title',type).appendTo($Chart);
+                }
+                
+                /*for(let type in data.stat){
+                    let value = data.stat[type];
+                    $Template.clone(true,true).removeClass('cm-template')
+                        .find('.cm-value').text(value).end()
+                        .find('.cm-icon').addClass('fa-'+type).end()
+                        .attr('title',type)
+                        .appendTo($Info);
+                }*/
+                 
+            },1);
+            $node.addClass('cm-complete');
         };
         
         const _error = function(data){
