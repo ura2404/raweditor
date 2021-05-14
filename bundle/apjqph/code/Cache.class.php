@@ -16,7 +16,7 @@ class Cache {
     // --- --- --- --- ---
     function __get($name){
         switch($name){
-            case 'Path' : return CM_ROOT.'/cache/'.$this->Name.($this->Folder ? '/'.$this->Folder : null);
+            case 'Path' : return CM_TOP.'/cache/'.$this->Name.($this->Folder ? '/'.$this->Folder : null);
             case 'Data' : return $this->Data;
         }
     }
@@ -72,7 +72,7 @@ class Cache {
     }
 
     // --- --- --- --- ---
-    public function getValue($key,$value){
+    public function getValue($key){
         $Path = $this->Path.'/'.$key;
         if(!file_exists($Path)) throw new \Exception(cm\Local::getVal('file/notExists'));
         return file_get_contents($Path);

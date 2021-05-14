@@ -39,6 +39,16 @@ export default class Ide {
     }
 
     // --- --- --- --- ---
+    timer(val){
+        return new Promise(function(resolve, reject){
+            setTimeout(function(){
+                resolve();
+            },val);
+        });
+    }
+
+
+    // --- --- --- --- ---
     treeNodeExpand($node){
         const Instance = this;
         
@@ -64,14 +74,13 @@ export default class Ide {
         
         const _cursor = function(fl){
             const cl = 'waiting';
-            fl ? $('body').removeClass(cl) : $('body').addClass(cl);
+            fl ? Instance.timer(100).then(() => $('body').removeClass(cl)) : Instance.timer(0).then(() => $('body').addClass(cl));
         };
         
         const _success = function(data){
             _addNode(data);
             _expand();
             _cursor(0);
-            $('body').removeClass('waiting');
         };
         
         const _error = function(data){

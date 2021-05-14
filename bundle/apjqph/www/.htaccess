@@ -1,6 +1,6 @@
 AuthType Basic
 AuthName "RawEditor"
-AuthUserFile /mnt/md1/home/ura/__WORK__/raweditor/www/.htpasswd
+AuthUserFile /mnt/md1/home/ura/__WORK__/raweditor/bundle/apjqph/www/.htpasswd
 require valid-user
 
 <IfModule mod_rewrite.c>

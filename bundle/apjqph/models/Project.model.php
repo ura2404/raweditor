@@ -29,7 +29,8 @@ class Project extends Common {
         $Tree = $Dir->getTree(function(&$item) use($Cache){
             $Url = $item['parent'].'/'.$item['name'];
             $item['hid'] = hid($Url);
-            $Cache->putValue(str_replace('/','_',$Url),$item['hid']);
+            //$Cache->putValue(str_replace('/','_',$Url),$item['hid']);
+            $Cache->putValue($item['hid'],$Url);
             
             return $item['level'] < 1 ? true : false;
         });

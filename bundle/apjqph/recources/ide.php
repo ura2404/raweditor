@@ -45,12 +45,16 @@ $_node = function(){
 
     //$Path = \Cmatrix\Project::get($Name)->Path;
 
+    $Path = \Cmatrix\Cache::session()->folder('tree-'.$Name)->getValue($Hid);
+
+/*return;
     $Tree = \Cmatrix\Cache::session()->getJson('tree-'.$Name);
     $Hash = \Cmatrix\Hash::create($Tree->Data);
     $Node = $Hash->getRuleValue(['hid'=>$Hid]);
     if(!$Node) die('Fuck off!!!');
 
     $Path = \Cmatrix\Project::get($Name)->Path . $Node['parent'] .'/'. $Node['name'];
+    */
     $Dir = \Cmatrix\Dir::get($Path);
     $List = $Dir->getList(function(&$item) use($Node){
         $item['hid'] = hid($Node['parent'].'/'.$Node['name'].'/'.$item['name']);

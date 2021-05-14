@@ -14,16 +14,26 @@ class Local {
     // --- --- --- --- ---
     function __get($name){
         switch($name){
+            case 'Path'    : return $this->getMyPath();
+            case 'DefPath' : return $this->getMyDefPath();
             case 'Data' : return $this->Data;
         }
     }
 
     // --- --- --- --- ---
-    private function getMyData(){
-        $File = CM_ROOT .'/local.'. $this->Lang .'.json';
-        if(!file_exists($File)) $File = CM_ROOT .'/local.def.json';
+    private function getMyDefPath(){
+        return realpath(CM_ROOT.'/../..') .'/local.def.json';
+    }
 
-        return Json::get($File)->Data['local']['data'];
+    // --- --- --- --- ---
+    private function getMyPath(){
+        return realpath(CM_ROOT.'/../..') .'/local.'. $this->Lang .'.json';
+    }
+
+    // --- --- --- --- ---
+    private function getMyData(){
+        $Path = file_exists($this->Path) ? $this->Path : $this->DefPath;
+        return Json::get($Path)->Data['local']['data'];
     }
 
     // --- --- --- --- ---
@@ -41,7 +51,7 @@ class Local {
 
     // --- --- --- --- ---
     static function get($lang='def'){
-        $Config = json_decode(file_get_contents(CM_ROOT.'/config.json'),true);
+        $Config = json_decode(file_get_contents(CM_TOP.'/config.json'),true);
         $Lang = isset($Config['raweditor']) && isset($Config['raweditor']['lang']) ? $Config['raweditor']['lang'] : $lang;
         return new self($Lang);
     }

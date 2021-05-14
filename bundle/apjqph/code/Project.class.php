@@ -34,14 +34,14 @@ class Project {
 
     // --- --- --- --- ---
     private function getInstance($name){
-        $Config = cm\Json::get(CM_ROOT.'/config.json')->Data;
+        $Config = cm\Json::get(CM_TOP.'/config.json')->Data;
         $this->Data = cm\Hash::create($Config)->getValue('raweditor/projects/'.$name);
         if(!$this->Data) throw new \Exception(cm\Local::get()->getValue('project/notExists'));
     }
 
     // --- --- --- --- ---
     public function add(){
-        $Config = cm\Json::get(CM_ROOT.'/config.json')->Data;
+        $Config = cm\Json::get(CM_TOP.'/config.json')->Data;
         $Hash = cm\Hash::create($Config);
 
         array_map(function($project){
@@ -52,16 +52,16 @@ class Project {
         },$Hash->getValue('raweditor/projects/'));
 
         $Hash->setValue('raweditor/projects/'.$this->Name, $this->Data);
-        cm\Json::create($Hash->Data)->put(CM_ROOT.'/config.json');
+        cm\Json::create($Hash->Data)->put(CM_TOP.'/config.json');
     }
 
     // --- --- --- --- ---
     public function delete(){
-        $Config = cm\Json::get(CM_ROOT.'/config.json')->Data;
+        $Config = cm\Json::get(CM_TOP.'/config.json')->Data;
         $Hash = cm\Hash::create($Config);
         
         if(!$Hash->deleteValue('raweditor/projects/'.$this->Data['name'])) throw new \Exception(cm\Local::get()->getValue('project/notExists'));
-        cm\Json::create($Hash->Data)->put(CM_ROOT.'/config.json');
+        cm\Json::create($Hash->Data)->put(CM_TOP.'/config.json');
     }
 
     // --- --- --- --- ---

@@ -7,21 +7,16 @@ $Root = realpath(dirname(__FILE__) .'/..');
 require_once $Root.'/code/utils.php';
 
 $_config = function() use($Root){
-    $File = $Root.'/config.json';
+    $File = realpath($Root.'/../..').'/config.json';
 
     $_create = function() use($Root){
         $Arr =[
-            'apache2' => [
-                'rewrite' => '/raweditor'
+            'www' => [
+                'root' => '/raweditor'
             ],
             'raweditor' => [
                 'lang' => 'ru',
-                'projects' => [
-                    /*'raweditor' => [
-                        'name' => 'Raw Editor',
-                        'path' => $Root
-                    ]*/
-                ]
+                'projects' => []
             ]
         ];
 
@@ -60,9 +55,9 @@ $_htpasswd = function() use($Root){
 
 $_rewrite = function() use($Root){
     $_base = function() use($Root){
-        $File = $Root.'/config.json';
+        $File = realpath($Root.'/../..').'/config.json';
         $Arr = json_decode(file_get_contents($File),true);
-        return $Arr['apache2']['rewrite'];
+        return $Arr['www']['root'];
     };
 
     $Htaccess = $Root . '/www/.htaccess';
