@@ -56,7 +56,7 @@ export default class Ide {
                 Instance.$Template.clone(true,true)
                     .removeAttr('id')
                     .map(function(index, element){
-console.log(index, element);
+                        console.log(index, element);
                     })
                     .appendTo($Container);
             }

@@ -79,7 +79,8 @@ try{
         'status' => 1
     ],$Ret));
 }
-catch(\Exception $e){
+catch(\Throwable $e){
+//catch(\Exception $e){
     echo json_encode([
         'status' => -1,
         'message' => $e->getMessage()

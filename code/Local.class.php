@@ -45,5 +45,9 @@ class Local {
         $Lang = isset($Config['raweditor']) && isset($Config['raweditor']['lang']) ? $Config['raweditor']['lang'] : $lang;
         return new self($Lang);
     }
+    
+    static function getVal($url){
+        return self::get()->getValue($url);
+    }    
 }
 ?>

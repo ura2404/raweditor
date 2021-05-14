@@ -10,8 +10,15 @@
             "add" : "add",
             "yes" : "yes",
             "no" : "no",
-            "folderNotExists" : "folder is not exists",
-            "folderNotAccessable" : "folder is not accessable",
+            
+            "folder" : {
+                "notExists" : "folder is not exists",
+                "notAccessable" : "folder is not accessable"
+            },
+            
+            "file" : {
+                "notExists" : "file is not exists"
+            },
             
             "project" : {
                 "projects" :"projects",

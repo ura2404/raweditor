@@ -3,7 +3,13 @@ export default class Message {
         const Instance = this;
         this.Timeout = 2000;
         this.$SuccessPanel = $('#cm-success');
-        this.$ErrorPanel   = $('#cm-error');
+        this.$ErrorPanel   = $('#cm-error').find('.cm-container')
+            .on('mouseover',function(){
+                $(this).addClass('cm-over');
+            }).
+            on('mouseout',function(){
+                $(this).removeClass('cm-over');
+            }).end();
         this.$ConfirmPanel = $('#cm-confirm')
             .find('.cm-no').on('click',function(){
                 Instance.hide(Instance.$ConfirmPanel);
@@ -51,10 +57,16 @@ export default class Message {
     }
 
     hide($container){
-        $container.find('.cm-text').text('').end().removeClass('cm-opacity');
-        setTimeout(function(){
-            $container.removeClass('cm-show');
+        const Timer = setInterval(function(){
+            if(!$container.find('.cm-container').hasClass('cm-over')){
+                clearInterval(Timer);
+                $container.find('.cm-text').text('').end().removeClass('cm-opacity');
+                setTimeout(function(){
+                    $container.removeClass('cm-show');
+                },500);
+            }
         },500);
+        
     }
 }
 

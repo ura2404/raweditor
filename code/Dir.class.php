@@ -119,8 +119,8 @@ class Dir{
     
     // --- --- --- --- ---
     static function get($path){
-        if(!is_dir($path)) throw new \Exception(cm\Local::get()->Data['folderNotExists']);
-        if(!is_writable($path)) throw new \Exception(cm\Local::get()->Data['folderNotAccessable']);
+        if(!is_dir($path)) throw new \Exception(cm\Local::getVal('folder/notExists'));
+        if(!is_writable($path)) throw new \Exception(cm\Local::getVal('folder/notAccessable'));
         return new self($path);
     }
 }

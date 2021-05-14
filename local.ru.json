@@ -10,8 +10,15 @@
             "add" : "добавить",
             "yes" : "да",
             "no" : "нет",
-            "folderNotExists" : "папка не существует",
-            "folderNotAccessable" : "папка не доступна",
+            
+            "folder" : {
+                "notExists" : "папка не существует",
+                "notAccessable" : "папка не доступна"
+            },
+            
+            "file" : {
+                "notExists" : "файл не существует"
+            },
             
             "project" : {
                 "projects" : "проекты",
