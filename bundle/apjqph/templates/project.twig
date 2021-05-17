@@ -23,20 +23,7 @@
 {% block main %}
     {% import _self as _s %}
 
-    <div id="cm-ide" class="cm-project bg-white container mx-auto flex h-full" data-name="{{ name }}">
-        
-        <li id="cm-node-template" class="cm-noselect"
-            data-hid="%%hid%%"
-            data-status="%%status%%"
-        >
-            <div class="cm-line px-3 truncate" title="{{ node.name }}">
-                <span class="inline-block w-4"></span>
-                <i class="cm-action-open fas fa-folder"></i>
-                <i class="cm-action-close fas fa-folder-open"></i>
-                <i class="far fa-file"></i>
-                <span class="_text-xs px-1">%%name%%</span>
-            </div>
-        </li>
+    <div id="cm-ide" class="cm-project bg-white _container mx-auto flex h-full" data-name="{{ name }}">
         
         <div class="cm-ide-direct w-11 flex flex-col bg-gray-600 text-white">
             <i class="cm-action-tree fas fa-sitemap p-3 hover:bg-gray-400 duration-75" title="{{ local.project.tree }}"></i>
@@ -44,11 +31,56 @@
         </div>
         
         <div class="cm-ide-tree bg-gray-700 text-white py-2 _px-3 duration-75 overflow-y-auto w-52">
+            <li id="cm-node-template" class="cm-noselect" data-hid="%%hid%%" data-status="0">
+                <div class="cm-line px-3 _truncate whitespace-nowrap" title="%%name%%">
+                    <span class="cm-tab inline-block w-4"></span>
+                    <i class="cm-folder cm-action-open fas fa-folder"></i>
+                    <i class="cm-folder cm-action-close fas fa-folder-open"></i>
+                    <i class="cm-file far fa-file"></i>
+                    <span class="cm-text _text-xs px-1">%%name%%</span>
+                </div>
+            </li>
             {{ _s.tree(tree) }}
         </div>
         
         <div class="cm-splitter w-1"></div>
-        <div class="flex-auto bg-green-500">332e3e3/</div>
+        {#<div class="flex-auto bg-green-500">332e3e3/</div>#}
+        <div class="cm-ide-container flex-1 min-w-0 overflow-x-auto _flex-auto">
+            <div>we'fkwe'fkwkefjqwjefjqwje;fqjwejfqwefjwefjjwefkjwe;lfjwfjejwefjw;ljef;ljwef;ljwelfjlwjeflkfew</div>
+            {#
+            <ul class="cm-tabs _overflow-x-auto _flex-nowrap _fixed">
+                <li class="cm-tab">1111</li>
+                <li class="cm-tab">2222</li>
+                <li class="cm-tab">3333</li>
+                <li class="cm-tab">4444</li>
+                <li class="cm-tab">5555</li>
+                <li class="cm-tab">6666</li>
+                <li class="cm-tab">7777</li>
+                <li class="cm-tab">8888</li>
+                <li class="cm-tab">9999</li>
+                <li class="cm-tab">0000</li>
+                
+                <li class="cm-tab">1111</li>
+                <li class="cm-tab">2222</li>
+                <li class="cm-tab">3333</li>
+                <li class="cm-tab">4444</li>
+                <li class="cm-tab">5555</li>
+                <li class="cm-tab">6666</li>
+                <li class="cm-tab">7777</li>
+                <li class="cm-tab">8888</li>
+                <li class="cm-tab">9999</li>
+                <li class="cm-tab">0000</li>
+                
+            </ul>
+            
+            <div class="cm-aces">
+                <div>c_1111</div>
+                <div>c_2222</div>
+                <div>c_3333</div>
+                <div>c_4444</div>
+            </div>
+            #}
+        </div>
     </div>
 {% endblock %}
 
@@ -60,13 +92,13 @@
             data-status="{% if node.children is defined and node.children|length %}1{% else %}0{% endif %}"
         {% endif %}
     >
-        <div class="cm-line px-3 truncate" title="{{ node.name }}">
-            {% for i in range(0,node.level) if i>0 %}<span class="inline-block w-4"></span>{% endfor %}
+        <div class="cm-line px-3 _truncate whitespace-nowrap" title="{{ node.names }}">
+            {% for i in range(0,node.level) if i>0 %}<span class="cm-tab inline-block w-4"></span>{% endfor %}
             {% if node.type == 'folder' %}
-                <i class="cm-action cm-action-open fas fa-folder"></i>
-                <i class="cm-action cm-action-close fas fa-folder-open"></i>
+                <i class="cm-folder cm-action-open fas fa-folder"></i>
+                <i class="cm-folder cm-action-close fas fa-folder-open"></i>
             {% else %}
-                <i class="far fa-file"></i>
+                <i class="cm-file far fa-file"></i>
             {% endif %}
             <span class="_text-xs px-1">{{ node.name }}</span>
         </div>

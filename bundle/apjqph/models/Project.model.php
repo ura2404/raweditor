@@ -21,7 +21,7 @@ class Project extends Common {
 
     // --- --- --- --- ---
     private function getMyTree($name){
-        $Cache = \Cmatrix\Cache::session()->folder('tree-'.$name);
+        $Cache = \Cmatrix\Cache::session()->touchFolder('tree-'.$name);
         
         $Path = \Cmatrix\Project::get($name)->Path;
         $Dir = \Cmatrix\Dir::get($Path);
@@ -30,13 +30,17 @@ class Project extends Common {
             $Url = $item['parent'].'/'.$item['name'];
             $item['hid'] = hid($Url);
             //$Cache->putValue(str_replace('/','_',$Url),$item['hid']);
-            $Cache->putValue($item['hid'],$Url);
+            //$Cache->putValue($item['hid'],$Url);
+            $Cache->putJson($item['hid'],[
+                'url' => $Url,
+                'level' => $item['level']
+            ]);
             
             return $item['level'] < 1 ? true : false;
         });
-        \Cmatrix\Cache::session()->putJson('tree-'.$name,$Tree);
         
-//dump($Tree);die();
+        //\Cmatrix\Cache::session()->putJson('tree-'.$name,$Tree);
+        //dump($Tree);die();
 
         return $Tree;
     }

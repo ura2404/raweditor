@@ -5,7 +5,7 @@ use Cmatrix as cm;
 class Cache {
     private $Name;
     private $Data;
-    private $Folde;
+    private $Folder;
 
     // --- --- --- --- ---
     function __construct($name){
@@ -47,6 +47,21 @@ class Cache {
         return $this;
     }    
 
+    // --- --- --- --- ---
+    public function touchFolder($name){
+        $this->Folder = $name;
+        if(!file_exists($this->Path)) $this->folder($name);
+        else $this->emptyFolder($name);
+        return $this;
+    }
+
+    // --- --- --- --- ---
+    public function emptyFolder($name){
+        $this->delFolder($name);
+        $this->folder($name);
+        return $this;
+    }
+    
     // --- --- --- --- ---
     public function delFolder($name){
         $this->Folder = $name;
@@ -94,7 +109,7 @@ class Cache {
 
     // --- --- --- --- ---
     public function getJson($key){
-        return Json::get($this->Path.'/'.$key);
+        return Json::get($this->Path.'/'.$key)->Data;
     }
 
     // --- --- --- --- ---

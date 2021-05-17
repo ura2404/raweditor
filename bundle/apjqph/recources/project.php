@@ -6,7 +6,7 @@ require_once('../common.php');
 $Mode = isset($_POST['m']) ? $_POST['m'] : null;
 if(!$Mode) die('Fuck off!!!');
 
-$Json = \Cmatrix\Json::get(CM_ROOT.'/config.json');
+$Json = \Cmatrix\Json::get(CM_TOP.'/config.json');
 
 $_add = function() use($Json){
     if(!($Name = \Cmatrix\Request::value('name'))) die('Fuck off!!!');
@@ -43,7 +43,9 @@ $_scan = function(){
     ];
 };
 
-
+// ---- ---- ---- --- ----
+// ---- ---- ---- --- ----
+// ---- ---- ---- --- ----
 try{
     switch($Mode){
         case 'add'  : $Ret = $_add();break;

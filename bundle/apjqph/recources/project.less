@@ -45,6 +45,9 @@ i {
     }
 
     .cm-splitter {
+        background-color : beige;
+        border-right-style : 1px solid slategrey;
+        
         &:not([visible='visible']) {
             display : none;
         }
@@ -89,6 +92,20 @@ i {
                 > .cm-line > .cm-action-open { display : none; }
             }
             
+        }
+    }
+    
+    .cm-ide-container {
+        //min-width: 0;
+        
+        .cm-tabs {
+            //min-width: 0
+            //display: flex;
+        }
+        
+        .cm-tab {
+            margin: 0px 5px;
+            display: inline-block;
         }
     }
 

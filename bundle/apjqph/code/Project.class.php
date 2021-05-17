@@ -117,7 +117,7 @@ class Project {
      * @param string $path - путь к проекту
      */
     static function create($name, $path){
-        $Path = realpath(CM_ROOT.$path);
+        $Path = realpath(CM_TOP.'/'.$path);
         if(!$Path) throw new \Exception(cm\Local::get()->getValue('project/folderNotExists'));
 
         return new self($name,$Path);

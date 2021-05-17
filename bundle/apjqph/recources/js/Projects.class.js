@@ -69,8 +69,11 @@ export default class Projects {
             const $New = Instance.$Template.clone(true,true)
                 .attr('id','cm-project-'+data.data.name.replace(/ /g,'_'))
                 .attr('href',Instance.$Template.attr('href')+data.data.name)
+                .attr('data-name',data.data.name)
                 .find('.cm-name').text(data.data.name)
                 .end().appendTo(Instance.$Projects);
+                
+            Instance.scan($New);
                 
             Instance.hidePanel();
             Instance.Message.success(data.message);
@@ -135,8 +138,9 @@ export default class Projects {
     }
     
     scan($node){
+        const Instance = this;
         const Name = $node.attr('data-name');
-        console.log(Name);
+        //console.log(Name);
         
         const $Info = $node.find('.cm-info');
         const $Chart = $Info.find('.cm-chart');
@@ -146,7 +150,7 @@ export default class Projects {
         const _sucess = function(data){
             setTimeout(function(){
                 const Width = $Info.find('.cm-chart').width();
-                console.log(Width,$Chart.css('width'),$Chart);
+                //console.log(Width,$Chart.css('width'),$Chart);
                 
                 for(let type in data.stat){
                     let Value = data.stat[type];
@@ -157,16 +161,6 @@ export default class Projects {
                         .appendTo($Table);
                     jQuery('<div/>').css('width',(Value<1?1:Value)/100*Width).addClass('cm-b-'+type).attr('title',type).appendTo($Chart);
                 }
-                
-                /*for(let type in data.stat){
-                    let value = data.stat[type];
-                    $Template.clone(true,true).removeClass('cm-template')
-                        .find('.cm-value').text(value).end()
-                        .find('.cm-icon').addClass('fa-'+type).end()
-                        .attr('title',type)
-                        .appendTo($Info);
-                }*/
-                 
             },1);
             $node.addClass('cm-complete');
         };

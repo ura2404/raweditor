@@ -42,10 +42,12 @@ $_node = function(){
     $Name = isset($_POST['name']) ? $_POST['name'] : null;
     $Hid = isset($_POST['hid']) ? $_POST['hid'] : null;
     if(!$Name || !$Hid) die('Fuck off!!!');
-
-    //$Path = \Cmatrix\Project::get($Name)->Path;
-
-    $Path = \Cmatrix\Cache::session()->folder('tree-'.$Name)->getValue($Hid);
+    
+    $Cache = \Cmatrix\Cache::session()->folder('tree-'.$Name);
+    $Json = $Cache->getJson($Hid);
+    $Level = $Json['level'];
+    $Url = $Json['url'];
+    $Path = \Cmatrix\Project::get($Name)->Path .'/'. $Json['url'];
 
 /*return;
     $Tree = \Cmatrix\Cache::session()->getJson('tree-'.$Name);
@@ -55,11 +57,20 @@ $_node = function(){
 
     $Path = \Cmatrix\Project::get($Name)->Path . $Node['parent'] .'/'. $Node['name'];
     */
+    
     $Dir = \Cmatrix\Dir::get($Path);
-    $List = $Dir->getList(function(&$item) use($Node){
-        $item['hid'] = hid($Node['parent'].'/'.$Node['name'].'/'.$item['name']);
-        $item['parent'] = $Node['parent'].'/'.$Node['name'];
-        $item['level'] = $Node['level'] + 1;
+    $List = $Dir->getList(function(&$item) use($Cache,$Json){
+        $item['parent'] = $Json['url'];
+        
+        $Url = $item['parent'].'/'.$item['name'];
+        $item['hid'] = hid($Url);
+        $item['level'] = $Json['level'] + 1;
+        
+        $Cache->putJson($item['hid'],[
+            'url' => $Url,
+            'level' => $item['level']
+        ]);
+        
     });
 
     return [
