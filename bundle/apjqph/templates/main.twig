@@ -66,7 +66,7 @@
 
 {% macro project(data) %}
     <a{% if data.name is not defined %} id="cm-project-template"{% endif %}
-        href="{{ constant('CM_WHOME') }}project/{{ data.name }}"
+        href="{{ constant('CM_WHOME') }}/project/{{ data.name }}"
         class="cm-project m-2 cursor-pointer bg-gray-200 rounded flex flex-col"
         onclick="event.preventDefault()"
         ondblclick="document.location=this.href"
