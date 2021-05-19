@@ -16,7 +16,8 @@ class Common {
     // --- --- --- --- ---
     private function getMyHome(){
         //return $_SERVER['REQUEST_SCHEME'] .'://'. $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-        return $_SERVER['REQUEST_SCHEME'] .'://'. $_SERVER['SERVER_NAME'] . \Cmatrix\Json::get(CM_TOP.'/config.json')->Data['www']['root'];
+        //return $_SERVER['REQUEST_SCHEME'] .'://'. $_SERVER['SERVER_NAME'] . \Cmatrix\Json::get(CM_TOP.'/config.json')->Data['www']['root'];
+        return CM_WHOME;
     }
 
     // --- --- --- --- ---
