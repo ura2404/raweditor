@@ -1,6 +1,7 @@
 {% extends "common.twig" %}
 
 {% block name %}{{ name }}{% endblock %}
+{% block nameTitle %}{{ name }}{% endblock %}
 
 {% block style %}
     <link rel="stylesheet/less" type="text/css" href="res/res/project.less"/>
@@ -82,17 +83,40 @@
             #}
         </div>
     </div>
+    <div class="cm-list inset-0 absolute">
+        <div>
+            <div class="cm-tab">qweqwe</div>
+            <div class="cm-tab">ertert</div>
+            <div class="cm-tab">tryrty</div>
+            <div class="cm-tab">yutyuty wefewf weew ewew 90</div>
+            <div class="cm-tab">111</div>
+            <div class="cm-tab">222</div>
+            <div class="cm-tab">333</div>
+            <div class="cm-tab">444</div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block tabs %}
-    <div class="cm-tab">qweqwe</div>
-    <div class="cm-tab">ertert</div>
-    <div class="cm-tab">tryrty</div>
-    <div class="cm-tab">yutyuty wefewf weew ewew 90</div>
-    <div class="cm-tab">111</div>
-    <div class="cm-tab">222</div>
-    <div class="cm-tab">333</div>
-    <div class="cm-tab">444</div>
+    <div class="cm-tabs flex-grow flex min-w-0">
+        <div class="cm-current my-auto ml-auto whitespace-nowrap _flex-grow min-w-0 truncate text-left _overflow-x-hidden">qqqqqq 22 33</div>
+        <i class="fas fa-caret-left w-6 text-xl my-auto mr-auto text-center cursor-pointer"></i>
+    </div>
+
+    {#<div id="cm-tabs" class="flex flex-grow min-w-0">
+        <i class="fas fa-caret-left w-6 text-3xl my-auto text-center cursor-pointer"></i>
+        <div class="cm-noselect cm-container flex-grow flex min-w-0 overflow-x-hidden">
+            <div class="cm-tab">qweqwe</div>
+            <div class="cm-tab">ertert</div>
+            <div class="cm-tab">tryrty</div>
+            <div class="cm-tab">yutyuty wefewf weew ewew 90</div>
+            <div class="cm-tab">111</div>
+            <div class="cm-tab">222</div>
+            <div class="cm-tab">333</div>
+            <div class="cm-tab">444</div>
+        </div>
+        <i class="fas fa-caret-right w-6 text-3xl my-auto text-center cursor-pointer"></i>
+    </div>#}
 {% endblock %}
 
 {% macro node(node) %}

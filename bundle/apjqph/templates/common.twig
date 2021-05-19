@@ -25,12 +25,8 @@
                 </div>
                 #}
                 
-                <div class="my-auto pl-1 pr-2 _font-bold text-2xl text-green-400 truncate">{% block name %}{% endblock %}</div>
-                <div id="cm-tabs" class="flex flex-grow min-w-0">
-                    <i class="fas fa-caret-left w-6 text-3xl my-auto text-center cursor-pointer"></i>
-                    <div class="cm-noselect cm-container flex-grow flex min-w-0 overflow-x-hidden">{% block tabs %}{% endblock %}</div>
-                    <i class="fas fa-caret-right w-6 text-3xl my-auto text-center cursor-pointer"></i>
-                </div>
+                <div class="cm-name my-auto pl-1 pr-2 _font-bold text-2xl text-green-400 truncate _flex-none" title="{% block nameTitle %}{% endblock %}">{% block name %}{% endblock %}</div>
+                {% block tabs %}{% endblock %}
                 <div id="cm-actions" class="flex">{% block actions %}{% endblock %}</div>
                 
             </div>
