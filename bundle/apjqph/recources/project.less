@@ -112,14 +112,53 @@ i {
 }
 
 header {
-    .cm-tabs {
-        .cm-current {
+    .cm-current {
+        .cm-container {
             direction : rtl;
             min-width: 4rem;
+        }
+        
+        i.cm-opend {
+            transform: rotateZ(-90deg);
         }
     }
 }
 
+#cm-list {
+    top : -1000;
+    bottom : -1000;
+    left : -1000;
+    right : -1000;
+    z-index : -1000;
+    display: none;
+    
+    &.cm-opend {
+        display: flex;
+        top : 0;
+        bottom : 0;
+        left : 0;
+        right : 0;
+        z-index : 1000;
+    }
+    
+    .cm-container {
+        .cm-element {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            direction : rtl;
+            text-align : left;
+            flex: none;
+            //padding : 0 10px;
+            
+            &:hover {
+                background-color: rgba(107, 114, 128, 0.2);
+            }
+        }
+    }
+}
+
+/*
 #cm-tabs {
     .cm-container {
         .cm-tab {
@@ -141,3 +180,4 @@ header {
         min-width: 1.5rem;
     }
 }
+*/

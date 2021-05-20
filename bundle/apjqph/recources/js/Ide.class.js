@@ -9,6 +9,9 @@ export default class Ide {
         this.$Splitter = this.$Ide.find('.cm-splitter');
         this.$Template = $('#cm-node-template');
         this.Message = message;
+        
+        this.$Current = $('header').find('.cm-current');
+        this.$List = $('#cm-list');
     }
 
     // --- --- --- --- ---
@@ -30,6 +33,7 @@ export default class Ide {
                 e.preventDefault();
                 const $Node = $(this).closest('li');
                 if($Node.hasAttr('data-status')) Instance.treeNodeExpand($Node);
+                else Instance.openFile($Node);
             })
             .end()
             .find('.cm-line').on('click',function(){                    // click на строке дерева
@@ -40,6 +44,18 @@ export default class Ide {
             .resizable({
                 handleSelector: ".cm-splitter",
                 resizeHeight: false
+            });
+            
+        this.$Current.find('i').on('click',function(e){
+            Instance.list();
+        }).end();
+        
+        this.$List
+            .on('click',function(e){
+                Instance.list();
+            })
+            .find('.cm-element').on('click',function(e){
+                console.log('element click',this);
             });
     }
 
@@ -114,7 +130,22 @@ export default class Ide {
             },_success,_error);
         }
     }
-
+    
+    // --- --- --- --- ---
+    list(){
+        console.log('click');
+        const Instance = this;
+        this.$Current.find('i').toggleClass('cm-opend');
+        this.$List.toggleClass('cm-opend');
+    }
+    
+    // --- --- --- --- ---
+    openFile($node){
+        console.log($node);
+        jQuery('<div/>').addClass('cm-element').text($node.find('.cm-text').text()).appendTo(this.$List.find('.cm-container'));
+        //this.$List.find('.cm-container').
+    }
+    
     // --- --- --- --- ---
     ajax(data,_success,_error){
         $.ajax({

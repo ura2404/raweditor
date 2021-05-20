@@ -83,24 +83,26 @@
             #}
         </div>
     </div>
-    <div class="cm-list inset-0 absolute">
-        <div>
-            <div class="cm-tab">qweqwe</div>
-            <div class="cm-tab">ertert</div>
-            <div class="cm-tab">tryrty</div>
-            <div class="cm-tab">yutyuty wefewf weew ewew 90</div>
-            <div class="cm-tab">111</div>
-            <div class="cm-tab">222</div>
-            <div class="cm-tab">333</div>
-            <div class="cm-tab">444</div>
+    <div id="cm-list" class="inset-0 absolute flex bg-gray-400 bg-opacity-70 cm-noselect">
+        <div class="cm-container flex flex-col w-max mx-auto mt-10 border border-gray-300 overflow-y-auto bg-gray-100">
+            
+            <div class="cm-element">qweqwe</div>
+            <div class="cm-element">ertert</div>
+            <div class="cm-element">tryrty</div>
+            <div class="cm-element">yutyuty wefewf weew ewew 90</div>
+            <div class="cm-element">111</div>
+            <div class="cm-element">222</div>
+            <div class="cm-element">333</div>
+            <div class="cm-element">444</div>
+            
         </div>
     </div>
 {% endblock %}
 
-{% block tabs %}
-    <div class="cm-tabs flex-grow flex min-w-0">
-        <div class="cm-current my-auto ml-auto whitespace-nowrap _flex-grow min-w-0 truncate text-left _overflow-x-hidden">qqqqqq 22 33</div>
-        <i class="fas fa-caret-left w-6 text-xl my-auto mr-auto text-center cursor-pointer"></i>
+{% block current %}
+    <div class="cm-current flex-grow flex min-w-0">
+        <div class="cm-container my-auto ml-auto whitespace-nowrap _flex-grow min-w-0 truncate text-left _overflow-x-hidden">qqqqqq 22 33</div>
+        <i class="fas fa-caret-left ml-3 w-6 text-xl my-auto mr-auto text-center cursor-pointer duration-150"></i>
     </div>
 
     {#<div id="cm-tabs" class="flex flex-grow min-w-0">
@@ -135,7 +137,7 @@
             {% else %}
                 <i class="cm-file far fa-file"></i>
             {% endif %}
-            <span class="_text-xs px-1">{{ node.name }}</span>
+            <span class="cm-text _text-xs px-1">{{ node.name }}</span>
         </div>
 
         {% if node.children is defined %}
@@ -152,11 +154,9 @@
             {{ _s.node(node) }}
         {% endfor %}
 
-
+        {#
         {% for node in nodes2 %}
             <li data-hid="{{ node.hid }}"
-                {#data-name="{{ node.name }}"
-                data-parent="{{ node.parent }}"#}
                 {% if node.type=='folder' %}
                     data-status="{% if node.children is defined and node.children|length %}1{% else %}0{% endif %}"
                 {% endif %}
@@ -164,7 +164,6 @@
                 <div class="cm-line px-3 truncate" title="{{ node.name }}">
                     {% for i in range(0,node.level) if i>0 %}<span class="inline-block w-4"></span>{% endfor %}
 
-                    {# {% if node.children is defined %} #}
                     {% if node.type == 'folder' %}
                         <i class="cm-action cm-action-open fas fa-folder"></i>
                         <i class="cm-action cm-action-close fas fa-folder-open"></i>
@@ -176,11 +175,10 @@
                 </div>
 
                 {% if node.children is defined %}
-                {# {% if node.type == 'folder' %} #}
-                {# {% if node.children|length %} #}
                     {{ _s.tree(node.children,1) }}
                 {% endif %}
             </li>
         {% endfor %}
+        #}
     </ul>
 {% endmacro %}
