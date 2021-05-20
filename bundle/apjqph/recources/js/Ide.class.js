@@ -46,21 +46,16 @@ export default class Ide {
     // --- --- --- --- ---
     timer(val){
         return new Promise(function(resolve, reject){
-            setTimeout(function(){
-                resolve();
-            },val);
+            setTimeout(() => resolve(),val);
         });
     }
 
     // --- --- --- --- ---
-    cursor(val){
-        console.log(val);
-        
-        const Instance = this;
-        return new Promise(function(resolve,reject){
-            val ? Instance.timer(100).then(() => $('body').removeClass('waiting')) : $('body').addClass('waiting');
-            resolve();
-        });
+    cursor(val=true){
+        val ? $('body').addClass('waiting') :
+        new Promise(function(resolve,reject){
+            if($('body').hasClass('waiting')) resolve();
+        }).then(() => $('body').removeClass('waiting'));
     }
 
     // --- --- --- --- ---
@@ -100,25 +95,23 @@ export default class Ide {
         const _success = function(data){
             _addNode(data);
             _expand();
-            Instance.cursor(0);
+            Instance.cursor(false);
         };
         
         const _error = function(data){
             Instance.Message.error(data.message);
-            Instance.cursor(0);
+            Instance.cursor(false);
         };
         
         // если есть не пустрой ul (есть дочерние узлы) или data-status = 1 (папка открыта), то считается, что дочерние узлы прогружены и нужно только скрыть/раскрыть
         // иначе нужно подгрузить дочерние узлы
         if($node.find('ul').length || $node.attr('data-status') == '1') _expand();
-        else{
-            Instance.cursor(1).then(() => {
-                Instance.ajax({
-                    m : 'node',
-                    hid : $node.data('hid')
-                },_success,_error);
-                
-            });
+        else {
+            Instance.cursor();
+            Instance.ajax({
+                m : 'node',
+                hid : $node.data('hid')
+            },_success,_error);
         }
     }
 
