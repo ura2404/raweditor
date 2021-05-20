@@ -54,6 +54,8 @@ export default class Ide {
 
     // --- --- --- --- ---
     cursor(val){
+        console.log(val);
+        
         const Instance = this;
         return new Promise(function(resolve,reject){
             val ? Instance.timer(100).then(() => $('body').removeClass('waiting')) : $('body').addClass('waiting');
