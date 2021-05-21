@@ -33,9 +33,11 @@ i {
     }
 }
 
-#cm-node-template {
+#cm-node-template,
+#cm-list-template {
     display : none;
 }
+
 
 #cm-ide {
     .cm-ide-direct {
@@ -111,17 +113,28 @@ i {
 
 }
 
-header {
-    .cm-current {
+#cm-current {
+    &:not(.cm-visible) {
         .cm-container {
-            direction : rtl;
-            min-width: 4rem;
+            display : none;
         }
         
-        i.cm-opend {
+        i {
+            display : none;
+        }
+    }
+    
+    &.cm-opend {
+        i {
             transform: rotateZ(-90deg);
         }
     }
+    
+    .cm-container {
+        direction : rtl;
+        min-width: 3rem;
+    }
+
 }
 
 #cm-list {
@@ -149,11 +162,28 @@ header {
             direction : rtl;
             text-align : left;
             flex: none;
-            //padding : 0 10px;
-            
+            padding : 0 10px;
+
             &:hover {
                 background-color: rgba(107, 114, 128, 0.2);
+                i {
+                    opacity : 1
+                }
             }
+            
+            i {
+                opacity : 0;
+            }
+            
+            
+            &[active='active'] {
+                color : white;
+                background-color : slategrey;
+                
+                i {
+                    color : white;
+                }
+            }            
         }
     }
 }

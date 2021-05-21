@@ -83,9 +83,14 @@
             #}
         </div>
     </div>
-    <div id="cm-list" class="inset-0 absolute flex bg-gray-400 bg-opacity-70 cm-noselect">
+    <div id="cm-list" class="inset-0 absolute flex _bg-gray-400 _bg-opacity-70 cm-noselect">
         <div class="cm-container flex flex-col w-max mx-auto mt-10 border border-gray-300 overflow-y-auto bg-gray-100">
-            
+            <div id="cm-list-template" class="cm-element flex duration-100" data-hid="%%hid%%">
+                <i class="cm-close fas fa-times text-gray-400 text-xs mr-0 ml-3 my-auto cursor-pointer duration-100"></i>
+                <i class="cm-push fas fa-thumbtack text-gray-400 text-xs mr-0 ml-5 my-auto cursor-pointer duration-100"></i>
+                <span class="cm-text ml-0 mr-auto truncate">%%name%%</span>
+            </div>
+            {#
             <div class="cm-element">qweqwe</div>
             <div class="cm-element">ertert</div>
             <div class="cm-element">tryrty</div>
@@ -94,14 +99,14 @@
             <div class="cm-element">222</div>
             <div class="cm-element">333</div>
             <div class="cm-element">444</div>
-            
+            #}
         </div>
     </div>
 {% endblock %}
 
 {% block current %}
-    <div class="cm-current flex-grow flex min-w-0">
-        <div class="cm-container my-auto ml-auto whitespace-nowrap _flex-grow min-w-0 truncate text-left _overflow-x-hidden">qqqqqq 22 33</div>
+    <div id="cm-current" class="flex-grow flex min-w-0">
+        <div class="cm-container my-auto ml-auto whitespace-nowrap _flex-grow min-w-0 truncate text-left _overflow-x-hidden"></div>
         <i class="fas fa-caret-left ml-3 w-6 text-xl my-auto mr-auto text-center cursor-pointer duration-150"></i>
     </div>
 

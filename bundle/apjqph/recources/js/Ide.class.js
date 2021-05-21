@@ -1,17 +1,23 @@
 export default class Ide {
-    constructor($tag,message){
+    constructor($tag,$message){
         const Instance = this;
         
         this.$Ide = $tag;
+        this.Message = $message;
+        
         this.Name = this.$Ide.attr('data-name');
         this.$Direct = this.$Ide.find('.cm-ide-direct');
         this.$Tree = this.$Ide.find('.cm-ide-tree');
         this.$Splitter = this.$Ide.find('.cm-splitter');
-        this.$Template = $('#cm-node-template');
-        this.Message = message;
         
-        this.$Current = $('header').find('.cm-current');
+        this.$NodeTemplate = $('#cm-node-template');
+        
+        this.$Current = $('#cm-current');
+        this.$CurrentContainer = this.$Current.find('.cm-container');
+        
         this.$List = $('#cm-list');
+        this.$ListContainer = this.$List.find('.cm-container');
+        this.$ListTemplate = $('#cm-list-template');
     }
 
     // --- --- --- --- ---
@@ -33,7 +39,7 @@ export default class Ide {
                 e.preventDefault();
                 const $Node = $(this).closest('li');
                 if($Node.hasAttr('data-status')) Instance.treeNodeExpand($Node);
-                else Instance.openFile($Node);
+                else Instance.treeNodeOpen($Node);
             })
             .end()
             .find('.cm-line').on('click',function(){                    // click на строке дерева
@@ -46,17 +52,25 @@ export default class Ide {
                 resizeHeight: false
             });
             
-        this.$Current.find('i').on('click',function(e){
-            Instance.list();
-        }).end();
-        
-        this.$List
-            .on('click',function(e){
-                Instance.list();
-            })
-            .find('.cm-element').on('click',function(e){
-                console.log('element click',this);
+        this.$ListTemplate
+            .find('.cm-close').on('click',function(e){
+                e.stopPropagation();
+                console.log('close');
+                Instance.closeFile($(this).parent().attr('data-hid'));
+            }).end()
+            .find('.cm-push').on('click',function(e){
+                e.stopPropagation();
+                console.log('push');
+                Instance.pushFile($(this).parent().attr('data-hid'));
             });
+            
+        const _list = function(){
+            Instance.$Current.toggleClass('cm-opend');
+            Instance.$List.toggleClass('cm-opend');
+        };
+        
+        this.$Current.find('i').on('click',_list);
+        this.$List.on('click',_list).find('.cm-element').on('click',function(){ Instance.selectFile($(this).attr('data-hid')) });
     }
 
     // --- --- --- --- ---
@@ -75,6 +89,9 @@ export default class Ide {
     }
 
     // --- --- --- --- ---
+    /**
+     * expand tree node
+     */
     treeNodeExpand($node){
         const Instance = this;
         
@@ -88,14 +105,14 @@ export default class Ide {
         const _addNode = function(data){
             let List = data.data.list;
             
-            const $Tab = Instance.$Template.find('.cm-tab');
+            const $Tab = Instance.$NodeTemplate.find('.cm-tab');
             let $Container = $node.append('<ul></ul>').children('ul');
             
             for(let i=0; i<Object.keys(List).length; i++){
                 const Name = List[i].name;
                 const Hid = List[i].hid;
                 
-                Instance.$Template.clone(true,true).removeAttr('id').map(function(index, element){
+                Instance.$NodeTemplate.clone(true,true).removeAttr('id').map(function(index, element){
                     $(this).attr('data-hid',Hid).children('div').attr('title',Name).children('.cm-text').text(Name);
                     
                     for(let j=0; j<List[i].level-1; j++){
@@ -132,18 +149,82 @@ export default class Ide {
     }
     
     // --- --- --- --- ---
-    list(){
-        console.log('click');
-        const Instance = this;
-        this.$Current.find('i').toggleClass('cm-opend');
-        this.$List.toggleClass('cm-opend');
+    /**
+     * visible or not visible current
+     */
+    checkCurrent(){
+        console.log('list container count',this.$ListContainer.children('div').length);
+        this.$ListContainer.children('div').length ? this.$Current.addClass('cm-visible') : this.$Current.removeClass('cm-visible');
     }
     
     // --- --- --- --- ---
-    openFile($node){
-        console.log($node);
-        jQuery('<div/>').addClass('cm-element').text($node.find('.cm-text').text()).appendTo(this.$List.find('.cm-container'));
+    /**
+     * open file from tree node
+     */
+    treeNodeOpen($node){
+        const Instance = this;
+        
+        const Name = $node.find('.cm-text').text();
+        const Hid = $node.attr('data-hid');
+
+        new Promise(function(resolve, reject){
+            Instance.$ListTemplate.clone(true,true).removeAttr('id').attr('data-hid',Hid).find('.cm-text').text(Name).end().appendTo(Instance.$ListContainer);
+            resolve();
+        }).then(() => {
+            Instance.$CurrentContainer.text(Name);
+            Instance.checkCurrent();
+        });
+        
+        this.selectFile(Hid);
+    }
+    
+    // --- --- --- --- ---
+    selectFile(hid){
+        console.log('hid',hid);
+        const Instance = this;
+        
+        const $ListContainer = this.$List.find('.cm-container');
+        const $CurrentContainer = this.$Current.find('.cm-container');
+        
+        $ListContainer.find('.cm-element').each(function(){
+            if($(this).attr('data-hid') === hid){
+                $(this).attr('active','active');
+                $CurrentContainer.text($(this).text());
+            }
+            else $(this).removeAttr('active');
+        });
+        
+        return;        
+        
+        /*
+        const Name = $node.find('.cm-text').text();
+        const Hid = $node.attr('data-hid');
+        const $ListContainer = this.$List.find('.cm-container');
+        const $CurrentContainer = this.$Current.find('.cm-container');
+        
+        new Promise(function(resolve, reject){
+            $($CurrentContainer.children('div').length) ? Instance.$Current.addClass('cm-visible') : Instance.$Current.removeClass('cm-visible');
+            resolve();
+        }).then(() => $CurrentContainer.text(Name));
+        
+        $ListContainer.find('.cm-element').each(function(){$(this).removeAttr('active')});
+        
+        this.$ListTemplate.clone(true,true).removeAttr('id').attr('active','active').attr('data-hid',Hid).text(Name).appendTo($ListContainer);
+        
+        //jQuery('<div/>').addClass('cm-element').attr('active','active').attr('data-hid',Hid).text(Name).appendTo($ListContainer);
         //this.$List.find('.cm-container').
+        */
+    }
+    
+    pushFile(hid){
+        console.log(hid);
+    }
+
+    closeFile(hid){
+        console.log(hid);
+        this.$ListContainer.find('.cm-element').map(function(p1,p2,p3){
+            console.log(p1,p2,p3);
+        });
     }
     
     // --- --- --- --- ---
