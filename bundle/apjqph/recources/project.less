@@ -167,7 +167,11 @@ i {
             &:hover {
                 background-color: rgba(107, 114, 128, 0.2);
                 i {
-                    opacity : 1
+                    opacity : 1;
+                    
+                    &:hover {
+                        color: white;
+                    }
                 }
             }
             
@@ -175,13 +179,15 @@ i {
                 opacity : 0;
             }
             
-            
             &[active='active'] {
                 color : white;
                 background-color : slategrey;
                 
                 i {
                     color : white;
+                    &:hover {
+                        color : rgb(156,163,175);
+                    }
                 }
             }            
         }

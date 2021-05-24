@@ -64,6 +64,9 @@ export default class Ide {
                 Instance.pushFile($(this).parent().attr('data-hid'));
             });
             
+        /**
+         * открыть / закрыть список файлов
+         */
         const _list = function(){
             Instance.$Current.toggleClass('cm-opend');
             Instance.$List.toggleClass('cm-opend');
@@ -216,14 +219,16 @@ export default class Ide {
         */
     }
     
+    // --- --- --- --- ---
     pushFile(hid){
-        console.log(hid);
+        console.log('push',hid);
     }
 
+    // --- --- --- --- ---
     closeFile(hid){
-        console.log(hid);
-        this.$ListContainer.find('.cm-element').map(function(p1,p2,p3){
-            console.log(p1,p2,p3);
+        console.log('close',hid);
+        this.$ListContainer.find('.cm-element').map(function(index,element){
+            console.log(index,element);
         });
     }
     
