@@ -53,15 +53,18 @@ export default class Ide {
             });
             
         this.$ListTemplate
+            .on('click',function(e){
+                Instance.selectFile($(this));
+            })
             .find('.cm-close').on('click',function(e){
                 e.stopPropagation();
                 console.log('close');
-                Instance.closeFile($(this).parent().attr('data-hid'));
+                Instance.closeFile($(this).parent());
             }).end()
             .find('.cm-push').on('click',function(e){
                 e.stopPropagation();
                 console.log('push');
-                Instance.pushFile($(this).parent().attr('data-hid'));
+                Instance.pushFile($(this).parent());
             });
             
         /**
@@ -73,7 +76,7 @@ export default class Ide {
         };
         
         this.$Current.find('i').on('click',_list);
-        this.$List.on('click',_list).find('.cm-element').on('click',function(){ Instance.selectFile($(this).attr('data-hid')) });
+        this.$List.on('click',_list);
     }
 
     // --- --- --- --- ---
@@ -156,8 +159,16 @@ export default class Ide {
      * visible or not visible current
      */
     checkCurrent(){
-        console.log('list container count',this.$ListContainer.children('div').length);
-        this.$ListContainer.children('div').length ? this.$Current.addClass('cm-visible') : this.$Current.removeClass('cm-visible');
+        console.log('list container count',this.$ListContainer.children('div:not([id])').length);
+        
+        if(this.$ListContainer.children('div:not([id])').length){
+            this.$Current.addClass('cm-visible');
+            this.$List.addClass('cm-visible');
+        }
+        else {
+            this.$Current.removeClass('cm-visible');
+            this.$List.removeClass('cm-visible');
+        }
     }
     
     // --- --- --- --- ---
@@ -169,67 +180,78 @@ export default class Ide {
         
         const Name = $node.find('.cm-text').text();
         const Hid = $node.attr('data-hid');
-
-        new Promise(function(resolve, reject){
-            Instance.$ListTemplate.clone(true,true).removeAttr('id').attr('data-hid',Hid).find('.cm-text').text(Name).end().appendTo(Instance.$ListContainer);
-            resolve();
-        }).then(() => {
-            Instance.$CurrentContainer.text(Name);
-            Instance.checkCurrent();
-        });
         
-        this.selectFile(Hid);
+        const $ListContainer = this.$List.find('.cm-container');
+        
+        if(
+            $ListContainer.find('.cm-element:not([id])').map(function(){
+                return $(this).attr('data-hid') === Hid;
+            }).get().every(function(val){ return !val; }) 
+        ){
+            new Promise(function(resolve, reject){
+                resolve(Instance.$ListTemplate.clone(true,true).removeAttr('id').attr('data-hid',Hid).find('.cm-text').text(Name).end().appendTo(Instance.$ListContainer));
+            }).then($element => {
+                Instance.$CurrentContainer.text(Name);
+                Instance.selectFile($element);
+                Instance.checkCurrent();
+            });
+        }
+        else{
+            const $Element = Instance.$ListContainer.find('.cm-element[data-hid='+Hid+']');
+            Instance.selectFile($Element);
+        }
     }
     
     // --- --- --- --- ---
-    selectFile(hid){
-        console.log('hid',hid);
+    selectFile($element){
+        console.log('select',$element);
+        const Hid = $element.attr('data-hid');
+        console.log('select',Hid);
+        
         const Instance = this;
         
-        const $ListContainer = this.$List.find('.cm-container');
-        const $CurrentContainer = this.$Current.find('.cm-container');
-        
-        $ListContainer.find('.cm-element').each(function(){
-            if($(this).attr('data-hid') === hid){
-                $(this).attr('active','active');
-                $CurrentContainer.text($(this).text());
-            }
-            else $(this).removeAttr('active');
-        });
-        
-        return;        
-        
-        /*
-        const Name = $node.find('.cm-text').text();
-        const Hid = $node.attr('data-hid');
-        const $ListContainer = this.$List.find('.cm-container');
-        const $CurrentContainer = this.$Current.find('.cm-container');
-        
-        new Promise(function(resolve, reject){
-            $($CurrentContainer.children('div').length) ? Instance.$Current.addClass('cm-visible') : Instance.$Current.removeClass('cm-visible');
-            resolve();
-        }).then(() => $CurrentContainer.text(Name));
-        
-        $ListContainer.find('.cm-element').each(function(){$(this).removeAttr('active')});
-        
-        this.$ListTemplate.clone(true,true).removeAttr('id').attr('active','active').attr('data-hid',Hid).text(Name).appendTo($ListContainer);
-        
-        //jQuery('<div/>').addClass('cm-element').attr('active','active').attr('data-hid',Hid).text(Name).appendTo($ListContainer);
-        //this.$List.find('.cm-container').
-        */
+        this.$ListContainer.find('.cm-element:not([id])').removeAttr('active');
+        $element.attr('active','active');
+        this.$CurrentContainer.text($element.text());
     }
     
     // --- --- --- --- ---
-    pushFile(hid){
-        console.log('push',hid);
+    pushFile($element){
+        const Hid = $element.attr('data-hid');
+        console.log('push',Hid);
+        
+        let $List = this.$ListContainer.find('.cm-element:not([id])');
+        let Count = this.$ListContainer.find('.cm-element.cm-push').length;
+        console.log(Count,$List);
+        
+        if($element.hasClass('cm-pushed')){
+        }
+        else{
+            if(Count) $element.detach().insertAfter($List.eq(Count));
+            else $element.detach().prependTo($List);
+        }
+        
+        $element.toggleClass('cm-pushed');
     }
 
     // --- --- --- --- ---
-    closeFile(hid){
-        console.log('close',hid);
-        this.$ListContainer.find('.cm-element').map(function(index,element){
-            console.log(index,element);
-        });
+    closeFile($element){
+        const Instance = this;
+        const Hid = $element.attr('data-hid');
+        console.log('close',Hid);
+        
+        //let PreHid;
+        let $List = this.$ListContainer.find('.cm-element:not([id])');
+        let Count = $List.length;
+        let Index = $element.index();
+        
+        Instance.selectFile($List.eq(Index-1));
+        
+        if(Index !== Count) Instance.selectFile($List.eq(Index));
+        else Instance.selectFile($List.eq(Index-2));
+
+        $element.remove();
+        Instance.checkCurrent();
     }
     
     // --- --- --- --- ---

@@ -145,6 +145,12 @@ i {
     z-index : -1000;
     display: none;
     
+    &:not(.cm-visible) {
+        .cm-container {
+            display : none;
+        }
+    }
+    
     &.cm-opend {
         display: flex;
         top : 0;
@@ -155,6 +161,22 @@ i {
     }
     
     .cm-container {
+        @media (max-width: 767px) {
+            /* стили для xs-устройств */
+            min-width: 5rem;
+        }
+        @media (min-width: 768px) and (max-width: 991px) {
+            /* стили для sm-устройств */
+            min-width: 10rem;
+        }
+        @media (min-width: 991px) and (max-width: 1199px) {
+            /* стили для md-устройств */
+        }
+        @media (min-width: 1200px) {
+            /* стили для lg-устройств */
+            min-width: 20rem;
+        }
+
         .cm-element {
             overflow: hidden;
             text-overflow: ellipsis;
@@ -163,7 +185,7 @@ i {
             text-align : left;
             flex: none;
             padding : 0 10px;
-
+            
             &:hover {
                 background-color: rgba(107, 114, 128, 0.2);
                 i {
@@ -189,7 +211,14 @@ i {
                         color : rgb(156,163,175);
                     }
                 }
-            }            
+            }
+            
+            &.cm-pushed {
+                .cm-push {
+                    transform: rotateZ(45deg);
+                    opacity : 1;
+                }
+            }
         }
     }
 }
