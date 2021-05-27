@@ -87,6 +87,10 @@ $_file = function(){
     
     $Cache = \Cmatrix\Cache::session()->folder('tree-'.$Name);
     $Json = $Cache->getJson($Hid);
+    
+    $Path = \Cmatrix\Project::get($Name)->Path .'/'. $Json['parent'] .'/'. $Json['name'];
+    
+    $Json['content'] = file_get_contents($Path);
 
     return [
         'message' => 'OK',

@@ -189,9 +189,10 @@ export default class Ide {
         
         const _success = function(data){
             const Parent = data.data.parent;
+            const Content = data.data.content;
 
             new Promise(function(resolve, reject){
-                const $Ace = $('<div/>').addClass('cm-ace').attr('data-hid',Hid).appendTo(Instance.$AceContainer);
+                const $Ace = $('<div/>').addClass('cm-ace').attr('id','ace'+Hid).text(Content).appendTo(Instance.$AceContainer);
                 const $Element = Instance.$ListTemplate.clone(true,true).removeAttr('id').attr('data-hid',Hid).attr('data-parent',Parent).find('.cm-text').text(Name).end().appendTo(Instance.$ListContainer);
                 resolve([$Ace,$Element]);
             }).then(data => {
@@ -248,7 +249,7 @@ export default class Ide {
         this.$AceHeader.text(Parent+'/'+Name);
         
         this.$AceContainer.find('.cm-ace').removeAttr('visible');
-        this.$AceContainer.find(".cm-ace[data-hid='" +Hid+ "']").attr('visible','visible').text(Name);
+        this.$AceContainer.find('#ace'+Hid).attr('visible','visible');
     }
     
     // --- --- --- --- ---
