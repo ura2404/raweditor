@@ -46,28 +46,26 @@ $_node = function(){
     $Cache = \Cmatrix\Cache::session()->folder('tree-'.$Name);
     $Json = $Cache->getJson($Hid);
     $Level = $Json['level'];
-    $Url = $Json['url'];
-    $Path = \Cmatrix\Project::get($Name)->Path .'/'. $Json['url'];
-
-/*return;
-    $Tree = \Cmatrix\Cache::session()->getJson('tree-'.$Name);
-    $Hash = \Cmatrix\Hash::create($Tree->Data);
-    $Node = $Hash->getRuleValue(['hid'=>$Hid]);
-    if(!$Node) die('Fuck off!!!');
-
-    $Path = \Cmatrix\Project::get($Name)->Path . $Node['parent'] .'/'. $Node['name'];
-    */
+    $Url = $Json['parent'] .'/'. $Json['name'];
     
+    $Path = \Cmatrix\Project::get($Name)->Path .'/'. $Url;
+    
+    //dump($Url);
+    //dump($Path);
+
     $Dir = \Cmatrix\Dir::get($Path);
     $List = $Dir->getList(function(&$item) use($Cache,$Json){
-        $item['parent'] = $Json['url'];
+        $item['parent'] = $Json['parent'] .'/'. $Json['name'];
         
-        $Url = $item['parent'].'/'.$item['name'];
-        $item['hid'] = hid($Url);
+        //$Url = $item['parent'].'/'.$item['name'];
+        
+        $item['hid'] = hid($item['parent'].'/'.$item['name']);
         $item['level'] = $Json['level'] + 1;
         
         $Cache->putJson($item['hid'],[
-            'url' => $Url,
+            //'url' => $Url,
+            'name' => $item['name'],
+            'parent' => $item['parent'],
             'level' => $item['level']
         ]);
         
@@ -82,12 +80,28 @@ $_node = function(){
     ];
 };
 
+$_file = function(){
+    $Name = isset($_POST['name']) ? $_POST['name'] : null;
+    $Hid = isset($_POST['hid']) ? $_POST['hid'] : null;
+    if(!$Name || !$Hid) die('Fuck off!!!');
+    
+    $Cache = \Cmatrix\Cache::session()->folder('tree-'.$Name);
+    $Json = $Cache->getJson($Hid);
+
+    return [
+        'message' => 'OK',
+        'data' => $Json
+    ];
+    
+};
 
 try{
     switch($Mode){
 //        case 'add'  : $Ret = $_add();break;
 //        case 'del'  : $Ret = $_del();break;
         case 'node' : $Ret = $_node();break;
+        case 'file' : $Ret = $_file();break;
+        default : die('Fuck off!!!');
     }
 
     echo json_encode(array_merge([

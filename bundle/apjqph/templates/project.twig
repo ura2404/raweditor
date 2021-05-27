@@ -27,8 +27,8 @@
     <div id="cm-ide" class="cm-project bg-white _container mx-auto flex h-full" data-name="{{ name }}">
         
         <div class="cm-ide-direct w-11 flex flex-col bg-gray-600 text-white">
-            <i class="cm-action-tree fas fa-sitemap p-3 hover:bg-gray-400 duration-75" title="{{ local.project.tree }}"></i>
-            <i class="fas fa-user-friends p-3 hover:bg-gray-400 duration-75"></i>
+            <i class="cm-action-tree fas fa-sitemap _p-3 _hover:bg-gray-300 _hover:text-gray-500 _duration-75" title="{{ local.project.tree }}"></i>
+            <i class="fas fa-user-friends _p-3 _hover:bg-gray-300 _hover:text-gray-500 _duration-75"></i>
         </div>
         
         <div class="cm-ide-tree bg-gray-700 text-white py-2 _px-3 duration-75 overflow-y-auto w-52">
@@ -46,46 +46,20 @@
         
         <div class="cm-splitter w-1"></div>
         {#<div class="flex-auto bg-green-500">332e3e3/</div>#}
-        <div class="cm-ide-container flex-1 min-w-0 overflow-x-auto _flex-auto">
-            <div>we'fkwe'fkwkefjqwjefjqwje;fqjwejfqwefjwefjjwefkjwe;lfjwfjejwefjw;ljef;ljwef;ljwelfjlwjeflkfew_890</div>
-            {#
-            <ul class="cm-tabs _overflow-x-auto _flex-nowrap _fixed">
-                <li class="cm-tab">1111</li>
-                <li class="cm-tab">2222</li>
-                <li class="cm-tab">3333</li>
-                <li class="cm-tab">4444</li>
-                <li class="cm-tab">5555</li>
-                <li class="cm-tab">6666</li>
-                <li class="cm-tab">7777</li>
-                <li class="cm-tab">8888</li>
-                <li class="cm-tab">9999</li>
-                <li class="cm-tab">0000</li>
-                
-                <li class="cm-tab">1111</li>
-                <li class="cm-tab">2222</li>
-                <li class="cm-tab">3333</li>
-                <li class="cm-tab">4444</li>
-                <li class="cm-tab">5555</li>
-                <li class="cm-tab">6666</li>
-                <li class="cm-tab">7777</li>
-                <li class="cm-tab">8888</li>
-                <li class="cm-tab">9999</li>
-                <li class="cm-tab">0000</li>
-                
-            </ul>
-            
-            <div class="cm-aces">
-                <div>c_1111</div>
-                <div>c_2222</div>
-                <div>c_3333</div>
-                <div>c_4444</div>
+        
+        <div class="cm-ide-ace flex-1 min-w-0 flex flex-col">
+            <div class="cm-header h-10 bg-gray-400 text-white flex">
+                <div class="cm-text px-2 my-auto truncate text-left"></div>
             </div>
-            #}
+            <div class="cm-container overflow-x-auto flex-1">
+                {#<div>we'fkwe'fkwkefjqwjefjqwje;fqjwejfqwefjwefjjwefkjwe;lfjwfjejwefjw;ljef;ljwef;ljwelfjlwjeflkfew_890</div>#}
+            </div>
         </div>
     </div>
+    
     <div id="cm-list" class="inset-0 absolute flex _bg-gray-400 _bg-opacity-70 cm-noselect">
         <div class="cm-container flex flex-col w-max mx-auto mt-10 border border-gray-300 overflow-y-auto bg-gray-100">
-            <div id="cm-list-template" class="cm-element flex duration-100" data-hid="%%hid%%">
+            <div id="cm-list-template" class="cm-element flex duration-100" data-hid="%%hid%%" data-parent="%%parent%%">
                 <i class="cm-close fas fa-times text-gray-400 text-xs mr-0 ml-3 my-auto cursor-pointer duration-100"></i>
                 <i class="cm-push fas fa-thumbtack text-gray-400 text-xs mr-0 ml-5 my-auto cursor-pointer duration-100"></i>
                 <span class="cm-text ml-0 mr-auto truncate">%%name%%</span>

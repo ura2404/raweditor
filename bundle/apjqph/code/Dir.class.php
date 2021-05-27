@@ -59,6 +59,7 @@ class Dir{
             
             //asort($Dir);
             //sort($Dir,SORT_STRING);
+            
             usort($Dir,function($a,$b) use($path){
                 return is_dir($path.'/'.$a) ?  -1 : 1;
             });
@@ -69,7 +70,7 @@ class Dir{
             $Dir = array_map(function($val) use($path,$level,$_callback,&$_rec){
                 $Path = $path .'/'. $val;
                 $Data = [
-                    'parent' => strAfter($path,$this->Path),
+                    'parent' => ltrim(strAfter($path,$this->Path),'/'),
                     'name' => $val,
                     'level' => $level,
                     'type' => is_dir($Path) ? 'folder' : (is_link($Path) ? 'link' : 'file'),

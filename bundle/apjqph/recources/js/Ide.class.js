@@ -1,3 +1,5 @@
+import Ace from './Ace.class.js';
+
 export default class Ide {
     constructor($tag,$message){
         const Instance = this;
@@ -18,6 +20,10 @@ export default class Ide {
         this.$List = $('#cm-list');
         this.$ListContainer = this.$List.find('.cm-container');
         this.$ListTemplate = $('#cm-list-template');
+        
+        this.$Ace = $('.cm-ide-ace');
+        this.$AceHeader = this.$Ace.find('.cm-header .cm-text');
+        this.$AceContainer = this.$Ace.find('.cm-container');
     }
 
     // --- --- --- --- ---
@@ -142,6 +148,7 @@ export default class Ide {
             Instance.cursor(false);
         };
         
+        // --- --- --- --- ---
         // если есть не пустрой ul (есть дочерние узлы) или data-status = 1 (папка открыта), то считается, что дочерние узлы прогружены и нужно только скрыть/раскрыть
         // иначе нужно подгрузить дочерние узлы
         if($node.find('ul').length || $node.attr('data-status') == '1') _expand();
@@ -156,12 +163,12 @@ export default class Ide {
     
     // --- --- --- --- ---
     /**
-     * visible or not visible current
+     * visible or not visible current and list
      */
-    checkCurrent(){
-        console.log('list container count',this.$ListContainer.children('div:not([id])').length);
+    checkCurrent(def=null){
+        //console.log('list container count',this.$ListContainer.children('div:not([id])').length);
         
-        if(this.$ListContainer.children('div:not([id])').length){
+        if(def === true || this.$ListContainer.children('div:not([id])').length){
             this.$Current.addClass('cm-visible');
             this.$List.addClass('cm-visible');
         }
@@ -177,26 +184,48 @@ export default class Ide {
      */
     treeNodeOpen($node){
         const Instance = this;
-        
         const Name = $node.find('.cm-text').text();
         const Hid = $node.attr('data-hid');
         
-        const $ListContainer = this.$List.find('.cm-container');
+        const _success = function(data){
+            const Parent = data.data.parent;
+
+            new Promise(function(resolve, reject){
+                const $Ace = $('<div/>').addClass('cm-ace').attr('data-hid',Hid).appendTo(Instance.$AceContainer);
+                const $Element = Instance.$ListTemplate.clone(true,true).removeAttr('id').attr('data-hid',Hid).attr('data-parent',Parent).find('.cm-text').text(Name).end().appendTo(Instance.$ListContainer);
+                resolve([$Ace,$Element]);
+            }).then(data => {
+                new Ace(data[0]);
+                Instance.$CurrentContainer.text(Name);
+                Instance.selectFile(data[1]);
+                Instance.checkCurrent(true);
+                Instance.cursor(false);
+            });
+        };
         
+        const _error = function(data){
+            Instance.Message.error(data.message);
+            Instance.cursor(false);
+        };
+        
+        // --- --- --- --- ---
+        // если файл открывался выбрать его
+        // иначе получить параметры из кеша
         if(
-            $ListContainer.find('.cm-element:not([id])').map(function(){
+            this.$ListContainer.find('.cm-element:not([id])').map(function(){
                 return $(this).attr('data-hid') === Hid;
             }).get().every(function(val){ return !val; }) 
         ){
-            new Promise(function(resolve, reject){
-                resolve(Instance.$ListTemplate.clone(true,true).removeAttr('id').attr('data-hid',Hid).find('.cm-text').text(Name).end().appendTo(Instance.$ListContainer));
-            }).then($element => {
-                Instance.$CurrentContainer.text(Name);
-                Instance.selectFile($element);
-                Instance.checkCurrent();
-            });
+            // если файл НЕ открыт - получить параметры мз кеша и клонировать шаблон
+            Instance.cursor();
+            Instance.ajax({
+                m : 'file',
+                hid : $node.data('hid')
+            },_success,_error);
+            
         }
-        else{
+        else {
+            // если файл открыт - выбрать его
             const $Element = Instance.$ListContainer.find('.cm-element[data-hid='+Hid+']');
             Instance.selectFile($Element);
         }
@@ -204,15 +233,22 @@ export default class Ide {
     
     // --- --- --- --- ---
     selectFile($element){
-        console.log('select',$element);
+        //console.log('select',$element);
+        
         const Hid = $element.attr('data-hid');
-        console.log('select',Hid);
+        const Parent = $element.attr('data-parent');
+        const Name = $element.text();
+        //console.log('select',Hid);
         
         const Instance = this;
         
         this.$ListContainer.find('.cm-element:not([id])').removeAttr('active');
         $element.attr('active','active');
-        this.$CurrentContainer.text($element.text());
+        this.$CurrentContainer.text(Name);
+        this.$AceHeader.text(Parent+'/'+Name);
+        
+        this.$AceContainer.find('.cm-ace').removeAttr('visible');
+        this.$AceContainer.find(".cm-ace[data-hid='" +Hid+ "']").attr('visible','visible').text(Name);
     }
     
     // --- --- --- --- ---
@@ -227,8 +263,8 @@ export default class Ide {
         if($element.hasClass('cm-pushed')){
         }
         else{
-            if(Count) $element.detach().insertAfter($List.eq(Count));
-            else $element.detach().prependTo($List);
+            //if(Count) $element.detach().insertAfter($List.eq(Count));
+            //else $element.detach().prependTo($List);
         }
         
         $element.toggleClass('cm-pushed');
@@ -236,6 +272,8 @@ export default class Ide {
 
     // --- --- --- --- ---
     closeFile($element){
+        if($element.hasClass('cm-pushed'))return;
+        
         const Instance = this;
         const Hid = $element.attr('data-hid');
         console.log('close',Hid);
@@ -272,5 +310,4 @@ export default class Ide {
             _error(data);
         });
     }
-
 }

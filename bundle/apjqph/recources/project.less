@@ -43,6 +43,13 @@ i {
     .cm-ide-direct {
         i {
             cursor : pointer;
+            transition-duration : 75ms;
+            padding: .75rem;            
+            
+            &:hover {
+                background-color : rgb(209, 213, 219);
+                color : rgb(107, 114, 128);
+            }
         }
     }
 
@@ -97,17 +104,21 @@ i {
         }
     }
     
-    .cm-ide-container {
-        //min-width: 0;
+    .cm-ide-ace {
+        background-color : beige;
         
-        .cm-tabs {
-            //min-width: 0
-            //display: flex;
+        .cm-header {
+            .cm-text {
+                direction : rtl;
+                min-width: 2rem;
+            }
+            
         }
         
-        .cm-tab {
-            margin: 0px 5px;
-            display: inline-block;
+        .cm-container {
+            .cm-ace:not([visible='visible']) {
+                display : none;
+            }
         }
     }
 
