@@ -9,6 +9,12 @@
 
 {% block js %}
     <script type="module" src="res/jquery.com/plugin/jquery-resizable.js"></script>
+    
+    <script type="text/javascript" src="res/ace.c9.io/1.4.12/src-min/ace.js"></script>
+    <script type="text/javascript" src="res/ace.c9.io/1.4.12/src-noconflict/ext-language_tools.js"></script>
+    <script type="text/javascript" src="res/ace.c9.io/1.4.12/src-noconflict/ext-emmet.js"></script>
+    <script type="text/javascript" src="res/ace.c9.io/emmet.js"></script>
+    
     <script type="module" src="res/res/project.js"></script>
 {% endblock %}
 
@@ -51,8 +57,8 @@
             <div class="cm-header h-10 bg-gray-400 text-white flex">
                 <div class="cm-text px-2 my-auto truncate text-left"></div>
             </div>
-            <div class="cm-container overflow-x-auto flex-1">
-                {#<div>we'fkwe'fkwkefjqwjefjqwje;fqjwejfqwefjwefjjwefkjwe;lfjwfjejwefjw;ljef;ljwef;ljwelfjlwjeflkfew_890</div>#}
+            <div class="cm-container overflow-x-auto flex-1 flex">
+                <div id="cm-ace-template" class="cm-template cm-ace flex-1"></div>
             </div>
         </div>
     </div>
@@ -70,7 +76,7 @@
 
 {% block current %}
     <div id="cm-current" class="flex-grow flex min-w-0">
-        <div class="cm-container my-auto ml-auto whitespace-nowrap _flex-grow min-w-0 truncate text-left _overflow-x-hidden"></div>
+        <div class="cm-container my-auto ml-auto whitespace-nowrap _flex-grow min-w-0 truncate text-left cursor-pointer"></div>
         <i class="fas fa-caret-left ml-3 w-6 text-xl my-auto mr-auto text-center cursor-pointer duration-150"></i>
     </div>
 {% endblock %}

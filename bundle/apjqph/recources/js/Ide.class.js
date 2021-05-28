@@ -24,6 +24,7 @@ export default class Ide {
         this.$Ace = $('.cm-ide-ace');
         this.$AceHeader = this.$Ace.find('.cm-header .cm-text');
         this.$AceContainer = this.$Ace.find('.cm-container');
+        this.$AceTemplate = $('#cm-ace-template');
     }
 
     // --- --- --- --- ---
@@ -83,6 +84,8 @@ export default class Ide {
         
         this.$Current.find('i').on('click',_list);
         this.$List.on('click',_list);
+        
+        this.$CurrentContainer.on('click',_list);
     }
 
     // --- --- --- --- ---
@@ -190,13 +193,27 @@ export default class Ide {
         const _success = function(data){
             const Parent = data.data.parent;
             const Content = data.data.content;
-
+            
             new Promise(function(resolve, reject){
-                const $Ace = $('<div/>').addClass('cm-ace').attr('id','ace'+Hid).text(Content).appendTo(Instance.$AceContainer);
-                const $Element = Instance.$ListTemplate.clone(true,true).removeAttr('id').attr('data-hid',Hid).attr('data-parent',Parent).find('.cm-text').text(Name).end().appendTo(Instance.$ListContainer);
+                const $Ace = Instance.$AceTemplate.clone(true,true)
+                    .removeClass('cm-template').attr('id','ace'+Hid).attr('data-hid',Hid)
+                    .text(Content)
+                    .data('cm-name',Name).data('cm-hid',Hid)
+                    .appendTo(Instance.$AceContainer);
+                
+                const $Element = Instance.$ListTemplate.clone(true,true)
+                    .removeAttr('id').removeClass('cm-template')
+                    .attr('data-hid',Hid).attr('data-parent',Parent)
+                    .find('.cm-text').text(Name).end()
+                    .appendTo(Instance.$ListContainer);
+                    
                 resolve([$Ace,$Element]);
             }).then(data => {
-                new Ace(data[0]);
+                new Ace(data[0],{
+                    ide : Instance,
+                    save : Instance.saveFile
+                });
+                
                 Instance.$CurrentContainer.text(Name);
                 Instance.selectFile(data[1]);
                 Instance.checkCurrent(true);
@@ -273,9 +290,9 @@ export default class Ide {
 
     // --- --- --- --- ---
     closeFile($element){
+        const Instance = this;
         if($element.hasClass('cm-pushed'))return;
         
-        const Instance = this;
         const Hid = $element.attr('data-hid');
         console.log('close',Hid);
         
@@ -288,9 +305,32 @@ export default class Ide {
         
         if(Index !== Count) Instance.selectFile($List.eq(Index));
         else Instance.selectFile($List.eq(Index-2));
-
+        
         $element.remove();
         Instance.checkCurrent();
+    }
+    
+    // --- --- --- --- ---
+    saveFile(content){
+        console.log(this);
+        const Instance = this;
+        console.log('qaz SAVE qaz',content);
+        
+        const _success = function(data){
+            Instance.cursor(false);            
+        };
+console.log(Instance);
+        Instance.cursor();
+        Instance.ajax({
+            m : 'save',
+            hid : $node.data('hid'),
+            data : content
+        },_success,this.ajaxError);
+   }
+    
+    ajaxError(data){
+        this.Message.error(data.message);
+        this.cursor(false);
     }
     
     // --- --- --- --- ---

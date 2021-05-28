@@ -1,10 +1,12 @@
 import Ide from './js/Ide.class.js';
 import Message from './js/Message.class.js';
-import Ace from './js/Ace.class.js';
 
 const ide = new Ide($('#cm-ide'),new Message());
 
 $(document).ready(function(){
+//    ace.require("ace/ext/language_tools");
+//    ace.require("ace/ext/emmet");
+    
     ide.init();
 
 /*
