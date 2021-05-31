@@ -1,0 +1,11 @@
+qaz
+123
+
+
+    // --- --- --- --- ---
+    function __get($name){
+        switch($name){
+            case 'Path' : return CM_TOP.'/cache/'.$this->Name.($this->Folder ? '/'.$this->Folder : null);
+            case 'Data' : return $this->Data;
+        }
+    }

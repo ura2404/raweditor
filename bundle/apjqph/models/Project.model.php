@@ -3,16 +3,16 @@ namespace Cmatrix\Models;
 
 class Project extends Common {
     public function getData(){
-        $Name = $this->getMyName();
+        $Project = $this->getMyProjectName();
         
         return arrayMergeReplace(parent::getData(),[
-            'name' => $Name,
-            'tree' => $this->getMyTree($Name),
+            'project' => $Project,
+            'tree' => $this->getMyTree($Project),
         ]);
     }
 
     // --- --- --- --- ---
-    private function getMyName(){
+    private function getMyProjectName(){
         return strAfter(\Cmatrix\App::$PAGE,'project/');
         //return htmlspecialchars(strAfter(\Cmatrix\App::$PAGE,'project/'));
         //$Arr = explode('/',\Cmatrix\App::$PARAMS);
@@ -20,10 +20,10 @@ class Project extends Common {
     }
 
     // --- --- --- --- ---
-    private function getMyTree($name){
-        $Cache = \Cmatrix\Cache::session()->touchFolder('tree-'.$name);
+    private function getMyTree($project){
+        $Cache = \Cmatrix\Cache::session()->touchFolder('tree-'.$project);
         
-        $Path = \Cmatrix\Project::get($name)->Path;
+        $Path = \Cmatrix\Project::get($project)->Path;
         $Dir = \Cmatrix\Dir::get($Path);
         
         $Tree = $Dir->getTree(function(&$item) use($Cache){

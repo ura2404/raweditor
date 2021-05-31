@@ -5,7 +5,8 @@ class Exception extends \Exception{
     private $Data;
 
     // --- --- --- --- ---
-    function __construct(){
+    function __construct($message=''){
+        parent::__construct($message);
     }
 }
 ?>

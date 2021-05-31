@@ -1,6 +1,6 @@
 <?php
 namespace Cmatrix;
-use \Cmatris as cm;
+use \Cmatrix as cm;
 
 class Hash {
     private $Data = [];

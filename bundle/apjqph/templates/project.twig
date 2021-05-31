@@ -1,14 +1,20 @@
 {% extends "common.twig" %}
 
+{# --- --- --- --- --- --- --- --- --- --- #}
 {% block name %}{{ name }}{% endblock %}
+
+{# --- --- --- --- --- --- --- --- --- --- #}
 {% block nameTitle %}{{ name }}{% endblock %}
 
+{# --- --- --- --- --- --- --- --- --- --- #}
 {% block style %}
     <link rel="stylesheet/less" type="text/css" href="res/res/project.less"/>
 {% endblock %}
 
+{# --- --- --- --- --- --- --- --- --- --- #}
 {% block js %}
-    <script type="module" src="res/jquery.com/plugin/jquery-resizable.js"></script>
+    <script type="text/javascript" src="res/jquery.com/plugin/jquery-resizable.js"></script>
+    <script type="text/javascript" src="res/rosettacode.org/LZW.js"></script>
     
     <script type="text/javascript" src="res/ace.c9.io/1.4.12/src-min/ace.js"></script>
     <script type="text/javascript" src="res/ace.c9.io/1.4.12/src-noconflict/ext-language_tools.js"></script>
@@ -18,6 +24,7 @@
     <script type="module" src="res/res/project.js"></script>
 {% endblock %}
 
+{# --- --- --- --- --- --- --- --- --- --- #}
 {% block actions %}
     <button type="button" class="cm-save h-full flex px-2 py-2 cursor-pointer _hover:bg-gray-500 duration-75" title="{{ local.project.save }}" disabled1="disabled1">
         <i class="my-auto fas fa-save"></i>
@@ -27,10 +34,11 @@
     </button>
 {% endblock %}
 
+{# --- --- --- --- --- --- --- --- --- --- #}
 {% block main %}
     {% import _self as _s %}
 
-    <div id="cm-ide" class="cm-project bg-white _container mx-auto flex h-full" data-name="{{ name }}">
+    <div id="cm-ide" class="cm-project bg-white _container mx-auto flex h-full" data-project="{{ project }}">
         
         <div class="cm-ide-direct w-11 flex flex-col bg-gray-600 text-white">
             <i class="cm-action-tree fas fa-sitemap _p-3 _hover:bg-gray-300 _hover:text-gray-500 _duration-75" title="{{ local.project.tree }}"></i>
@@ -38,15 +46,7 @@
         </div>
         
         <div class="cm-ide-tree bg-gray-700 text-white py-2 _px-3 duration-75 overflow-y-auto w-52">
-            <li id="cm-node-template" class="cm-noselect" data-hid="%%hid%%" data-status="0">
-                <div class="cm-line px-3 _truncate whitespace-nowrap" title="%%name%%">
-                    <span class="cm-tab inline-block w-4"></span>
-                    <i class="cm-folder cm-action-open fas fa-folder"></i>
-                    <i class="cm-folder cm-action-close fas fa-folder-open"></i>
-                    <i class="cm-file far fa-file"></i>
-                    <span class="cm-text _text-xs px-1">%%name%%</span>
-                </div>
-            </li>
+            {{ _s.node() }}
             {{ _s.tree(tree) }}
         </div>
         
@@ -58,54 +58,73 @@
                 <div class="cm-text px-2 my-auto truncate text-left"></div>
             </div>
             <div class="cm-container overflow-x-auto flex-1 flex">
-                <div id="cm-ace-template" class="cm-template cm-ace flex-1"></div>
+                <div {#id="cm-ace-template"#} class="cm-template cm-ace flex-1"></div>
             </div>
         </div>
     </div>
     
     <div id="cm-list" class="inset-0 absolute flex _bg-gray-400 _bg-opacity-70 cm-noselect">
         <div class="cm-container flex flex-col w-max mx-auto mt-10 border border-gray-300 overflow-y-auto bg-gray-100">
-            <div id="cm-list-template" class="cm-element flex duration-100" data-hid="%%hid%%" data-parent="%%parent%%">
+            <div class="cm-template cm-element flex duration-100">
                 <i class="cm-close fas fa-times text-gray-400 text-xs mr-0 ml-3 my-auto cursor-pointer duration-100"></i>
                 <i class="cm-push fas fa-thumbtack text-gray-400 text-xs mr-0 ml-5 my-auto cursor-pointer duration-100"></i>
-                <span class="cm-text ml-0 mr-auto truncate">%%name%%</span>
+                <span class="cm-text ml-0 mr-auto truncate"></span>
             </div>
         </div>
     </div>
 {% endblock %}
 
+{# --- --- --- --- --- --- --- --- --- --- #}
 {% block current %}
     <div id="cm-current" class="flex-grow flex min-w-0">
-        <div class="cm-container my-auto ml-auto whitespace-nowrap _flex-grow min-w-0 truncate text-left cursor-pointer"></div>
+        <div class="cm-container my-auto ml-auto whitespace-nowrap min-w-0 truncate text-left cursor-pointer"></div>
         <i class="fas fa-caret-left ml-3 w-6 text-xl my-auto mr-auto text-center cursor-pointer duration-150"></i>
     </div>
 {% endblock %}
 
+{# --- --- --- --- --- --- --- --- --- --- #}
 {% macro node(node) %}
     {% import _self as _s %}
 
-    <li data-hid="{{ node.hid }}"
-        {% if node.type=='folder' %}
-            data-status="{% if node.children is defined and node.children|length %}1{% else %}0{% endif %}"
-        {% endif %}
-    >
-        <div class="cm-line px-3 _truncate whitespace-nowrap" title="{{ node.names }}">
-            {% for i in range(0,node.level) if i>0 %}<span class="cm-tab inline-block w-4"></span>{% endfor %}
-            {% if node.type == 'folder' %}
+    {% if node %}
+            
+        <li data-hid="{{ node.hid }}"
+            {% if node.type=='folder' %}
+                data-status="{% if node.children is defined and node.children|length %}1{% else %}0{% endif %}"
+            {% endif %}
+        >
+            <div class="cm-line px-3 _truncate whitespace-nowrap" title="{{ node.names }}">
+                {% for i in range(0,node.level) if i>0 %}<span class="cm-tab inline-block w-4"></span>{% endfor %}
+                {% if node.type == 'folder' %}
+                    <i class="cm-folder cm-action-open fas fa-folder"></i>
+                    <i class="cm-folder cm-action-close fas fa-folder-open"></i>
+                {% else %}
+                    <i class="cm-file far fa-file"></i>
+                {% endif %}
+                <span class="cm-text _text-xs px-1">{{ node.name }}</span>
+            </div>
+            
+            {% if node.children is defined %}
+                {{ _s.tree(node.children,1) }}
+            {% endif %}
+        </li>
+        
+    {% else %}
+
+        <li {# id="cm-node-template" #} class="cm-noselect cm-template" {# data-hid="%%hid%%"#} data-status="0">
+            <div class="cm-line px-3 _truncate whitespace-nowrap" title="%%name%%">
+                <span class="cm-tab inline-block w-4"></span>
                 <i class="cm-folder cm-action-open fas fa-folder"></i>
                 <i class="cm-folder cm-action-close fas fa-folder-open"></i>
-            {% else %}
                 <i class="cm-file far fa-file"></i>
-            {% endif %}
-            <span class="cm-text _text-xs px-1">{{ node.name }}</span>
-        </div>
-
-        {% if node.children is defined %}
-            {{ _s.tree(node.children,1) }}
-        {% endif %}
-    </li>
+                <span class="cm-text _text-xs px-1">%%name%%</span>
+            </div>
+        </li>
+        
+    {% endif %}
 {% endmacro %}
 
+{# --- --- --- --- --- --- --- --- --- --- #}
 {% macro tree(nodes,isNotTop) %}
     {% import _self as _s %}
 
@@ -113,32 +132,5 @@
         {% for node in nodes %}
             {{ _s.node(node) }}
         {% endfor %}
-
-        {#
-        {% for node in nodes2 %}
-            <li data-hid="{{ node.hid }}"
-                {% if node.type=='folder' %}
-                    data-status="{% if node.children is defined and node.children|length %}1{% else %}0{% endif %}"
-                {% endif %}
-            >
-                <div class="cm-line px-3 truncate" title="{{ node.name }}">
-                    {% for i in range(0,node.level) if i>0 %}<span class="inline-block w-4"></span>{% endfor %}
-
-                    {% if node.type == 'folder' %}
-                        <i class="cm-action cm-action-open fas fa-folder"></i>
-                        <i class="cm-action cm-action-close fas fa-folder-open"></i>
-                    {% else %}
-                        <i class="far fa-file"></i>
-                    {% endif %}
-
-                    <span class="_text-xs px-1">{{ node.name }}</span>
-                </div>
-
-                {% if node.children is defined %}
-                    {{ _s.tree(node.children,1) }}
-                {% endif %}
-            </li>
-        {% endfor %}
-        #}
     </ul>
 {% endmacro %}

@@ -6,64 +6,26 @@ require_once('../common.php');
 $Mode = isset($_POST['m']) ? $_POST['m'] : null;
 if(!$Mode) die('Fuck off!!!');
 
-//$Json = \Cmatrix\Json::get(CM_ROOT.'/config.json');
-/*
-$_add = function() use($Json){
-    $Name = isset($_POST['name']) ? $_POST['name'] : null;
-    $Path = isset($_POST['path']) ? $_POST['path'] : null;
-    if(!$Name || !$Path) die('Fuck off!!!');
-
-    \Cmatrix\Project::create($Name,$Path)->add();
-
-    return [
-        'message' => 'OK',
-        'data' =>[
-            'name' => $Name
-        ]
-    ];
-};
-
-$_del = function() use($Json){
-    $Name = isset($_POST['name']) ? $_POST['name'] : null;
-    if(!$Name) die('Fuck off!!!');
-
-    \Cmatrix\Project::get($Name)->delete();
-
-    return [
-        'message' => 'OK',
-        'data' =>[
-            'name' => $Name
-        ]
-    ];
-};
-*/
-
+// --- --- --- --- ---
 $_node = function(){
-    $Name = isset($_POST['name']) ? $_POST['name'] : null;
+    $Project = isset($_POST['project']) ? $_POST['project'] : null;
     $Hid = isset($_POST['hid']) ? $_POST['hid'] : null;
-    if(!$Name || !$Hid) die('Fuck off!!!');
+    if(!$Project || !$Hid) die('Fuck off!!!');
     
-    $Cache = \Cmatrix\Cache::session()->folder('tree-'.$Name);
+    $Cache = \Cmatrix\Cache::session()->folder('tree-'.$Project);
     $Json = $Cache->getJson($Hid);
     $Level = $Json['level'];
-    $Url = $Json['parent'] .'/'. $Json['name'];
     
-    $Path = \Cmatrix\Project::get($Name)->Path .'/'. $Url;
-    
-    //dump($Url);
-    //dump($Path);
+    $Path = \Cmatrix\Project::get($Project)->Path .'/'. $Json['parent'] .'/'. $Json['name'];
 
     $Dir = \Cmatrix\Dir::get($Path);
     $List = $Dir->getList(function(&$item) use($Cache,$Json){
         $item['parent'] = $Json['parent'] .'/'. $Json['name'];
         
-        //$Url = $item['parent'].'/'.$item['name'];
-        
         $item['hid'] = hid($item['parent'].'/'.$item['name']);
         $item['level'] = $Json['level'] + 1;
         
         $Cache->putJson($item['hid'],[
-            //'url' => $Url,
             'name' => $item['name'],
             'parent' => $item['parent'],
             'level' => $item['level']
@@ -74,21 +36,23 @@ $_node = function(){
     return [
         'message' => 'OK',
         'data' => [
-            'name' => $Name,
             'list' => $List
         ]
     ];
 };
 
+// --- --- --- --- ---
 $_file = function(){
-    $Name = isset($_POST['name']) ? $_POST['name'] : null;
+    $Project = isset($_POST['project']) ? $_POST['project'] : null;
     $Hid = isset($_POST['hid']) ? $_POST['hid'] : null;
-    if(!$Name || !$Hid) die('Fuck off!!!');
+    if(!$Project || !$Hid) die('Fuck off!!!');
     
-    $Cache = \Cmatrix\Cache::session()->folder('tree-'.$Name);
+    $Cache = \Cmatrix\Cache::session()->folder('tree-'.$Project);
     $Json = $Cache->getJson($Hid);
     
-    $Path = \Cmatrix\Project::get($Name)->Path .'/'. $Json['parent'] .'/'. $Json['name'];
+    $Path = \Cmatrix\Project::get($Project)->Path .'/'. $Json['parent'] .'/'. $Json['name'];
+    
+    if(mime_content_type($Path) === 'application/octet-stream') throw new \Cmatrix\Exception(\Cmatrix\Local::getVal('file/binary'));
     
     $Json['content'] = file_get_contents($Path);
 
@@ -96,15 +60,46 @@ $_file = function(){
         'message' => 'OK',
         'data' => $Json
     ];
-    
 };
 
+// --- --- --- --- ---
+$_save = function(){
+    $Project = isset($_POST['project']) ? $_POST['project'] : null;
+    $Hid = isset($_POST['hid']) ? $_POST['hid'] : null;
+    if(!$Project || !$Hid) die('Fuck off!!!');
+    
+    $Cache = \Cmatrix\Cache::session()->folder('tree-'.$Project);
+    $Json = $Cache->getJson($Hid);
+    
+    $Path = \Cmatrix\Project::get($Project)->Path .'/'. $Json['parent'] .'/'. $Json['name'];
+    
+    if(!is_writable($Path)) throw new \Cmatrix\Exception(\Cmatrix\Local::getVal('file/notwritable'));
+    
+    $Content = isset($_POST['content']) ? $_POST['content'] : false;
+    if($Content === false) throw new \Cmatrix\Exception(\Cmatrix\Local::getVal('file/emptywrite'));
+    
+    \Cmatrix\Vendor::reg('LZW');
+    $LZW = new \LZW();
+    
+    dump($Content);
+    $Content = $LZW->decompress($Content);
+    dump($Content);
+    
+    //file_put_contents($Path,$Content);
+    
+    return [
+        'message' => 'Файл успешно сохранён.'
+    ];
+};
+
+// --- --- --- --- ---
+// --- --- --- --- ---
+// --- --- --- --- ---
 try{
     switch($Mode){
-//        case 'add'  : $Ret = $_add();break;
-//        case 'del'  : $Ret = $_del();break;
         case 'node' : $Ret = $_node();break;
         case 'file' : $Ret = $_file();break;
+        case 'save' : $Ret = $_save();break;
         default : die('Fuck off!!!');
     }
 

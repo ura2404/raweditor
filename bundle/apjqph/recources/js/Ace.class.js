@@ -2,10 +2,11 @@ export default class Ace {
     constructor($ace,params){
         params = params || {};
         
-        this.Tag = $ace;
-        this.Editor = ace.edit(this.Tag.attr('id'));
-        this.Ide = params.ide;
+        this.$Tag = $ace;
+        this.Editor = ace.edit(this.$Tag.attr('id'));
+        this.$Ide = params.ide;
         this.save = params.save;
+        
         this.init();
         
         $ace.data('cm-ace',this);
@@ -29,9 +30,7 @@ export default class Ace {
             name : "Save Ctrl+S",
             bindKey : { win : "Ctrl-S", mac : "Command-S" },
             exec : function(editor){
-                Instance.save.call(Instance.Ide,Instance.Editor.getValue());
-                //instance.save();
-                //instance.onSave.call(this);
+                Instance.save.call(Instance.$Ide,Instance);
                 //$(instance.Editor).removeData('changed');
             }
         });
@@ -40,7 +39,7 @@ export default class Ace {
     
     type(){
         let Ext = 'txt';
-        const Name = this.Tag.data('cm-name');
+        const Name = this.$Tag.data('cm-name');
         
         const Trans = {
             'txt' : 'text',

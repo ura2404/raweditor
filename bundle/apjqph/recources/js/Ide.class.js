@@ -1,30 +1,35 @@
 import Ace from './Ace.class.js';
+import Message from './Message.class.js';
 
 export default class Ide {
-    constructor($tag,$message){
+    
+    // --- --- --- --- ---
+    constructor($tag){
         const Instance = this;
         
         this.$Ide = $tag;
-        this.Message = $message;
+        this.CurrentHid = null;
         
-        this.Name = this.$Ide.attr('data-name');
+        this.Message = new Message();
+        
+        this.Project = this.$Ide.attr('data-project');
         this.$Direct = this.$Ide.find('.cm-ide-direct');
         this.$Tree = this.$Ide.find('.cm-ide-tree');
         this.$Splitter = this.$Ide.find('.cm-splitter');
         
-        this.$NodeTemplate = $('#cm-node-template');
+        this.$NodeTemplate = this.$Tree.find('.cm-template');
         
         this.$Current = $('#cm-current');
         this.$CurrentContainer = this.$Current.find('.cm-container');
         
         this.$List = $('#cm-list');
         this.$ListContainer = this.$List.find('.cm-container');
-        this.$ListTemplate = $('#cm-list-template');
+        this.$ListTemplate = this.$ListContainer.find('.cm-template');
         
         this.$Ace = $('.cm-ide-ace');
         this.$AceHeader = this.$Ace.find('.cm-header .cm-text');
         this.$AceContainer = this.$Ace.find('.cm-container');
-        this.$AceTemplate = $('#cm-ace-template');
+        this.$AceTemplate = this.$AceContainer.find('.cm-template');
     }
 
     // --- --- --- --- ---
@@ -61,7 +66,7 @@ export default class Ide {
             
         this.$ListTemplate
             .on('click',function(e){
-                Instance.selectFile($(this));
+                Instance.selectFile($(this).data('hid'));
             })
             .find('.cm-close').on('click',function(e){
                 e.stopPropagation();
@@ -127,15 +132,18 @@ export default class Ide {
                 const Name = List[i].name;
                 const Hid = List[i].hid;
                 
-                Instance.$NodeTemplate.clone(true,true).removeAttr('id').map(function(index, element){
-                    $(this).attr('data-hid',Hid).children('div').attr('title',Name).children('.cm-text').text(Name);
+                Instance.$NodeTemplate.clone(true,true).removeClass('cm-template').data('hid',Hid).map(function(index, element){
+                    $(this)/*.attr('data-hid',Hid)*/.children('div').attr('title',Name).children('.cm-text').text(Name);
                     
+                    // отступ в количестве level-1, один отступ уже есть в шаблоне
                     for(let j=0; j<List[i].level-1; j++){
                         $Tab.clone(true,true).prependTo($(this).children('.cm-line'));
                     }
                     
+                    // оставить нужную икону (папка или файл)
                     if(List[i].type === 'folder') $(this).find('.cm-file').remove();
                     else $(this).removeAttr('data-status').find('.cm-folder').remove();
+                    
                 }).end().appendTo($Container);
             }
         };
@@ -188,7 +196,7 @@ export default class Ide {
     treeNodeOpen($node){
         const Instance = this;
         const Name = $node.find('.cm-text').text();
-        const Hid = $node.attr('data-hid');
+        const Hid = $node.data('hid');
         
         const _success = function(data){
             const Parent = data.data.parent;
@@ -196,43 +204,51 @@ export default class Ide {
             
             new Promise(function(resolve, reject){
                 const $Ace = Instance.$AceTemplate.clone(true,true)
-                    .removeClass('cm-template').attr('id','ace'+Hid).attr('data-hid',Hid)
+                    .removeClass('cm-template')
+                    .data('hid',Hid)
+                    .attr('id',Hid)         // для плагина ace
+                    .data('cm-name',Name)
                     .text(Content)
-                    .data('cm-name',Name).data('cm-hid',Hid)
                     .appendTo(Instance.$AceContainer);
                 
                 const $Element = Instance.$ListTemplate.clone(true,true)
-                    .removeAttr('id').removeClass('cm-template')
-                    .attr('data-hid',Hid).attr('data-parent',Parent)
-                    .find('.cm-text').text(Name).end()
+                    .removeClass('cm-template')
+                    .data('hid',Hid)
+                    .data('cm-name',Name)
+                    .data('cm-parent',Parent)
+                    .find('.cm-text')
+                    .attr('title',Parent+'/'+Name).text(Name).end()
                     .appendTo(Instance.$ListContainer);
                     
                 resolve([$Ace,$Element]);
             }).then(data => {
+                Instance.CurrentHid = Hid;
+                
                 new Ace(data[0],{
                     ide : Instance,
                     save : Instance.saveFile
                 });
                 
                 Instance.$CurrentContainer.text(Name);
-                Instance.selectFile(data[1]);
+                Instance.selectFile(data[1].data('hid'));
                 Instance.checkCurrent(true);
+                
                 Instance.cursor(false);
             });
         };
         
         const _error = function(data){
-            Instance.Message.error(data.message);
             Instance.cursor(false);
+            Instance.Message.error(data.message);
         };
         
         // --- --- --- --- ---
         // если файл открывался выбрать его
         // иначе получить параметры из кеша
         if(
-            this.$ListContainer.find('.cm-element:not([id])').map(function(){
-                return $(this).attr('data-hid') === Hid;
-            }).get().every(function(val){ return !val; }) 
+            this.$ListContainer.find('.cm-element:not([id])').map(function(index, element){
+                return $(this).data('hid') === Hid;
+            }).get().every(function(val){ return !val; })
         ){
             // если файл НЕ открыт - получить параметры мз кеша и клонировать шаблон
             Instance.cursor();
@@ -244,32 +260,37 @@ export default class Ide {
         }
         else {
             // если файл открыт - выбрать его
-            const $Element = Instance.$ListContainer.find('.cm-element[data-hid='+Hid+']');
-            Instance.selectFile($Element);
+            //const $Element = Instance.$ListContainer.find('.cm-element[data-hid='+Hid+']');
+            Instance.selectFile(Hid);
         }
     }
     
     // --- --- --- --- ---
-    selectFile($element){
-        //console.log('select',$element);
-        
-        const Hid = $element.attr('data-hid');
-        const Parent = $element.attr('data-parent');
-        const Name = $element.text();
-        //console.log('select',Hid);
-        
+    selectFile(hid){
         const Instance = this;
         
-        this.$ListContainer.find('.cm-element:not([id])').removeAttr('active');
-        $element.attr('active','active');
-        this.$CurrentContainer.text(Name);
-        this.$AceHeader.text(Parent+'/'+Name);
+        Instance.CurrentHid = hid;
         
-        this.$AceContainer.find('.cm-ace').removeAttr('visible');
-        this.$AceContainer.find('#ace'+Hid).attr('visible','visible');
+        this.$ListContainer.find('.cm-element').removeAttr('active').filter(function(){
+            return $(this).data('hid') === Instance.CurrentHid;
+        }).attr('active','active').map(function(index, element){
+            const Parent = $(element).data('cm-parent');
+            const Name = $(element).data('cm-name');
+            Instance.$AceHeader.text(Parent+'/'+Name);
+        });
+        /*
+        this.$AceContainer.find('.cm-ace').removeAttr('active').filter(function(){
+            return $(this).data('hid') === Instance.CurrentHid;
+        }).attr('active','active').data('cm-ace').Editor.focus();
+        */
+        this.$AceContainer.find('.cm-ace').removeAttr('active');
+        this.$AceContainer.find('.cm-ace#'+Instance.CurrentHid).attr('active','active').data('cm-ace').Editor.focus();
     }
     
     // --- --- --- --- ---
+    /**
+     * Закрепить файл в списке
+     */
     pushFile($element){
         const Hid = $element.attr('data-hid');
         console.log('push',Hid);
@@ -311,26 +332,29 @@ export default class Ide {
     }
     
     // --- --- --- --- ---
-    saveFile(content){
-        console.log(this);
+    saveFile(ace){
         const Instance = this;
-        console.log('qaz SAVE qaz',content);
+        
+        const Hid = ace.$Tag.data('hid');
+        const Content = LZW.compress(ace.Editor.getValue());
+        console.log(Content);
         
         const _success = function(data){
             Instance.cursor(false);            
+            Instance.Message.success(data.message);
         };
-console.log(Instance);
+        
+        const _error = function(data){
+            Instance.cursor(false);
+            Instance.Message.error(data.message);
+        };
+        
         Instance.cursor();
         Instance.ajax({
             m : 'save',
-            hid : $node.data('hid'),
-            data : content
-        },_success,this.ajaxError);
-   }
-    
-    ajaxError(data){
-        this.Message.error(data.message);
-        this.cursor(false);
+            hid : Hid,
+            content : Content
+        },_success,_error);
     }
     
     // --- --- --- --- ---
@@ -341,7 +365,7 @@ console.log(Instance);
             url : 'res/res/ide.php',
             dataType : 'json',
             data : $.extend(data,{
-                'name' : this.Name
+                'project' : this.Project
             })
         })
         .done(function(data){
