@@ -166,7 +166,9 @@ export default class Projects {
         };
         
         const _error = function(data){
+            return;
             Instance.Message.error(data.error);
+            alert(data.error);
         };
         
         this.ajax({

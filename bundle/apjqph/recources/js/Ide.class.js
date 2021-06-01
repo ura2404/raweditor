@@ -31,6 +31,8 @@ export default class Ide {
         this.$AceHeader = this.$Ace.find('.cm-header .cm-text');
         this.$AceContainer = this.$Ace.find('.cm-container');
         this.$AceTemplate = this.$AceContainer.find('.cm-template');
+        
+        this.$Actions = $('#cm-actions');
     }
 
     // --- --- --- --- ---
@@ -88,6 +90,8 @@ export default class Ide {
         
         this.$List.on('click',_list);
         this.$CurrentContainer.on('click',_list);
+        
+        this.$Actions.find('.cm-save').on('click',() => Instance.saveFile());
     }
 
     // --- --- --- --- ---
