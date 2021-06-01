@@ -25,6 +25,7 @@ export default class Ide {
         this.$List = $('#cm-list');
         this.$ListContainer = this.$List.find('.cm-container');
         this.$ListTemplate = this.$ListContainer.find('.cm-template');
+        this.ListCount = 0;
         
         this.$Ace = $('.cm-ide-ace');
         this.$AceHeader = this.$Ace.find('.cm-header .cm-text');
@@ -43,10 +44,6 @@ export default class Ide {
         });
         
         this.$Tree
-            /*.find('li i.cm-folder').on('click',function(e){          // click на иконке папки
-                e.preventDefault();
-                Instance.treeNodeExpand($(this).closest('li'));
-            })*/
             .find('.cm-line').on('dblclick',function(e){
                 e.preventDefault();
                 const $Node = $(this).closest('li');
@@ -70,12 +67,11 @@ export default class Ide {
             })
             .find('.cm-close').on('click',function(e){
                 e.stopPropagation();
-                console.log('close');
-                Instance.closeFile($(this).parent());
+                if($(this).parent().hasClass('.cm-pushed')) return;
+                Instance.closeFile($(this).parent().data('hid'));
             }).end()
             .find('.cm-push').on('click',function(e){
                 e.stopPropagation();
-                console.log('push');
                 Instance.pushFile($(this).parent());
             });
             
@@ -87,9 +83,10 @@ export default class Ide {
             Instance.$List.toggleClass('cm-opend');
         };
         
-        this.$Current.find('i').on('click',_list);
-        this.$List.on('click',_list);
+        this.$Current.find('.cm-left').on('click',() => Instance.nextFile(-1));
+        this.$Current.find('.cm-right').on('click',() => Instance.nextFile(1));
         
+        this.$List.on('click',_list);
         this.$CurrentContainer.on('click',_list);
     }
 
@@ -175,13 +172,22 @@ export default class Ide {
     // --- --- --- --- ---
     /**
      * visible or not visible current and list
+     * 
+     * @param bool def - режим 
+     *      если true, то просто открыть,
+     *      иначе проверить, есть ли открытые фалы
      */
     checkCurrent(def=null){
         //console.log('list container count',this.$ListContainer.children('div:not([id])').length);
         
-        if(def === true || this.$ListContainer.children('div:not([id])').length){
+        this.ListCount = this.$ListContainer.children('div:not(.cm-template)').length;
+        
+        if(def === true || this.ListCount){
             this.$Current.addClass('cm-visible');
             this.$List.addClass('cm-visible');
+            
+            if(this.ListCount > 1) this.$Current.addClass('cm-directable');
+
         }
         else {
             this.$Current.removeClass('cm-visible');
@@ -229,7 +235,6 @@ export default class Ide {
                     save : Instance.saveFile
                 });
                 
-                Instance.$CurrentContainer.text(Name);
                 Instance.selectFile(data[1].data('hid'));
                 Instance.checkCurrent(true);
                 
@@ -271,20 +276,32 @@ export default class Ide {
         
         Instance.CurrentHid = hid;
         
-        this.$ListContainer.find('.cm-element').removeAttr('active').filter(function(){
+        this.$ListContainer.find('.cm-element:not(.cm-template)').removeAttr('active').filter(function(){
             return $(this).data('hid') === Instance.CurrentHid;
         }).attr('active','active').map(function(index, element){
             const Parent = $(element).data('cm-parent');
             const Name = $(element).data('cm-name');
+            Instance.$CurrentContainer.find('.cm-text').text(Name);
             Instance.$AceHeader.text(Parent+'/'+Name);
         });
-        /*
-        this.$AceContainer.find('.cm-ace').removeAttr('active').filter(function(){
-            return $(this).data('hid') === Instance.CurrentHid;
-        }).attr('active','active').data('cm-ace').Editor.focus();
-        */
+        
         this.$AceContainer.find('.cm-ace').removeAttr('active');
         this.$AceContainer.find('.cm-ace#'+Instance.CurrentHid).attr('active','active').data('cm-ace').Editor.focus();
+    }
+    
+
+    // --- --- --- --- ---
+    nextFile(direct){
+        const Instance = this;
+        
+        let Index = this.$ListContainer.find('.cm-element:not(.cm-template)').filter(function(){
+            return $(this).data('hid') === Instance.CurrentHid;
+        }).index();
+        
+        direct === -1 ? Index-- : Index++;
+        if(Index === 0 || Index > this.ListCount) return;
+        
+        this.selectFile(this.$ListContainer.find('.cm-element').eq(Index).data('hid'));
     }
     
     // --- --- --- --- ---
@@ -295,7 +312,7 @@ export default class Ide {
         const Hid = $element.attr('data-hid');
         console.log('push',Hid);
         
-        let $List = this.$ListContainer.find('.cm-element:not([id])');
+        let $List = this.$ListContainer.find('.cm-element:not(.cm-template)');
         let Count = this.$ListContainer.find('.cm-element.cm-push').length;
         console.log(Count,$List);
         
@@ -310,7 +327,13 @@ export default class Ide {
     }
 
     // --- --- --- --- ---
-    closeFile($element){
+    closeFile(hid){
+        console.log(hid);
+        
+        
+        
+        
+        return;
         const Instance = this;
         if($element.hasClass('cm-pushed'))return;
         

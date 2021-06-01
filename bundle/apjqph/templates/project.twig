@@ -1,10 +1,10 @@
 {% extends "common.twig" %}
 
 {# --- --- --- --- --- --- --- --- --- --- #}
-{% block name %}{{ name }}{% endblock %}
+{% block name %}{{ project }}{% endblock %}
 
 {# --- --- --- --- --- --- --- --- --- --- #}
-{% block nameTitle %}{{ name }}{% endblock %}
+{% block nameTitle %}{{ project }}{% endblock %}
 
 {# --- --- --- --- --- --- --- --- --- --- #}
 {% block style %}
@@ -77,8 +77,15 @@
 {# --- --- --- --- --- --- --- --- --- --- #}
 {% block current %}
     <div id="cm-current" class="flex-grow flex min-w-0">
-        <div class="cm-container my-auto ml-auto whitespace-nowrap min-w-0 truncate text-left cursor-pointer"></div>
-        <i class="fas fa-caret-left ml-3 w-6 text-xl my-auto mr-auto text-center cursor-pointer duration-150"></i>
+        <div class="cm-left w-6 ml-auto text-center cursor-pointer _duration-150 hover:bg-gray-300 hover:text-gray-500 flex flex-none">
+            <i class="fas fa-caret-left text-xl m-auto"></i>
+        </div>
+        <div class="cm-container min-w-0 cursor-pointer flex hover:bg-gray-300 hover:text-gray-500">
+            <div class="cm-text my-auto px-4 min-w-0 whitespace-nowrap truncate text-left"></div>
+        </div>
+        <div class="cm-right w-6 mr-auto text-center cursor-pointer _duration-150 hover:bg-gray-300 hover:text-gray-500 flex flex-none">
+            <i class="fas fa-caret-right text-xl m-auto"></i>
+        </div>
     </div>
 {% endblock %}
 

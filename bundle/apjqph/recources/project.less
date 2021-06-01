@@ -125,19 +125,21 @@ i {
         .cm-container {
             display : none;
         }
-        
-        i {
+    }
+    
+    &:not(.cm-directable) {
+        .cm-left,
+        .cm-right {
             display : none;
         }
-    }
-    
-    &.cm-opend {
-        i {
-            transform: rotateZ(-90deg);
+        .cm-container {
+            margin-left : auto;
+            margin-right : auto;
+            
         }
     }
     
-    .cm-container {
+    .cm-container .cm-text {
         direction : rtl;
         min-width: 3rem;
     }
