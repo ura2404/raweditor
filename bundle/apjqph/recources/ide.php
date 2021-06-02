@@ -68,6 +68,11 @@ $_save = function(){
     $Hid = isset($_POST['hid']) ? $_POST['hid'] : null;
     if(!$Project || !$Hid) die('Fuck off!!!');
     
+    $Content = isset($_POST['content']) ? $_POST['content'] : false;
+    dump(strlen($Content));
+    dump($Content);
+    return;
+    
     $Cache = \Cmatrix\Cache::session()->folder('tree-'.$Project);
     $Json = $Cache->getJson($Hid);
     

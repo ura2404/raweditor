@@ -50,8 +50,8 @@ i {
     }
 
     .cm-splitter {
-        background-color : beige;
-        border-right-style : 1px solid slategrey;
+        background-color : #cccccc;
+        border-right : 1px solid #dedede;
         
         &:not([visible='visible']) {
             display : none;
@@ -65,38 +65,42 @@ i {
             display : none;
         }
         
-        ul {
-            
-            li .cm-line {
-                cursor : pointer;
-                &:hover {
-                    background-color : lightslategray;
+        .cm-container {
+            ul {
+                li {
+                    
+                    &[data-status='0'] {
+                        > .cm-line > .cm-action-close { display : none; }
+                        > ul { display : none; }
+                    }
+                    
+                    &[data-status='1'] {
+                        > .cm-line > .cm-action-open { display : none; }
+                    }
+                    
+                    .cm-line {
+                        cursor : pointer;
+                        &:hover {
+                            background-color : lightslategray;
+                        }
+                        &[active='active'] {
+                            background-color : slategrey;
+                        }
+                    }
+                    
+                    i {
+                        width : 1.2rem;
+                        text-align : center;
+                        
+                        &.cm-action-open,
+                        &.cm-action-close {
+                            font-size : 120%;
+                            cursor : pointer;
+                        }
+                    }
                 }
-                &[active='active'] {
-                    background-color : slategrey;
-                }
-            }
-            
-            li i {
-                width : 1.2rem;
-                text-align : center;
                 
-                &.cm-action-open,
-                &.cm-action-close {
-                    font-size : 120%;
-                    cursor : pointer;
-                }
             }
-            
-            li[data-status='0'] {
-                > .cm-line > .cm-action-close { display : none; }
-                > ul { display : none; }
-            }
-            
-            li[data-status='1'] {
-                > .cm-line > .cm-action-open { display : none; }
-            }
-            
         }
     }
     

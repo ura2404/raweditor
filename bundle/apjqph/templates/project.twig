@@ -45,19 +45,21 @@
             <i class="fas fa-user-friends _p-3 _hover:bg-gray-300 _hover:text-gray-500 _duration-75"></i>
         </div>
         
-        <div class="cm-ide-tree bg-gray-700 text-white pb-2 _px-3 duration-75 overflow-y-auto w-52">
-            <div class="cm-control mb-2 bg-gray-400 _h-10">
+        <div class="cm-ide-tree duration-75 w-52 flex flex-col">
+            <div class="cm-control bg-gray-400 text-white">
                 <i class="cm-add fas fa-plus p-2 hover:bg-gray-300 hover:text-gray-500 duration-75"></i>
             </div>
-            {{ _s.node() }}
-            {{ _s.tree(tree) }}
+            <div class="cm-container pt-1 bg-gray-700 text-white overflow-y-auto flex-1">
+                {{ _s.node() }}
+                {{ _s.tree(tree) }}
+            </div>
         </div>
         
         <div class="cm-splitter w-1"></div>
         {#<div class="flex-auto bg-green-500">332e3e3/</div>#}
         
         <div class="cm-ide-ace flex-1 min-w-0 flex flex-col">
-            <div class="cm-header h-10 bg-gray-400 text-white flex">
+            <div class="cm-header h-8 bg-gray-400 text-white flex">
                 <div class="cm-text px-2 my-auto truncate text-left"></div>
             </div>
             <div class="cm-container overflow-x-auto flex-1 flex">

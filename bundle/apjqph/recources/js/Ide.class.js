@@ -15,6 +15,8 @@ export default class Ide {
         this.Project = this.$Ide.attr('data-project');
         this.$Direct = this.$Ide.find('.cm-ide-direct');
         this.$Tree = this.$Ide.find('.cm-ide-tree');
+        this.$TreeContainer = this.$Tree.find('.cm-container');
+        
         this.$Splitter = this.$Ide.find('.cm-splitter');
         
         this.$NodeTemplate = this.$Tree.find('.cm-template');
@@ -201,7 +203,7 @@ export default class Ide {
     
     // --- --- --- --- ---
     /**
-     * open file from tree node
+     * открыть файл из дерева
      */
     treeNodeOpen($node){
         const Instance = this;
@@ -275,6 +277,14 @@ export default class Ide {
     }
     
     // --- --- --- --- ---
+    /**
+     * 0. установить CurrentHid
+     * 1. выделить строку в выпадающем списке
+     * 2. вставить имя файла в шапке
+     * 3. вставить путь файла в шапке ace
+     * 4. акивировать нужный ace
+     * 5. выделить ветку
+     */
     selectFile(hid){
         const Instance = this;
         
@@ -291,6 +301,19 @@ export default class Ide {
         
         this.$AceContainer.find('.cm-ace').removeAttr('active');
         this.$AceContainer.find('.cm-ace#'+Instance.CurrentHid).attr('active','active').data('cm-ace').Editor.focus();
+        
+        this.$Tree.find('li').children('.cm-line').removeAttr('active').end().filter(function(){
+            return $(this).data('hid') === Instance.CurrentHid;
+        })
+        .parents('li[data-status]').attr('data-status',1).end()
+        .map(function(index,element){
+            const $Container = Instance.$TreeContainer;
+            const $Element = $(element);
+            $Container.animate({
+                scrollTop: $Element.offset().top - $Container.offset().top + $Container.scrollTop()
+            });        
+        }).end()
+        .children('.cm-line').attr('active','active');
     }
     
 
@@ -363,8 +386,24 @@ export default class Ide {
         const Instance = this;
         
         const Hid = ace.$Tag.data('hid');
-        const Content = LZW.compress(ace.Editor.getValue());
-        console.log(Content);
+        const Content = ace.Editor.getValue();
+        //const Content = LZW.compress(ace.Editor.getValue());
+        console.log(Hid,Content,Content.length);
+        
+        let Compr = [];
+        for (let i = 0; i < Content.length; i++){
+            Compr.push(Content.charCodeAt(i));
+            //console.log(Content.charCodeAt(i));
+        }
+        Compr = Compr.join('');
+        
+        console.log('Compr',Compr,Compr.length,Content.length);
+        console.log(new Blob([Content],{type: "image/png"}));
+        
+//[oReq.response], {type: "image/png"}        
+        
+//codePointAt()        
+//        return;
         
         const _success = function(data){
             Instance.cursor(false);            
@@ -380,10 +419,11 @@ export default class Ide {
         Instance.ajax({
             m : 'save',
             hid : Hid,
-            content : Content
+            //content : Compr
+            content : new Blob([Content],{type: "image/png"})
         },_success,_error);
     }
-    
+   
     // --- --- --- --- ---
     ajax(data,_success,_error){
         $.ajax({
