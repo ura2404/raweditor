@@ -3,8 +3,66 @@ header("Content-type: application/json");
 require_once('../defs.php');
 require_once('../common.php');
 
+$Data = file_get_contents('php://input');
+dump(gettype($Data),'type');
+dump(strlen($Data),'len');
+dump($Data);
+dump('--------------------');
+
+$Arr = unpack('S*',$Data);
+//dump($Arr);
+
+// --- --- ---
+$D = 0;
+$Mode = $Arr[D+1];
+
+// --- --- ---
+$D = 1;
+$Hid = '';
+for($i=0; $i<32; $i++) $Hid .= chr($Arr[$i+D+1]);
+
+// --- --- ---
+$D = 1 + 32;
+$ProjectLength = $Arr[D+1];
+
+// --- --- ---
+$D = 1 + 32 + 1;
+$Project = '';
+for($i=0; $i<$ProjectLength; $i++) $Project .= mb_chr($Arr[$i+D+1]);
+
+// --- --- ---
+$D = 1 + 32 + 1 + $ProjectLength;
+$Data = '';
+for($i=0; $i<count($Arr)-33; $i++) $Data .= mb_chr($Arr[$i+34]);
+
+dump($Mode,'Mode');
+dump($Hid,'Hid');
+dump($Project,'Project');
+
+dump($Data);
+
+switch($Mode){
+    // get file
+    case 1 : 
+        
+}
+
+
+
+
+
+
+
+
+
+return;
 $Mode = isset($_POST['m']) ? $_POST['m'] : null;
 if(!$Mode) die('Fuck off!!!');
+
+
+
+
+
 
 // --- --- --- --- ---
 $_node = function(){

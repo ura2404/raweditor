@@ -263,10 +263,11 @@ export default class Ide {
         ){
             // если файл НЕ открыт - получить параметры мз кеша и клонировать шаблон
             Instance.cursor();
-            Instance.ajax({
-                m : 'file',
-                hid : $node.data('hid')
-            },_success,_error);
+            //Instance.ajax({
+            //    m : 'file',
+            //    hid : $node.data('hid')
+            //},_success,_error);
+            Instance.ajax(1,Hid,'12345 qaz',_success,_error);
             
         }
         else {
@@ -390,6 +391,25 @@ export default class Ide {
         //const Content = LZW.compress(ace.Editor.getValue());
         console.log(Hid,Content,Content.length);
         
+        var Int16 = new Int16Array(Content.length);
+        for (let i = 0; i < Content.length; i++){
+            Int16[i] = Content.charCodeAt(i);
+        }
+        
+        $.ajax({
+           url: 'res/res/ide.php',
+           type: 'POST',
+           contentType: 'application/octet-stream',  
+           data: Int16,
+           processData: false
+        });
+        
+        console.log(Int16);
+        
+        /*
+        console.log(Int16);
+        return;
+        
         let Compr = [];
         for (let i = 0; i < Content.length; i++){
             Compr.push(Content.charCodeAt(i));
@@ -404,7 +424,6 @@ export default class Ide {
         
 //codePointAt()        
 //        return;
-        
         const _success = function(data){
             Instance.cursor(false);            
             Instance.Message.success(data.message);
@@ -420,20 +439,68 @@ export default class Ide {
             m : 'save',
             hid : Hid,
             //content : Compr
-            content : new Blob([Content],{type: "image/png"})
+            //content : new Blob([Content],{type: "image/png"})
+            content : Int16
         },_success,_error);
+        */
     }
    
     // --- --- --- --- ---
-    ajax(data,_success,_error){
+    /**
+     * @param byte mode - режим
+     *      1 - get file by hid
+     *      2 - 
+     *      3 - 
+     * @param string[32] hid
+     * @param string data
+     * @param function _success
+     * @param function _error
+     */
+    ajax(mode,hid,data,_success,_error){
+        data = data || '';
+        console.log(mode,hid,data);
+        
+        let Int16 = new Int16Array(1 + 32 + 1 + this.Project.length + data.length);
+        
+        // mode
+        let D = 0;
+        Int16[D] = mode;
+        
+        // hid
+        D = 1;
+        for (let i = 0; i < 32; i++){
+            Int16[i+D] = hid.charCodeAt(i);
+        }
+        
+        // project length
+        D = 1 + 32;
+        Int16[D] = this.Project.length;
+        
+        // project
+        D = 1 + 32 + 1;
+        for (let i = 0; i < this.Project.length; i++){
+            Int16[i+D] = this.Project.charCodeAt(i);
+        }
+        
+        //data
+        D = 1 + 32 + 1 + this.Project.length;
+        for (let i = 0; i < data.length; i++){
+            Int16[i+D] = data.charCodeAt(i);
+        }
+        
+        console.log(Int16);
+        
         $.ajax({
             method : 'post',
             async : true,
             url : 'res/res/ide.php',
-            dataType : 'json',
-            data : $.extend(data,{
-                'project' : this.Project
-            })
+            //dataType : 'json',
+            //data : $.extend(data,{
+            //    'project' : this.Project
+            //})
+            data : Int16,
+            contentType: 'application/octet-stream',
+            processData: false
         })
         .done(function(data){
             data.status == 1 ? _success(data) : _error(data);
