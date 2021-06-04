@@ -1,42 +1,55 @@
 <?php
-header("Content-type: application/json");
+//header("Content-type: application/json");
+header("Content-type: application/octet-stream");
 require_once('../defs.php');
 require_once('../common.php');
 
+try{
+    $Arr = \Cmatrix\Req::readBinary('S*');
+    echo \Cmatrix\Req::get([1,'OK'])->binEncode('S*');
+}
+catch(\Throwable $e){
+    echo \Cmatrix\Req::get([-1,$e->getMessage()])->binEncode('S*');
+}
+
+return;
+
 $Data = file_get_contents('php://input');
+
 dump(gettype($Data),'type');
 dump(strlen($Data),'len');
 dump($Data);
 dump('--------------------');
 
 $Arr = unpack('S*',$Data);
-//dump($Arr);
+dump($Arr);
 
 // --- --- ---
 $D = 0;
-$Mode = $Arr[D+1];
+$Mode = $Arr[$D+1];
 
 // --- --- ---
 $D = 1;
 $Hid = '';
-for($i=0; $i<32; $i++) $Hid .= chr($Arr[$i+D+1]);
+for($i=0; $i<32; $i++) $Hid .= chr($Arr[$i+$D+1]);
 
 // --- --- ---
 $D = 1 + 32;
-$ProjectLength = $Arr[D+1];
+$ProjectLength = $Arr[$D+1];
 
 // --- --- ---
 $D = 1 + 32 + 1;
 $Project = '';
-for($i=0; $i<$ProjectLength; $i++) $Project .= mb_chr($Arr[$i+D+1]);
+for($i=0; $i<$ProjectLength; $i++) $Project .= mb_chr($Arr[$i+$D+1]);
 
 // --- --- ---
 $D = 1 + 32 + 1 + $ProjectLength;
 $Data = '';
-for($i=0; $i<count($Arr)-33; $i++) $Data .= mb_chr($Arr[$i+34]);
+for($i=0; $i<count($Arr)-$D; $i++) $Data .= mb_chr($Arr[$i+$D+1]);
 
 dump($Mode,'Mode');
 dump($Hid,'Hid');
+dump($ProjectLength,'ProjectLength');
 dump($Project,'Project');
 
 dump($Data);

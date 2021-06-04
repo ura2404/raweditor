@@ -1,5 +1,6 @@
 import Ace from './Ace.class.js';
 import Message from './Message.class.js';
+import Req from './Req.class.js';
 
 export default class Ide {
     
@@ -211,6 +212,11 @@ export default class Ide {
         const Hid = $node.data('hid');
         
         const _success = function(data){
+            new Req(data).readBinary(16);
+            
+            return;
+            
+            
             const Parent = data.data.parent;
             const Content = data.data.content;
             
@@ -249,6 +255,8 @@ export default class Ide {
         };
         
         const _error = function(data){
+            console.log('error',data);
+            
             Instance.cursor(false);
             Instance.Message.error(data.message);
         };
@@ -267,7 +275,13 @@ export default class Ide {
             //    m : 'file',
             //    hid : $node.data('hid')
             //},_success,_error);
-            Instance.ajax(1,Hid,'12345 qaz',_success,_error);
+            
+            //Instance.ajax(1,Hid,'12345 qaz',_success,_error);
+            
+            new Req([1,Hid,'12345 qaz подкова']).ajaxBinary(16,{
+                url : 'res/res/ide.php',
+            },_success,_error);
+
             
         }
         else {
@@ -457,6 +471,32 @@ export default class Ide {
      * @param function _error
      */
     ajax(mode,hid,data,_success,_error){
+        
+        new Req([mode,hid,data]).ajaxBinary(16,{
+            method : 'post',
+            url : 'res/res/ide.php',
+        },_success,_error);
+        return;
+        
+        let Int16 = new Int16Array(13);
+        
+        let index = 0;
+        Int16[index++] = 1;
+        Int16[index++] = 1;
+        Int16[index++] = 77;
+        
+        const Str = '12345';
+        Int16[index++] = 3;
+        Int16[index++] = 5;
+        for (let i = 0; i < Str.length; i++) Int16[index++] = Str.charCodeAt(i);
+        
+        Int16[index++] = 1;
+        Int16[index++] = 1;
+        Int16[index++] = 13;
+        
+        console.log(Int16);
+        
+        /*
         data = data || '';
         console.log(mode,hid,data);
         
@@ -484,11 +524,12 @@ export default class Ide {
         
         //data
         D = 1 + 32 + 1 + this.Project.length;
-        for (let i = 0; i < data.length; i++){
+        for (let i = 0; i < data.length - D; i++){
             Int16[i+D] = data.charCodeAt(i);
         }
         
         console.log(Int16);
+        */
         
         $.ajax({
             method : 'post',
