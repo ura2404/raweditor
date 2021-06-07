@@ -212,7 +212,7 @@ export default class Ide {
         const Hid = $node.data('hid');
         
         const _success = function(data){
-            new Req(data).readBinary(16);
+            new Req(data).binDecode(16);
             
             return;
             
@@ -278,10 +278,15 @@ export default class Ide {
             
             //Instance.ajax(1,Hid,'12345 qaz',_success,_error);
             
-            new Req([1,Hid,'12345 qaz подкова']).ajaxBinary(16,{
+            //new Req([1,Hid,'12345 qaz подкова']).ajaxEncode({
+            //new Req('12345 qaz подкова').ajaxEncode({
+            new Req({
+                m : 'f',
+                p : this.Project,
+                h : $node.data('hid')
+            }).ajaxEncode({
                 url : 'res/res/ide.php',
             },_success,_error);
-
             
         }
         else {

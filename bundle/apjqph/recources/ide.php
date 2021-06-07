@@ -5,11 +5,15 @@ require_once('../defs.php');
 require_once('../common.php');
 
 try{
-    $Arr = \Cmatrix\Req::readBinary('S*');
-    echo \Cmatrix\Req::get([1,'OK'])->binEncode('S*');
+    $Arr = \Cmatrix\Req::readEncode();
+    dump($Arr,'AAAAAAAAAAAAA');
+    
+    //echo \Cmatrix\Req::get([1,'OK'])->binEncode('S*');
+    //echo \Cmatrix\Req::get([1,'OK'])->binEncode();
 }
-catch(\Throwable $e){
-    echo \Cmatrix\Req::get([-1,$e->getMessage()])->binEncode('S*');
+catch(\Throwable2 $e){
+    dump($e->getMessage());
+    //echo \Cmatrix\Req::get([-1,$e->getMessage()])->binEncode('S*');
 }
 
 return;

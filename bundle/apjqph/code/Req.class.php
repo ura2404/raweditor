@@ -28,19 +28,21 @@ class Req {
         $Index = 0;
         
         for($i=0; $i<count($this->Data); $i++){
-            $Type = gettype($this->Data[$i]);
+            $Curr = $this->Data[$i];
+            $Type = gettype($Curr);
             
             if($Type === 'integer'){
                 $Data .= pack($format,1);
                 $Data .= pack($format,1);
-                $Data .= pack($format,$this->Data[$i]);
+                $Data .= pack($format,$Curr);
             }
             elseif($Type === 'string'){
                 $Data .= pack($format,3);
-                $Data .= pack($format,strlen($this->Data[$i]));
-                for($j=0; $j<strlen($this->Data[$i]); $j++) $Data .= pack($format,mb_ord($this->Data[$i][$j]));
+                $Data .= pack($format,strlen($Curr));
+                for($j=0; $j<strlen($Curr); $j++) $Data .= pack($format,mb_ord($Curr[$j]));
             }
         }
+        
         return $Data;
     }
     
@@ -49,7 +51,6 @@ class Req {
         $Arr = [];
         $Data = unpack($format,$this->Data);
         $Count = count($Data);
-        
         
         $_rec = function($index=1) use($Data,$Count,&$Arr,&$_rec){
             $Type = $Data[$index++];
@@ -70,6 +71,81 @@ class Req {
     }
     
     // --- --- --- --- ---
+    public function decode(){
+        dump($this->Data);
+        
+        $_charCodeAt = function($string, $offset){
+            $string = mb_substr($string, $offset, 1);
+            list(, $ret) = unpack('S', mb_convert_encoding($string, 'UTF-16LE'));
+            return $ret;
+        };
+        
+        
+        /**
+         * The >>> javascript operator in php x86_64
+         * Usage: -1149025787 >>> 0 ---> rrr(-1149025787, 0) === 3145941509
+         * @param int $v
+         * @param int $n
+         * @return int
+         */
+        $_rrr = function($v, $n)
+        {
+            return ($v & 0xFFFFFFFF) >> ($n & 0x1F);
+        }
+        
+        /**
+         * The >> javascript operator in php x86_64
+         * @param int $v
+         * @param int $n
+         * @return int
+         */
+        $_rr = function($v, $n)
+        {
+            return ($v & 0x80000000 ? $v | 0xFFFFFFFF00000000 : $v & 0xFFFFFFFF) >> ($n & 0x1F);
+        }
+        
+        /**
+         * The << javascript operator in php x86_64
+         * @param int $v
+         * @param int $n
+         * @return int
+         */
+        $_ll = function($v, $n)
+        {
+            return ($t = ($v & 0xFFFFFFFF) << ($n & 0x1F)) & 0x80000000 ? $t | 0xFFFFFFFF00000000 : $t & 0xFFFFFFFF;
+        }        
+        
+        $source = '';
+        for($i=0; $i<strlen($this->Data);){
+            $int32 = $_charCodeAt($this->Data,$i++) << 16 | $_charCodeAt($this->Data,$i++);
+            $int32 = $int32 >>> 2 | $int32 << 30;
+            $source += String.fromCharCode( int32 >>> 16, int32 & 65535 );
+        }
+        
+        $Data = $_charCodeAt($source,i-1) === 0 ? substr(source,-1) : source;
+        dump($Data);
+    }
+    
+/*
+function charCodeAt($string, $offset) {
+  $string = mb_substr($string, $offset, 1);
+  list(, $ret) = unpack('S', mb_convert_encoding($string, 'UTF-16LE'));
+  return $ret;
+}
+
+    decode(){
+        for(var source = '', int32, i = 0; i < this.Data.length; ) {
+            int32 = this.Data.charCodeAt(i++) << 16 | this.Data.charCodeAt(i++);
+            int32 = int32 >>> 2 | int32 << 30;
+            source += String.fromCharCode( int32 >>> 16, int32 & 65535 );
+        }
+        
+        let Data = source.charCodeAt(i-1) === 0 ? source.slice(0, -1) : source;
+        
+        return JSON.parse(Data);
+    }
+*/    
+    // --- --- --- --- ---
     // --- --- --- --- ---
     // --- --- --- --- ---
     static function get($data){
@@ -83,9 +159,11 @@ class Req {
     }*/
 
     // --- --- --- --- ---
-    static function readBinary($format='C*'){
+    static function readEncode(){
         $Data = file_get_contents('php://input');
-        return self::get($Data)->binDecode($format);
+        dump($Data,'DDDDDDDDDDDDDD');
+        
+        return self::get($Data)->decode();
     }
     
 }
