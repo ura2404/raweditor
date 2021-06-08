@@ -4,6 +4,32 @@ header("Content-type: application/octet-stream");
 require_once('../defs.php');
 require_once('../common.php');
 
+$I = 43690;
+//dump($I);
+dump(decbin($I));
+
+//$Y = $I<<32;
+$Y = ($I << 29) + ($I >> 3);
+//dump($Y);
+dump(decbin($Y));
+
+$Z = $I>>2;
+//dump($Z);
+dump(decbin($Z));
+
+dump('-------------------------');
+
+$k=bindec('11111100110011001100110011000000');
+echo sprintf('%032b',$k)."\n";
+for($a=1;$a<=32;$a++){
+    $b=32-$a;
+    $s = (($k >> $a) & ~(-pow(2,$b)))^($k << $b);
+    echo sprintf('%032b',$s)."\n";
+}
+
+
+die();
+
 try{
     $Arr = \Cmatrix\Req::readEncode();
     dump($Arr,'AAAAAAAAAAAAA');

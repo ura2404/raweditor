@@ -80,6 +80,14 @@ class Req {
             return $ret;
         };
         
+        $_fromCharCode = function(){
+            $output = '';
+            $chars = func_get_args();
+                foreach($chars as $char){
+                $output .= chr((int) $char);
+            }
+            return $output;
+        };
         
         /**
          * The >>> javascript operator in php x86_64
@@ -88,10 +96,9 @@ class Req {
          * @param int $n
          * @return int
          */
-        $_rrr = function($v, $n)
-        {
+        $_rrr = function($v, $n){
             return ($v & 0xFFFFFFFF) >> ($n & 0x1F);
-        }
+        };
         
         /**
          * The >> javascript operator in php x86_64
@@ -99,10 +106,9 @@ class Req {
          * @param int $n
          * @return int
          */
-        $_rr = function($v, $n)
-        {
+        $_rr = function($v, $n){
             return ($v & 0x80000000 ? $v | 0xFFFFFFFF00000000 : $v & 0xFFFFFFFF) >> ($n & 0x1F);
-        }
+        };
         
         /**
          * The << javascript operator in php x86_64
@@ -110,16 +116,15 @@ class Req {
          * @param int $n
          * @return int
          */
-        $_ll = function($v, $n)
-        {
+        $_ll = function($v, $n){
             return ($t = ($v & 0xFFFFFFFF) << ($n & 0x1F)) & 0x80000000 ? $t | 0xFFFFFFFF00000000 : $t & 0xFFFFFFFF;
-        }        
+        };
         
         $source = '';
         for($i=0; $i<strlen($this->Data);){
-            $int32 = $_charCodeAt($this->Data,$i++) << 16 | $_charCodeAt($this->Data,$i++);
-            $int32 = $int32 >>> 2 | $int32 << 30;
-            $source += String.fromCharCode( int32 >>> 16, int32 & 65535 );
+            $int32 = $_ll($_charCodeAt($this->Data,$i++),16) | $_charCodeAt($this->Data,$i++);
+            $int32 = $_rrr($int32,2) | $_ll($int32,30);
+            $source += $_fromCharCode( $_rrr(int32,16), int32 & 65535 );
         }
         
         $Data = $_charCodeAt($source,i-1) === 0 ? substr(source,-1) : source;
