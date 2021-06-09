@@ -4,29 +4,72 @@ header("Content-type: application/octet-stream");
 require_once('../defs.php');
 require_once('../common.php');
 
+function pp($v){
+    dump(sprintf( "%016d",decbin($v) ));
+}
+
+dump('--------------');
+$n = 5;
+$k = 15;
+pp($n);
+for ($i=0; $i<$k; $i++) {
+    $bit = $n & 0x0001;
+    $n >>= 1;
+    $n |= $bit<<15;
+    pp($n);
+}
+die();
+
+
+//dump(sprintf( "%016d",decbin(mb_ord('A', 'UTF-8'))));
+//dump(sprintf( "%016d",decbin(mb_ord('Я', 'UTF-8'))));
+
+
+pp(4);
+pp(4<<8);
+
+die();
+
 $I = 43690;
+dump(43690);
+dump(1<<15);
+
 //dump($I);
 dump(decbin($I));
+dump(decbin(pow(2,15)));
+
+$_l = function($a){
+    return $a << 1;
+};
+
+$A = $I;
+dump($A . "\t\t\t\t" . decbin($A));
+for($i=1; $i<=32; $i++){
+    $A = $_l($A);
+    dump($A . "\t\t\t\t" . decbin($A));
+}
+
 
 //$Y = $I<<32;
-$Y = ($I << 29) + ($I >> 3);
+//$Y = ($I << 29) + ($I >> 3);
 //dump($Y);
-dump(decbin($Y));
+//dump(decbin($Y));
 
-$Z = $I>>2;
+//$Z = $I>>2;
 //dump($Z);
-dump(decbin($Z));
+//dump(decbin($Z));
 
 dump('-------------------------');
 
+/*
 $k=bindec('11111100110011001100110011000000');
 echo sprintf('%032b',$k)."\n";
 for($a=1;$a<=32;$a++){
     $b=32-$a;
     $s = (($k >> $a) & ~(-pow(2,$b)))^($k << $b);
-    echo sprintf('%032b',$s)."\n";
+    echo "\n".sprintf('%032b',$s)."\n";
 }
-
+*/
 
 die();
 
