@@ -4,20 +4,39 @@ header("Content-type: application/octet-stream");
 require_once('../defs.php');
 require_once('../common.php');
 
-function pp($v){
-    dump(sprintf( "%016d",decbin($v) ));
-}
+dump('--------------');
+$n = 20480;
+dump(\Cmatrix\Binary::pp($n));
+$n = \Cmatrix\Binary::rol($n);
+dump(\Cmatrix\Binary::pp($n));
+dump('--------------');
+$n = 40960;
+dump(\Cmatrix\Binary::pp($n));
+$n = \Cmatrix\Binary::rol($n);
+dump(\Cmatrix\Binary::pp($n));
 
 dump('--------------');
-$n = 5;
-$k = 15;
-pp($n);
-for ($i=0; $i<$k; $i++) {
-    $bit = $n & 0x0001;
-    $n >>= 1;
-    $n |= $bit<<15;
-    pp($n);
+$n = 81921;
+dump(\Cmatrix\Binary::pp($n));
+$n = \Cmatrix\Binary::rol($n);
+dump(\Cmatrix\Binary::pp($n));
+
+dump('--------------');
+dump('--------------');
+dump('--------------');
+dump(\Cmatrix\Binary::pp(pow(2,16)));
+
+
+
+dump('--------------');
+$n=5;
+$n = 81920;
+dump(\Cmatrix\Binary::pp($n,32));
+for ($i=0; $i<32; $i++) {
+    $n = \Cmatrix\Binary::rol($n,32);
+    dump(\Cmatrix\Binary::pp($n,32));
 }
+
 die();
 
 

@@ -212,9 +212,9 @@ export default class Ide {
         const Hid = $node.data('hid');
         
         const _success = function(data){
+            return;
             new Req(data).binDecode(16);
             
-            return;
             
             
             const Parent = data.data.parent;

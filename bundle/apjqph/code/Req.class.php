@@ -170,26 +170,5 @@ function charCodeAt($string, $offset) {
         
         return self::get($Data)->decode();
     }
-    
-    // --- --- --- --- ---
-    static ror($val,$n,$bit=16){
-        for ($i=0; $i<$n; $i++) {
-            $b = $val & 0x0001;
-            $val >>= 1;
-            $val |= $b<<15;
-        }
-        return $val;
-    }
-    
-    // --- --- --- --- ---
-    static rol($val,$n,$bit=16){
-        for ($i=0; $i<n; $i++) {
-            $b = $val & 0x8000 ? 1:0;
-            $val<<=1;
-            $val |= $b;
-        }
-        return $val;
-    }
-    
 }
 ?>
