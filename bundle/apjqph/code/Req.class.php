@@ -168,7 +168,7 @@ function charCodeAt($string, $offset) {
         $Data = file_get_contents('php://input');
         dump($Data,'DDDDDDDDDDDDDD');
         
-        return self::get($Data)->decode();
+        //return self::get($Data)->decode();
     }
 }
 ?>

@@ -1,6 +1,7 @@
 import Ace from './Ace.class.js';
 import Message from './Message.class.js';
 import Req from './Req.class.js';
+import Binary from './Binary.class.js';
 
 export default class Ide {
     
@@ -213,7 +214,7 @@ export default class Ide {
         
         const _success = function(data){
             return;
-            new Req(data).binDecode(16);
+            new Req(data).decode(16);
             
             
             
@@ -284,7 +285,7 @@ export default class Ide {
                 m : 'f',
                 p : this.Project,
                 h : $node.data('hid')
-            }).ajaxEncode({
+            }).ajaxJson({
                 url : 'res/res/ide.php',
             },_success,_error);
             

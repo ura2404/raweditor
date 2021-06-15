@@ -17,7 +17,22 @@ export default class Req {
     }
     
     // --- --- ---- --- ---
+    ajaxJson(params,_success,_error){
+        let Params = Object.assign({},{
+            method : 'post',
+            async : true,
+            dataType : 'json',
+        },params,{
+            data : this.Data
+        });
+        
+        this.ajax(Params,_success,_error);
+    }
+    
+    // --- --- ---- --- ---
     ajaxEncode(params,_success,_error){
+        
+        console.log(this.Data,'qqqqqqqqqqqqq');
         
         let Params = Object.assign({},{
             method : 'post',
@@ -25,7 +40,8 @@ export default class Req {
             contentType: 'application/octet-stream',
             processData: false
         },params,{
-            data : this.encode()
+            //data : this.encode()
+            data : JSON.stringify(this.Data)
         });
         
         this.ajax(Params,_success,_error);

@@ -1,14 +1,20 @@
 <?php
-//header("Content-type: application/json");
-header("Content-type: application/octet-stream");
+header("Content-type: application/json");
+//header("Content-type: application/octet-stream");
 require_once('../defs.php');
 require_once('../common.php');
 
+
+dump($_POST);
+$Data = file_get_contents('php://input');
+dump($Data);
+
+/*
 dump('--------------');
 $n = 20480;
-dump(\Cmatrix\Binary::pp($n));
-$n = \Cmatrix\Binary::rol($n);
-dump(\Cmatrix\Binary::pp($n));
+dump(\Cmatrix\Binary::get($n)->pp());
+$n = \Cmatrix\Binary::get($n)->rol();
+dump(\Cmatrix\Binary::get($n)->pp());
 dump('--------------');
 $n = 40960;
 dump(\Cmatrix\Binary::pp($n));
@@ -25,25 +31,40 @@ dump('--------------');
 dump('--------------');
 dump('--------------');
 dump(\Cmatrix\Binary::pp(pow(2,16)));
+*/
 
-
-
-dump('--------------');
-$n=5;
-$n = 81920;
-dump(\Cmatrix\Binary::pp($n,32));
+/*
+$n = 5;
+$Bin = \Cmatrix\Binary::get($n);
+dump($Bin->pp(6));
 for ($i=0; $i<32; $i++) {
-    $n = \Cmatrix\Binary::rol($n,32);
-    dump(\Cmatrix\Binary::pp($n,32));
+    $Bin->rol(6);
+    dump($Bin->pp(6));
+}
+*/
+
+/*
+//dump(sprintf( "%017s",decbin(1<<16) ));
+//dump(sprintf( "%017s",decbin(pow(2,16)-1) ));
+dump('--------------');
+//$n = 5;
+//$n = 81920;
+$n = pow(2,4);
+$Bin = \Cmatrix\Binary::get($n,7);
+dump($Bin->pp());
+
+for ($i=0; $i<32; $i++) {
+    $Bin->rol();
+    dump($Bin->pp());
 }
 
 die();
-
+*/
 
 //dump(sprintf( "%016d",decbin(mb_ord('A', 'UTF-8'))));
 //dump(sprintf( "%016d",decbin(mb_ord('Я', 'UTF-8'))));
 
-
+/*
 pp(4);
 pp(4<<8);
 
@@ -79,7 +100,7 @@ for($i=1; $i<=32; $i++){
 //dump(decbin($Z));
 
 dump('-------------------------');
-
+*/
 /*
 $k=bindec('11111100110011001100110011000000');
 echo sprintf('%032b',$k)."\n";

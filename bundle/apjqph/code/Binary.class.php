@@ -2,42 +2,61 @@
 namespace Cmatrix;
 
 class Binary {
+    private $Value;
+    private $Bit;
+    
+    // --- --- --- --- ---
+    function __construct($val,$bit=16){
+        if($val > pow(2,$bit)-1) throw new \Exception('The value is greater than the permissible value.');
+        
+        $this->Value = $val;
+        $this->Bit = $bit;
+    }
+
+    // --- --- --- --- ---
+    function __get($name){
+        if($name === 'Value') return $this->Value;
+    }
+    
     // --- --- --- --- ---
     /**
      * sprintf( "%016d",decbin($v) ) - вывод бинарного 16 битного числа
      */
-    static function ror($val,$bit=16){
-        $b = $val & 0x00000001;
-        $val >>= 1;
-        $val |= $b<<($bit-1);
-        return $val;
+    public function ror($bit=null){
+        $Bit = $bit ? $bit : $this->Bit;
+        
+        $b = $this->Value & 0x00000001;
+        $this->Value >>= 1;
+        $this->Value |= $b<<($Bit-1);
+        return $this;
     }
     
     // --- --- --- --- ---
-    static function rol($val,$bit=16){
-        //$b = $val & 0x8000 ? 1 : 0;
-        $b = $val & pow(2,$bit-1) ? 1 : 0;
-        $val <<= 1;
-        $val = $val > pow(2,$bit) ? $val - pow(2,$bit) : $val;
-        $val |= $b;
-        return $val;
+    public function rol($bit=null){
+        $Bit = $bit ? $bit : $this->Bit;
+        //dump($Bit);
+        
+        $b = $this->Value & pow(2,$Bit-1) ? 1 : 0;
+        $this->Value <<= 1;
+        $this->Value = $this->Value >= pow(2,$Bit) ? $this->Value - pow(2,$Bit) : $this->Value;
+        $this->Value |= $b;
+        return $this;
     }
-    
-/*  
-  unsigned int left_shift(unsigned int n,unsigned int k) {
- unsigned int i,bit;
- for (i=0; i<k; i++) {
-  bit=n&0x8000?1:0;
-  n<<=1;
-  n|=bit;
- }
- return n;
-}*/
 
     // --- --- --- --- ---
-    function pp($val,$bit=16){
-        return sprintf( "%0".$bit."s",decbin($val) );
+    public function val(){
+        return $this->Value;
     }
 
+    // --- --- --- --- ---
+    public function pp($bit=null){
+        $Bit = $bit ? $bit : $this->Bit;
+        return sprintf( "%0".$Bit."s",decbin($this->Value) );
+    }
+    
+    // --- --- --- --- ---
+    static function get($val,$bit=16){
+        return new self($val,$bit);
+    }
 }
 ?>
