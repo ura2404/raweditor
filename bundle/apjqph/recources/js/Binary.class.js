@@ -11,20 +11,29 @@ export default class Binary {
     // --- --- ---- --- ---
     ror(bit=null){
         bit = bit || this.Bit;
-
+        
         let b = this.Value & 0x00000001;
         this.Value >>= 1;
         this.Value |= b<<(bit-1);
+        
+        return this;
     }
     
     // --- --- ---- --- ---
     rol(bit=null){
         bit = bit || this.Bit;
-
+        
         let b = this.Value & Math.pow(2,bit-1) ? 1 : 0;
         this.Value <<= 1;
         this.Value = this.Value >= Math.pow(2,bit) ? this.Value - Math.pow(2,bit) : this.Value;
         this.Value |= b;
+        
+        return this;
+    }
+    
+    // --- --- ---- --- ---
+    value(){
+        return this.Value;
     }
     
     // --- --- ---- --- ---

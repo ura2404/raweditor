@@ -33,7 +33,7 @@ class Local {
     // --- --- --- --- ---
     private function getMyData(){
         $Path = file_exists($this->Path) ? $this->Path : $this->DefPath;
-        return Json::get($Path)->Data['local']['data'];
+        return Json::getFile($Path)->Data['local']['data'];
     }
 
     // --- --- --- --- ---

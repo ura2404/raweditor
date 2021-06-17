@@ -5,10 +5,6 @@ require_once('../defs.php');
 require_once('../common.php');
 
 
-dump($_POST);
-$Data = file_get_contents('php://input');
-dump($Data);
-
 /*
 dump('--------------');
 $n = 20480;
@@ -111,14 +107,14 @@ for($a=1;$a<=32;$a++){
 }
 */
 
-die();
+
 
 try{
-    $Arr = \Cmatrix\Req::readEncode();
-    dump($Arr,'AAAAAAAAAAAAA');
+    $Arr = \Cmatrix\Req::get()->Array;
     
-    //echo \Cmatrix\Req::get([1,'OK'])->binEncode('S*');
-    //echo \Cmatrix\Req::get([1,'OK'])->binEncode();
+    $Data = \Cmatrix\Req::get()->Binary;
+    $Arr = \Cmatrix\Json::getString($Data)->Data;
+    dump($Arr);
 }
 catch(\Throwable2 $e){
     dump($e->getMessage());

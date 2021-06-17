@@ -285,10 +285,11 @@ export default class Ide {
                 m : 'f',
                 p : this.Project,
                 h : $node.data('hid')
-            }).ajaxJson({
+            //}).ajaxJson({
+            }).ajaxBinary({
                 url : 'res/res/ide.php',
             },_success,_error);
-            
+
         }
         else {
             // если файл открыт - выбрать его

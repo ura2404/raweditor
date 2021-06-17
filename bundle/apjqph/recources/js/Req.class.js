@@ -1,3 +1,5 @@
+import Binary from './Binary.class.js';
+
 export default class Req {
     
     // --- --- --- --- ---
@@ -9,9 +11,11 @@ export default class Req {
     ajax(params,_success,_error){
         console.log('ajax',params);
         
-        $.ajax(params).done(
+        $.ajax(params)
+        .done(
             data => _success(data)
-        ).fail(
+        )
+        .fail(
             (data, textStatus, jqXHR) => _error(data)
         );
     }
@@ -30,10 +34,7 @@ export default class Req {
     }
     
     // --- --- ---- --- ---
-    ajaxEncode(params,_success,_error){
-        
-        console.log(this.Data,'qqqqqqqqqqqqq');
-        
+    ajaxBinary(params,_success,_error){
         let Params = Object.assign({},{
             method : 'post',
             async : true,
@@ -41,12 +42,31 @@ export default class Req {
             processData: false
         },params,{
             //data : this.encode()
-            data : JSON.stringify(this.Data)
+            //data : this.Data
+            //data : JSON.stringify(this.Data)
+            data : this.binEncode(JSON.stringify(this.Data))
         });
         
         this.ajax(Params,_success,_error);
     }
     
+    // --- --- ---- --- ---
+    /**
+     * @param string data
+     */
+    binEncode(data){
+        
+        let Result = '';
+        for (let i = 0; i < data.length; i++){
+            //Result += new Binary(data.charCodeAt(i)).ror().value();
+            //Result += new Binary(data.charCodeAt(i)).value();
+            Result += new Binary(data[i]).ror().value();
+        }
+        console.log(Result);
+        return Result;
+    }    
+    
+    /*
     // --- --- ---- --- ---
     binEncode(bit,data){
         
@@ -119,16 +139,15 @@ export default class Req {
         console.log('buff',Buff);
         console.log('buff',arrayByteToInt16(this.Data));
         
+        //bit = bit || 8;
         
-        /*
-        bit = bit || 8;
+        //let Buff;
+        //if(bit == 32) Buff = new Int32Array(Len);
+        //if(bit == 16) Buff = new Int16Array(Len);
+        //else if(bit == 8) Buff = new Int8Array(Len);
         
-        let Buff;
-        if(bit == 32) Buff = new Int32Array(Len);
-        if(bit == 16) Buff = new Int16Array(Len);
-        else if(bit == 8) Buff = new Int8Array(Len);
-        */
     }
+    */
     
     // --- --- ---- --- ---
     encode(){

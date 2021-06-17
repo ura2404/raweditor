@@ -20,6 +20,17 @@ class Req {
     }
 
     // --- --- --- --- ---
+    function __get($name){
+        switch($name){
+            case 'Array' : 
+                parse_str($this->Data,$Data);
+                return $Data;
+                
+            case 'Binary' :
+                return $this->Data;
+        }
+    }
+
     // --- --- --- --- ---
     // --- --- --- --- ---
     // --- --- --- --- ---
@@ -153,15 +164,17 @@ function charCodeAt($string, $offset) {
     // --- --- --- --- ---
     // --- --- --- --- ---
     // --- --- --- --- ---
-    static function get($data){
-        return new self($data);
+    static function get(){
+        $Data = file_get_contents('php://input');
+        dump($Data);
+        return new self($Data);
     }
-    
+
     // --- --- --- --- ---
     /*static function arr($key=null,$def=null){
         $Arr = self::get()->Array;
         return $key ? (isset($Arr[$key]) ? $Arr[$key] : $def) : $Arr;
-    }*/
+    }
 
     // --- --- --- --- ---
     static function readEncode(){
@@ -170,5 +183,6 @@ function charCodeAt($string, $offset) {
         
         //return self::get($Data)->decode();
     }
+    */
 }
 ?>
