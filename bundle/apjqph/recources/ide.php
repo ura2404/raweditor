@@ -1,6 +1,6 @@
 <?php
-header("Content-type: application/json");
-//header("Content-type: application/octet-stream");
+//header("Content-type: application/json");
+header("Content-type: application/octet-stream");
 require_once('../defs.php');
 require_once('../common.php');
 
@@ -110,11 +110,18 @@ for($a=1;$a<=32;$a++){
 
 
 try{
-    $Arr = \Cmatrix\Req::get()->Array;
+    //$Arr = \Cmatrix\Req::get()->Array;
     
-    $Data = \Cmatrix\Req::get()->Binary;
+    $Data = \Cmatrix\Req::get()->BinDecode;
+    //dump($Data,'Data');
+    
     $Arr = \Cmatrix\Json::getString($Data)->Data;
-    dump($Arr);
+    //dump($Arr,'Arr');
+    
+    echo \Cmatrix\Req::create([
+        'status' => 1,
+        'message' => 'OK'
+    ])->BinEncode;
 }
 catch(\Throwable2 $e){
     dump($e->getMessage());

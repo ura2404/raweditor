@@ -2,6 +2,9 @@
 namespace Cmatrix;
 
 class Json {
+    /**
+     * data array
+     */
     private $Data;
 
     // --- --- --- --- ---
@@ -13,6 +16,7 @@ class Json {
     function __get($name){
         switch($name){
             case 'Data' : return $this->getData();
+            case 'Encode' : return $this->encode();
             
         }
     }
@@ -35,15 +39,20 @@ class Json {
             | JSON_UNESCAPED_UNICODE      // не кодировать текст
         );
     }
+
+    
+    
+    
     
     // --- --- --- --- ---
     /**
      * @return array
      */
+     /*
     public function decode(){
         return $this->Data;
     }
-    
+*/    
 
     // --- --- --- --- ---
     public function setData(array $data){

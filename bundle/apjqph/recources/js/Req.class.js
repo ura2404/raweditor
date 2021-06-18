@@ -44,7 +44,7 @@ export default class Req {
             //data : this.encode()
             //data : this.Data
             //data : JSON.stringify(this.Data)
-            data : this.binEncode(JSON.stringify(this.Data))
+            data : this.binEncode()
         });
         
         this.ajax(Params,_success,_error);
@@ -54,17 +54,30 @@ export default class Req {
     /**
      * @param string data
      */
-    binEncode(data){
+    binEncode(){
+        console.log('before encode->',this.Data);
         
-        let Result = '';
-        for (let i = 0; i < data.length; i++){
-            //Result += new Binary(data.charCodeAt(i)).ror().value();
-            //Result += new Binary(data.charCodeAt(i)).value();
-            Result += new Binary(data[i]).ror().value();
+        let Data;
+        if(typeof this.Data === 'object') Data = JSON.stringify(this.Data);
+        else Data = this.Data;
+        
+        let Buff = new Uint16Array(Data.length);
+        
+        for (let i = 0; i < Data.length; i++){
+            //Buff[i] = Data.charCodeAt(i);
+            Buff[i] = new Binary(Data.charCodeAt(i)).ror();
         }
-        console.log(Result);
-        return Result;
+        console.log('after encode->',Buff);
+        return Buff;
     }    
+    
+    // --- --- ---- --- ---
+    binDecode(){
+        console.log('before decode',this.Data,this.Data.length);
+        
+        let Buff = new Uint16Array(this.Data.length / 2);
+        console.log(Buff);
+    }
     
     /*
     // --- --- ---- --- ---

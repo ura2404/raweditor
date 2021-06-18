@@ -22,18 +22,44 @@ class Req {
     // --- --- --- --- ---
     function __get($name){
         switch($name){
-            case 'Array' : 
-                parse_str($this->Data,$Data);
-                return $Data;
-                
-            case 'Binary' :
-                return $this->Data;
+            case 'Array' : parse_str($this->Data,$Data);
+                           return $Data;
+                            
+            case 'Data'      : return $this->Data;
+            case 'BinDecode' : return $this->binDecode();
+            case 'BinEncode' : return $this->binEncode();
         }
     }
 
     // --- --- --- --- ---
     // --- --- --- --- ---
     // --- --- --- --- ---
+    public function binDecode(){
+        $Data = unpack('S*',$this->Data);
+        
+        $Buff = '';
+        for($i=1; $i<=count($Data); $i++){
+            $Buff .= mb_chr(Binary::get($Data[$i])->rol());
+        }
+        return $Buff;
+    }
+    
+    // --- --- --- --- ---
+    public function binEncode(){
+        $Data = '';
+        if(is_array($this->Data)) $Data = json_encode($this->Data);
+        else $Data = $this->Data;
+        
+        $Buff = '';
+        for($i=0; $i<strlen($Data); $i++){
+            $Buff .= pack('S*',mb_ord($Data[$i]));
+        }
+        
+        return $Buff;
+    }    
+    
+    
+    /*
     public function binEncode($format='C*'){
         $Data = '';
         $Index = 0;
@@ -100,33 +126,27 @@ class Req {
             return $output;
         };
         
-        /**
-         * The >>> javascript operator in php x86_64
-         * Usage: -1149025787 >>> 0 ---> rrr(-1149025787, 0) === 3145941509
-         * @param int $v
-         * @param int $n
-         * @return int
-         */
+        // The >>> javascript operator in php x86_64
+        // Usage: -1149025787 >>> 0 ---> rrr(-1149025787, 0) === 3145941509
+        // @param int $v
+        // @param int $n
+        // @return int
         $_rrr = function($v, $n){
             return ($v & 0xFFFFFFFF) >> ($n & 0x1F);
         };
         
-        /**
-         * The >> javascript operator in php x86_64
-         * @param int $v
-         * @param int $n
-         * @return int
-         */
+        // The >> javascript operator in php x86_64
+        // @param int $v
+        // @param int $n
+        // @return int
         $_rr = function($v, $n){
             return ($v & 0x80000000 ? $v | 0xFFFFFFFF00000000 : $v & 0xFFFFFFFF) >> ($n & 0x1F);
         };
         
-        /**
-         * The << javascript operator in php x86_64
-         * @param int $v
-         * @param int $n
-         * @return int
-         */
+        // The << javascript operator in php x86_64
+        // @param int $v
+        // @param int $n
+        // @return int
         $_ll = function($v, $n){
             return ($t = ($v & 0xFFFFFFFF) << ($n & 0x1F)) & 0x80000000 ? $t | 0xFFFFFFFF00000000 : $t & 0xFFFFFFFF;
         };
@@ -141,6 +161,7 @@ class Req {
         $Data = $_charCodeAt($source,i-1) === 0 ? substr(source,-1) : source;
         dump($Data);
     }
+    */
     
 /*
 function charCodeAt($string, $offset) {
@@ -166,9 +187,17 @@ function charCodeAt($string, $offset) {
     // --- --- --- --- ---
     static function get(){
         $Data = file_get_contents('php://input');
-        dump($Data);
         return new self($Data);
     }
+    
+    // --- --- --- --- ---
+    /**
+     * 
+     */
+    static function create($data){
+        return new self($data);
+    }
+
 
     // --- --- --- --- ---
     /*static function arr($key=null,$def=null){

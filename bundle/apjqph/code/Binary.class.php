@@ -22,29 +22,28 @@ class Binary {
     /**
      * sprintf( "%016d",decbin($v) ) - вывод бинарного 16 битного числа
      */
-    public function ror($bit=null){
+    public function ror($n=1,$bit=null){
         $Bit = $bit ? $bit : $this->Bit;
         
-        $b = $this->Value & 0x00000001;
-        $this->Value >>= 1;
-        $this->Value |= $b<<($Bit-1);
-        return $this;
+        for($i=0; $i<$n; $i++){
+            $b = $this->Value & 0x00000001;
+            $this->Value >>= 1;
+            $this->Value |= $b<<($Bit-1);
+        }
+        return $this->Value;
     }
     
     // --- --- --- --- ---
-    public function rol($bit=null){
+    public function rol($n=1,$bit=null){
         $Bit = $bit ? $bit : $this->Bit;
         //dump($Bit);
         
-        $b = $this->Value & pow(2,$Bit-1) ? 1 : 0;
-        $this->Value <<= 1;
-        $this->Value = $this->Value >= pow(2,$Bit) ? $this->Value - pow(2,$Bit) : $this->Value;
-        $this->Value |= $b;
-        return $this;
-    }
-
-    // --- --- --- --- ---
-    public function val(){
+        for($i=0; $i<$n; $i++){
+            $b = $this->Value & pow(2,$Bit-1) ? 1 : 0;
+            $this->Value <<= 1;
+            $this->Value = $this->Value >= pow(2,$Bit) ? $this->Value - pow(2,$Bit) : $this->Value;
+            $this->Value |= $b;
+        }
         return $this->Value;
     }
 
