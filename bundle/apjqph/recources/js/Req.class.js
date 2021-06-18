@@ -77,6 +77,19 @@ export default class Req {
         
         let Buff = new Uint16Array(this.Data.length / 2);
         console.log(Buff);
+        
+        for (let i = 0; i < this.Data.length; i += 2){
+        }
+        /*
+            var ints = [];
+            for (var i = 0; i < byteArray.length; i += 2) {
+                console.log('i',byteArray[i],byteArray[i+1]);
+                // Note: assuming Big-Endian here
+                ints.push((byteArray[i] << 8) | (byteArray[i+1]));
+            }
+            return ints;
+        */
+        
     }
     
     /*
