@@ -50,7 +50,7 @@ export default class Binary {
      *       //some suggestions https://stackoverflow.com/questions/10936600/javascript-decimal-to-binary-64-bit 
      *       return (~this.Value).toString(2);
      *  }
-    */
+     */
     pp(bit=null){
         bit = bit || this.Bit;
         

@@ -37,25 +37,39 @@ class Req {
     public function binDecode(){
         $Data = unpack('S*',$this->Data);
         
+        //dump($this->Data,'before decode');
+        //dump($Data,'before decode');
+        
         $Buff = '';
         for($i=1; $i<=count($Data); $i++){
+            //$Buff .= mb_chr(Binary::get($Data[$i])->rol());
             $Buff .= mb_chr(Binary::get($Data[$i])->rol());
         }
+        
+        //dump($Buff,'after decode');
+        
         return $Buff;
     }
     
     // --- --- --- --- ---
     public function binEncode(){
         $Data = '';
-        if(is_array($this->Data)) $Data = json_encode($this->Data);
+        if(is_array($this->Data)) $Data = json_encode($this->Data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         else $Data = $this->Data;
         
-        $Buff = '';
-        for($i=0; $i<strlen($Data); $i++){
-            $Buff .= pack('S*',mb_ord($Data[$i]));
+        //dump($this->Data,'before encoding');
+        //dump($Data,'before encoding');
+        
+        $Buff = [];
+        for($i=0; $i<mb_strlen($Data); $i++){
+            $Buff[] = pack('S',mb_ord(mb_substr($Data,$i,1)));
+            //$Buff[] = mb_ord(mb_substr($Data,$i,1));
         }
         
-        return $Buff;
+        //dump($Buff);
+        
+        //return $Buff;
+        return implode('',$Buff);
     }    
     
     

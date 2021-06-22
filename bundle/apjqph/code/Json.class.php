@@ -39,9 +39,6 @@ class Json {
             | JSON_UNESCAPED_UNICODE      // не кодировать текст
         );
     }
-
-    
-    
     
     
     // --- --- --- --- ---

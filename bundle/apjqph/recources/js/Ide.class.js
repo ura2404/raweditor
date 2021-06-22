@@ -287,7 +287,8 @@ export default class Ide {
             new Req({
                 m : 'f',
                 p : this.Project,
-                h : $node.data('hid')
+                h : $node.data('hid'),
+                s : 'ОК' 
             //}).ajaxJson({
             }).ajaxBinary({
                 url : 'res/res/ide.php',

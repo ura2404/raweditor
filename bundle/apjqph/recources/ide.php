@@ -113,15 +113,17 @@ try{
     //$Arr = \Cmatrix\Req::get()->Array;
     
     $Data = \Cmatrix\Req::get()->BinDecode;
-    //dump($Data,'Data');
+    //dump($Data,'incoming data');
     
     $Arr = \Cmatrix\Json::getString($Data)->Data;
     //dump($Arr,'Arr');
     
     echo \Cmatrix\Req::create([
         'status' => 1,
-        'message' => 'OK'
+        'message' => 'ОК'
     ])->BinEncode;
+    
+    
 }
 catch(\Throwable2 $e){
     dump($e->getMessage());

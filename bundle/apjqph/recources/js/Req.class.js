@@ -60,12 +60,14 @@ export default class Req {
         let Data;
         if(typeof this.Data === 'object') Data = JSON.stringify(this.Data);
         else Data = this.Data;
+        console.log('before encode->',Data);
         
         let Buff = new Uint16Array(Data.length);
         
         for (let i = 0; i < Data.length; i++){
             //Buff[i] = Data.charCodeAt(i);
-            Buff[i] = new Binary(Data.charCodeAt(i)).ror();
+            //Buff[i] = new Binary(Data.charCodeAt(i)).ror();
+            Buff[i] = new Binary(Data.charCodeAt(i)).Value;
         }
         console.log('after encode->',Buff);
         return Buff;
@@ -76,10 +78,18 @@ export default class Req {
         console.log('before decode',this.Data,this.Data.length);
         
         let Buff = new Uint16Array(this.Data.length / 2);
-        console.log(Buff);
         
-        for (let i = 0; i < this.Data.length; i += 2){
+        for (let k=0,i = 0; i < this.Data.length; i += 2){
+            
+            let D = (this.Data[i] << 8) | (this.Data[i+1]);
+            Buff[k++] = this.Data.charCodeAt(i) | this.Data.charCodeAt(i+1);
+            
+            console.log(i,typeof this.Data[i],this.Data[i],this.Data[i+1],this.Data[i] << 8,Buff[k-1]);
         }
+        
+        
+        
+        console.log('after decode',Buff);
         /*
             var ints = [];
             for (var i = 0; i < byteArray.length; i += 2) {
