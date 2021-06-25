@@ -213,10 +213,10 @@ export default class Ide {
         const Hid = $node.data('hid');
         
         const _success = function(data){
-            console.log('success',data);
+            //console.log('success',data);
             
-            
-            new Req(data).binDecode();
+            let Data = JSON.parse(new Req(data).binDecode());
+            console.log('success',Data);
             
             return;
             
@@ -275,22 +275,12 @@ export default class Ide {
         ){
             // если файл НЕ открыт - получить параметры мз кеша и клонировать шаблон
             Instance.cursor();
-            //Instance.ajax({
-            //    m : 'file',
-            //    hid : $node.data('hid')
-            //},_success,_error);
-            
-            //Instance.ajax(1,Hid,'12345 qaz',_success,_error);
-            
-            //new Req([1,Hid,'12345 qaz подкова']).ajaxEncode({
-            //new Req('12345 qaz подкова').ajaxEncode({
-            new Req({
+            new Req(JSON.stringify({
                 m : 'f',
                 p : this.Project,
                 h : $node.data('hid'),
                 s : 'ОК' 
-            //}).ajaxJson({
-            }).ajaxBinary({
+            })).ajaxBinary({
                 url : 'res/res/ide.php',
             },_success,_error);
 

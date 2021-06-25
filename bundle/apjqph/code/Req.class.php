@@ -25,7 +25,7 @@ class Req {
             case 'Array' : parse_str($this->Data,$Data);
                            return $Data;
                             
-            case 'Data'      : return $this->Data;
+            case 'Data'      : return $this->getData();
             case 'BinDecode' : return $this->binDecode();
             case 'BinEncode' : return $this->binEncode();
         }
@@ -34,6 +34,9 @@ class Req {
     // --- --- --- --- ---
     // --- --- --- --- ---
     // --- --- --- --- ---
+    /**
+     * @return string
+     */
     public function binDecode(){
         $Data = unpack('S*',$this->Data);
         
@@ -42,8 +45,8 @@ class Req {
         
         $Buff = '';
         for($i=1; $i<=count($Data); $i++){
-            //$Buff .= mb_chr(Binary::get($Data[$i])->rol());
             $Buff .= mb_chr(Binary::get($Data[$i])->rol());
+            //$Buff .= mb_chr(Binary::get($Data[$i])->Value);
         }
         
         //dump($Buff,'after decode');
@@ -52,6 +55,9 @@ class Req {
     }
     
     // --- --- --- --- ---
+    /**
+     * @return string
+     */
     public function binEncode(){
         $Data = '';
         if(is_array($this->Data)) $Data = json_encode($this->Data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
@@ -62,8 +68,20 @@ class Req {
         
         $Buff = [];
         for($i=0; $i<mb_strlen($Data); $i++){
-            $Buff[] = pack('S',mb_ord(mb_substr($Data,$i,1)));
             //$Buff[] = mb_ord(mb_substr($Data,$i,1));
+            //$Buff[] = pack('S',mb_ord(mb_substr($Data,$i,1)));
+            
+            //dump(mb_ord(mb_substr($Data,$i,1)));
+            //dump(Binary::get(mb_ord(mb_substr($Data,$i,1)))->pp());
+            
+            $Buff[] = pack('S',
+                Binary::get(
+                    mb_ord(mb_substr($Data,$i,1))
+                )
+                //->Value
+                ->rol()
+            );
+            //$Buff[] = Binary::get( pack('S', mb_ord(mb_substr($Data,$i,1)) ) )->rol();
         }
         
         //dump($Buff);
@@ -71,7 +89,6 @@ class Req {
         //return $Buff;
         return implode('',$Buff);
     }    
-    
     
     /*
     public function binEncode($format='C*'){

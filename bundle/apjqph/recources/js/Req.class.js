@@ -57,134 +57,46 @@ export default class Req {
     binEncode(){
         console.log('before encode->',this.Data);
         
-        let Data;
-        if(typeof this.Data === 'object') Data = JSON.stringify(this.Data);
-        else Data = this.Data;
-        console.log('before encode->',Data);
+        let Buff = new Uint16Array(this.Data.length);
         
-        let Buff = new Uint16Array(Data.length);
-        
-        for (let i = 0; i < Data.length; i++){
-            //Buff[i] = Data.charCodeAt(i);
-            //Buff[i] = new Binary(Data.charCodeAt(i)).ror();
-            Buff[i] = new Binary(Data.charCodeAt(i)).Value;
+        for (let i = 0; i < this.Data.length; i++){
+            Buff[i] = new Binary(this.Data.charCodeAt(i)).ror();
+            //Buff[i] = new Binary(this.Data.charCodeAt(i)).Value;
         }
         console.log('after encode->',Buff);
         return Buff;
     }    
     
     // --- --- ---- --- ---
+    /**
+     * @return string
+     */
     binDecode(){
         console.log('before decode',this.Data,this.Data.length);
         
-        let Buff = new Uint16Array(this.Data.length / 2);
+        let Data = '', Buff = new Uint16Array(this.Data.length / 2);
         
         for (let k=0,i = 0; i < this.Data.length; i += 2){
+            //let D1 = new Binary(this.Data.charCodeAt(i)).ror() | (this.Data[i+1] != '\u0000' ? new Binary(this.Data.charCodeAt(i+1)<<8).ror() : new Binary(this.Data.charCodeAt(i+1)<<8).Value );
             
-            let D = (this.Data[i] << 8) | (this.Data[i+1]);
-            Buff[k++] = this.Data.charCodeAt(i) | this.Data.charCodeAt(i+1);
-            
-            console.log(i,typeof this.Data[i],this.Data[i],this.Data[i+1],this.Data[i] << 8,Buff[k-1]);
+            let D = new Binary(this.Data.charCodeAt(i)).Value | new Binary(this.Data.charCodeAt(i+1)<<8).Value ;
+            let D1 = new Binary(D).ror();
+            /*
+            //let D = this.Data.charCodeAt(i);// | (this.Data[i+1] != '\u0000' ? this.Data.charCodeAt(i+1)<<8 : 0);
+            let D = this.Data[i] | this.Data[i+1]<<8;
+            D = String.fromCharCode(D);
+            let D1 = new Binary(D).ror();
+            */
+            Buff[k] = D1;
+            Data += String.fromCharCode(D1);
+            console.log(this.Data[i+1] != '\u0000',i,this.Data[i],this.Data[i+1],D,D1,String.fromCharCode(D1));
+            k++;
         }
-        
-        
-        
-        console.log('after decode',Buff);
-        /*
-            var ints = [];
-            for (var i = 0; i < byteArray.length; i += 2) {
-                console.log('i',byteArray[i],byteArray[i+1]);
-                // Note: assuming Big-Endian here
-                ints.push((byteArray[i] << 8) | (byteArray[i+1]));
-            }
-            return ints;
-        */
-        
+        console.log('after decode',Data);
+        return Data;
     }
     
-    /*
-    // --- --- ---- --- ---
-    binEncode(bit,data){
-        
-        bit = bit || 8;
-        
-        let Len = 0;
-        for (let i = 0; i < data.length; i++){
-            if(typeof data[i] === 'number') Len += 3;
-            else if(typeof data[i] === 'string') Len = Len + 2 + data[i].length;
-        }
-        
-        //console.log(Len);
-        
-        let Buff;
-        if(bit == 32) Buff = new Int32Array(Len);
-        if(bit == 16) Buff = new Int16Array(Len);
-        else if(bit == 8) Buff = new Int8Array(Len);
-        
-        let Index = 0;
-        for (let i = 0; i < data.length; i++){
-            if(typeof data[i] === 'number'){
-                Buff[Index++] = 1;
-                Buff[Index++] = 1;
-                Buff[Index++] = data[i];
-            }
-            else if(typeof data[i] === 'string'){
-                Buff[Index++] = 3;
-                Buff[Index++] = data[i].length;
-                for (let j = 0; j < data[i].length; j++) Buff[Index++] = data[i].charCodeAt(j);
-            }
-        }
-        console.log('send data',data);
-        console.log('send buf',Buff);
-        return Buff;
-    }
-    
-    binDecode(bit){
-        console.log('-----------------------------------------------');
-        console.log('bit',bit);
-        console.log('data',this.Data);
-        console.log('length',this.Data.length);
-        
-        let Buff2 = new Int8Array(this.Data.length);
-        
-        for (var i = 0; i < this.Data.length; i++){
-            Buff2[i] = String.fromCharCode(this.Data[i]);
-            console.log(this.Data[i],this.Data[i]==0x0001);
-        }
-        
-        console.log('buff',Buff2);
-        return;
-        
-        //let Buff = new Int16Array(this.Data.length);
-        //for (let i = 0; i < this.Data.length; i++){
-        //    Buff[i] = this.Data[i];
-        //}
-        let Buff = new Int16Array(this.Data);
-        
-        function arrayByteToInt16(byteArray) {
-            var ints = [];
-            for (var i = 0; i < byteArray.length; i += 2) {
-                console.log('i',byteArray[i],byteArray[i+1]);
-                // Note: assuming Big-Endian here
-                ints.push((byteArray[i] << 8) | (byteArray[i+1]));
-            }
-            return ints;
-        }
-        
-        
-        console.log('buff',Buff);
-        console.log('buff',arrayByteToInt16(this.Data));
-        
-        //bit = bit || 8;
-        
-        //let Buff;
-        //if(bit == 32) Buff = new Int32Array(Len);
-        //if(bit == 16) Buff = new Int16Array(Len);
-        //else if(bit == 8) Buff = new Int8Array(Len);
-        
-    }
-    */
-    
+/*
     // --- --- ---- --- ---
     encode(){
         let Data = JSON.stringify(this.Data);
@@ -209,4 +121,5 @@ export default class Req {
         
         return JSON.parse(Data);
     }
+*/
 }
