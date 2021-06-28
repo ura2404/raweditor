@@ -15,6 +15,9 @@ class Req {
     private $Data;
 
     // --- --- --- --- ---
+    /**
+     * @param string $data
+     */
     function __construct($data){
         $this->Data = $data;
     }
@@ -79,7 +82,7 @@ class Req {
                     mb_ord(mb_substr($Data,$i,1))
                 )
                 //->Value
-                ->rol()
+                ->ror()
             );
             //$Buff[] = Binary::get( pack('S', mb_ord(mb_substr($Data,$i,1)) ) )->rol();
         }
@@ -223,7 +226,7 @@ function charCodeAt($string, $offset) {
     
     // --- --- --- --- ---
     /**
-     * 
+     * @param string $data
      */
     static function create($data){
         return new self($data);

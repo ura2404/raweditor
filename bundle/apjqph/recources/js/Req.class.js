@@ -3,6 +3,9 @@ import Binary from './Binary.class.js';
 export default class Req {
     
     // --- --- --- --- ---
+    /**
+     * @param string data
+     */
     constructor(data){
         this.Data = data;
     }
@@ -79,19 +82,22 @@ export default class Req {
         for (let k=0,i = 0; i < this.Data.length; i += 2){
             //let D1 = new Binary(this.Data.charCodeAt(i)).ror() | (this.Data[i+1] != '\u0000' ? new Binary(this.Data.charCodeAt(i+1)<<8).ror() : new Binary(this.Data.charCodeAt(i+1)<<8).Value );
             
-            let D = new Binary(this.Data.charCodeAt(i)).Value | new Binary(this.Data.charCodeAt(i+1)<<8).Value ;
-            let D1 = new Binary(D).ror();
+            Buff[k] = new Binary(this.Data.charCodeAt(i)).Value | new Binary(this.Data.charCodeAt(i+1)<<8).Value ;
+            Buff[k] = new Binary(D).rol();
+            
             /*
             //let D = this.Data.charCodeAt(i);// | (this.Data[i+1] != '\u0000' ? this.Data.charCodeAt(i+1)<<8 : 0);
             let D = this.Data[i] | this.Data[i+1]<<8;
             D = String.fromCharCode(D);
             let D1 = new Binary(D).ror();
             */
-            Buff[k] = D1;
-            Data += String.fromCharCode(D1);
+            //Buff[k] = D1;
+            Data += String.fromCharCode(Buff[k]);
             console.log(this.Data[i+1] != '\u0000',i,this.Data[i],this.Data[i+1],D,D1,String.fromCharCode(D1));
+            
             k++;
         }
+        console.log('after decode',Buff);
         console.log('after decode',Data);
         return Data;
     }

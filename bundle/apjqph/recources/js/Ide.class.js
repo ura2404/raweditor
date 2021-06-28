@@ -266,6 +266,21 @@ export default class Ide {
         };
         
         // --- --- --- --- ---
+        
+        let S = '{"qwerty":"йцукен"}';
+        console.log('S',S);
+        //let S1 = new Req(S).binEncode();
+        //console.log('S1',S1);
+        //let S2 = new Req(S1).binDecode();
+        //console.log('S2',S2);
+        
+        for(let i=0; i<S.length; i += 2){
+            S[i+1] = S[i];
+        }
+        console.log('S',S);
+        
+        
+        
         // если файл открывался выбрать его
         // иначе получить параметры из кеша
         if(

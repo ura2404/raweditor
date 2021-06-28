@@ -107,7 +107,15 @@ for($a=1;$a<=32;$a++){
 }
 */
 
-
+/*
+$S = '{"qwerty":"йцукен"}';
+dump($S);
+$S1 = \Cmatrix\Req::create($S)->BinEncode; 
+dump($S1);
+$S2 = \Cmatrix\Req::create($S1)->BinDecode; 
+dump($S2);
+die();
+*/
 
 try{
     //$Arr = \Cmatrix\Req::get()->Array;
